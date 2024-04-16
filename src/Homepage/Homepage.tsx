@@ -54,7 +54,16 @@ export const Homepage = () => {
         );
 
         if (existingTeam) {
-          _participatingTeams.push(existingTeam);
+          const existingPlayerOne = players.find((player) => player.name === importedTeam.playerOne);
+          const existingPlayerTwo = players.find((player) => player.name === importedTeam.playerTwo);
+
+          _participatingTeams.push({
+            id: existingTeam.teamUid,
+            name: existingTeam.name,
+            playerOne: existingTeam.playerOne,
+            playerTwo: existingTeam.playerTwo,
+            points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
+          });
           continue; // team is found in the ranked teams, take the next team
         }
 

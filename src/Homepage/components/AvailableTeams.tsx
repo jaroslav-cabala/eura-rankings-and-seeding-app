@@ -1,5 +1,6 @@
 import { Player } from "../hooks/types";
 import { useGetAllAvailableTeams, useGetAllAvailableTeams2 } from "../hooks/useGetAllAvailableTeams";
+import { useGetPlayersSortedByPointsOfTwoBestResults } from "../hooks/useGetPlayersSortedByPointsOfTwoBestResults";
 import { ParticipatingTeam } from "./types";
 
 type AvailableTeams = ReturnType<typeof useGetAllAvailableTeams>;
@@ -17,6 +18,8 @@ export const AvailableTeams = (props: {
   // const teams = useGetAllAvailableTeams();
   const { data: availableTeams, loading, error } = useGetAllAvailableTeams2();
 
+  const players = useGetPlayersSortedByPointsOfTwoBestResults();
+
   // use Set since duplicates are not allowed
   // const [availableTeams, setAvailableTeams] = useState<AvailableTeams>(teams);
 
@@ -25,7 +28,6 @@ export const AvailableTeams = (props: {
     teamName: string,
     playerOne: Player,
     playerTwo: Player,
-    points: number,
     index: number
   ) => {
     // setAvailableTeams((teams) => {
@@ -33,7 +35,15 @@ export const AvailableTeams = (props: {
     //   updatedTeams.splice(index, 1);
     //   return updatedTeams;
     // });
-    props.onSelectTeam(teamName, playerOne, playerTwo, points, teamId);
+    const existingPlayerOne = players.find((player) => player.name === playerOne.name);
+    const existingPlayerTwo = players.find((player) => player.name === playerTwo.name);
+    props.onSelectTeam(
+      teamName,
+      playerOne,
+      playerTwo,
+      (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
+      teamId
+    );
   };
 
   if (loading) {
@@ -65,14 +75,7 @@ export const AvailableTeams = (props: {
             <div
               key={team.teamId}
               onClick={() =>
-                onSelectTeamHandler(
-                  team.teamId,
-                  team.name,
-                  team.playerOne,
-                  team.playerTwo,
-                  team.points,
-                  index
-                )
+                onSelectTeamHandler(team.teamId, team.name, team.playerOne, team.playerTwo, index)
               }
               className=""
             >
