@@ -11,8 +11,6 @@ export const GroupDrawSettings = ({
   tournamentDrawSettings: TournamentDrawSettings;
   drawGroupsHandler: () => void;
 }) => {
-  const [powerpools, setPowerpools] = useState<boolean>(false);
-
   return (
     <section className="group-draw-settings">
       <div className="title">Tournament draw settings</div>
@@ -21,14 +19,21 @@ export const GroupDrawSettings = ({
         <input
           id="powerpools"
           type="checkbox"
-          checked={powerpools}
-          onChange={(e) => setPowerpools(e.target.checked)}
+          checked={tournamentDrawSettings.powerpools}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setTournamentDrawSettings((prevVal) => ({
+              ...prevVal,
+              powerpools: event.target.checked,
+            }));
+          }}
         />
-        <label className={!powerpools ? "grey-color" : ""} htmlFor="powerpool-teams">
+        <label className={!tournamentDrawSettings.powerpools ? "grey-color" : ""} htmlFor="powerpool-teams">
           Powerpool teams
         </label>
         <input
           id="powerpool-teams"
+          type="number"
+          min={1}
           value={tournamentDrawSettings.powerpoolTeams}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setTournamentDrawSettings((prevVal) => ({
@@ -36,13 +41,15 @@ export const GroupDrawSettings = ({
               powerpoolTeams: event.target.value,
             }));
           }}
-          disabled={!powerpools}
+          disabled={!tournamentDrawSettings.powerpools}
         />
-        <label className={!powerpools ? "grey-color" : ""} htmlFor="powerpool-groups">
+        <label className={!tournamentDrawSettings.powerpools ? "grey-color" : ""} htmlFor="powerpool-groups">
           Powerpool groups
         </label>
         <input
           id="powerpool-groups"
+          type="number"
+          min={1}
           value={tournamentDrawSettings.powerpoolGroups}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setTournamentDrawSettings((prevVal) => ({
@@ -50,13 +57,15 @@ export const GroupDrawSettings = ({
               powerpoolGroups: event.target.value,
             }));
           }}
-          disabled={!powerpools}
+          disabled={!tournamentDrawSettings.powerpools}
         />
       </div>
       <div>
         <label htmlFor="groups">Groups</label>
         <input
           id="groups"
+          type="number"
+          min={1}
           value={tournamentDrawSettings.groups}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setTournamentDrawSettings((prevVal) => ({

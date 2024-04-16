@@ -6,10 +6,11 @@ import { ParticipatingTeam } from "./types";
 import "./TournamentDraw.css";
 
 export type TournamentDrawSettings = {
+  powerpools: boolean;
   powerpoolGroups: string;
   powerpoolTeams: string;
   groups: string;
-  groupDrawMethod: string;
+  groupDrawMethod: "snake";
 };
 
 export type TournamentDraw = {
@@ -21,11 +22,12 @@ export type Group = {
   teams: Array<ParticipatingTeam>;
 };
 
-const TournamentDrawSettingsDefault: TournamentDrawSettings = {
-  groupDrawMethod: "snake",
-  groups: "",
+const tournamentDrawSettingsDefault: TournamentDrawSettings = {
+  powerpools: false,
   powerpoolGroups: "",
   powerpoolTeams: "",
+  groups: "",
+  groupDrawMethod: "snake",
 };
 
 export const TournamentDraw = ({
@@ -36,9 +38,10 @@ export const TournamentDraw = ({
   importTeamsFromFwangoHandler: (value?: File) => void;
 }) => {
   const [file, setFile] = useState<File | undefined>(undefined);
-  const [tournamentDrawSettings, setTournamentDrawSettings] = useState<TournamentDrawSettings>(
-    TournamentDrawSettingsDefault
-  );
+  const [tournamentDrawSettings, setTournamentDrawSettings] = useState<TournamentDrawSettings>({
+    ...tournamentDrawSettingsDefault,
+    groups: (participatingTeams.length / 4).toString(), // set default number of groups based on the number of teams
+  });
   const [tournamentDraw, setTournamentDraw] = useState<TournamentDraw | undefined>(undefined);
 
   const drawGroupsHandler = (): void => {

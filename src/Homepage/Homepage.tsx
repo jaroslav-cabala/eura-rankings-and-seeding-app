@@ -24,79 +24,77 @@ export const Homepage = () => {
     ]);
   };
 
-  const importTeamsFromFwango = (): void => {
+  const importTeamsFromFwango = async (importedTeamsFile?: File): Promise<void> => {
     const players = useGetPlayersSortedByPointsOfTwoBestResults();
     const teams = useGetAllAvailableTeams();
 
-    // solve case where number of substring split by coma is not divisible by 3 -
-    // team name or player's name is missing for some reason
-    const importedTeamsCsvRows = testData.trim().split(/[\r\n]/);
-    const importedTeams: Array<{ name: string; playerOne: string; playerTwo: string }> = [];
-    for (const row of importedTeamsCsvRows) {
-      const importedTeam = row.split(",");
-      importedTeams.push({
-        name: importedTeam[0].trim(),
-        playerOne: importedTeam[1].trim(),
-        playerTwo: importedTeam[2].trim(),
-      });
-    }
-
-    const _participatingTeams: Array<ParticipatingTeam> = [];
-    for (const importedTeam of importedTeams) {
-      const existingTeam = teams.find(
-        (team) =>
-          team.name === importedTeam.name &&
-          (team.playerOne.name === importedTeam.playerOne ||
-            team.playerOne.name === importedTeam.playerTwo) &&
-          (team.playerTwo.name === importedTeam.playerOne || team.playerTwo.name === importedTeam.playerTwo)
-      );
-
-      if (existingTeam) {
-        _participatingTeams.push(existingTeam);
-        continue; // team is found in the ranked teams, take the next team
+    if (importedTeamsFile) {
+      // solve case where number of substring split by coma is not divisible by 3 -
+      // team name or player's name is missing for some reason
+      const importedTeamsFileContents = await importedTeamsFile.text();
+      const importedTeamsCsvRows = importedTeamsFileContents.trim().split(/[\n]/);
+      const importedTeams: Array<{ name: string; playerOne: string; playerTwo: string }> = [];
+      for (const row of importedTeamsCsvRows) {
+        const importedTeam = row.split(",");
+        importedTeams.push({
+          name: importedTeam[0].trim(),
+          playerOne: importedTeam[1].trim(),
+          playerTwo: importedTeam[2].trim(),
+        });
       }
 
-      // team is not found in the ranked teams, it is a new team.
-      // But the players might be ranked so we need to look for them
-      const existingPlayerOne = players.find((player) => player.name === importedTeam.playerOne);
-      const existingPlayerTwo = players.find((player) => player.name === importedTeam.playerTwo);
+      const _participatingTeams: Array<ParticipatingTeam> = [];
+      for (const importedTeam of importedTeams) {
+        const existingTeam = teams.find(
+          (team) =>
+            team.name === importedTeam.name &&
+            (team.playerOne.name === importedTeam.playerOne ||
+              team.playerOne.name === importedTeam.playerTwo) &&
+            (team.playerTwo.name === importedTeam.playerOne || team.playerTwo.name === importedTeam.playerTwo)
+        );
 
-      _participatingTeams.push({
-        name: importedTeam.name,
-        playerOne: existingPlayerOne
-          ? {
-              name: existingPlayerOne.name,
-              id: existingPlayerOne.playerId,
-              uid: existingPlayerOne.playerUid,
-            }
-          : { name: importedTeam.playerOne, id: "", uid: "" },
-        playerTwo: existingPlayerTwo
-          ? {
-              name: existingPlayerTwo.name,
-              id: existingPlayerTwo.playerId,
-              uid: existingPlayerTwo.playerUid,
-            }
-          : { name: importedTeam.playerTwo, id: "", uid: "" },
-        points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
-      });
-    }
+        if (existingTeam) {
+          _participatingTeams.push(existingTeam);
+          continue; // team is found in the ranked teams, take the next team
+        }
 
-    setParticipatingTeams(_participatingTeams);
-  };
+        // team is not found in the ranked teams, it is a new team.
+        // But the players might be ranked so we need to look for them
+        const existingPlayerOne = players.find((player) => player.name === importedTeam.playerOne);
+        const existingPlayerTwo = players.find((player) => player.name === importedTeam.playerTwo);
 
-  const importTeamsFromFwango2 = async (importedTeams?: File): Promise<void> => {
-    const formData = new FormData();
-    if (importedTeams) {
-      formData.append("importedTeamsFromFwango", importedTeams);
+        _participatingTeams.push({
+          name: importedTeam.name,
+          playerOne: existingPlayerOne
+            ? {
+                name: existingPlayerOne.name,
+                id: existingPlayerOne.playerId,
+                uid: existingPlayerOne.playerUid,
+              }
+            : { name: importedTeam.playerOne, id: "", uid: "" },
+          playerTwo: existingPlayerTwo
+            ? {
+                name: existingPlayerTwo.name,
+                id: existingPlayerTwo.playerId,
+                uid: existingPlayerTwo.playerUid,
+              }
+            : { name: importedTeam.playerTwo, id: "", uid: "" },
+          points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
+        });
+      }
+
+      setParticipatingTeams(_participatingTeams);
+
+      const formData = new FormData();
+      formData.append("importedTeamsFromFwango", importedTeamsFile);
 
       const url = new URL("http:localhost:3001/tournament-draw/upload-teams-from-fwango");
       const response = await fetch(url, {
         method: "POST",
         body: formData,
       });
-      const data = await response.json();
 
-      console.log("import teams from fwango request - ", data);
+      console.log("import teams from fwango request successful - ", formData);
     } else {
       console.log("file not specified, cannot import teams");
     }
@@ -116,23 +114,25 @@ export const Homepage = () => {
       <section className="tournament-draw">
         <TournamentDraw
           participatingTeams={participatingTeams}
-          importTeamsFromFwangoHandler={importTeamsFromFwango2}
+          importTeamsFromFwangoHandler={importTeamsFromFwango}
         />
       </section>
     </>
   );
 };
 
-const testData = `
-Super team A,Michael Leuwig,Peter Choi
-Hustling Brothers, Levi Vandaele, Yosha Vandaele
+const testData = `Super team A,Michael Leuwig,Peter Choi
 Team 3,Jakub Víšek,Ondřej Čejka
 Team 2,Ondra Kasan,Jaroslav Čabala
+Hustling Brothers, Levi Vandaele, Yosha Vandaele
 Eisenträger/Siemer,Paul Siemer, Eisenträger Lukas
 RCG Powerline,Nelson Dziruni, Benjamin Bachler
 Pour Combien ?,Robin Florinda, Dorian Améziane
 nerds in disguise,Stefan Handschmann, David Jindra
 Willy Wonka,Emil Grönebaum, Rasmus Prüfer
 Czech this swede,Ondřej Čejka, Esaja Ekman
-Pierre Feuille Victor,Aymeric Sandoz, Pierre Lecrosnier,
-Elbourne/Hatas,Mark Elbourne, Dominik Hataš`;
+Pierre Feuille Victor,Aymeric Sandoz,Pierre Lecrosnier,
+Paindrops,Yvo Heinen,Markus Anderle,
+Rainbow Warriors,Fabian Claus,Josha Lauterbach
+Christiani/Krehle,Lucas Christiani,Julian Krehle
+Hors Service,Hugo Lacombe, Samy Caux-Ramon`;

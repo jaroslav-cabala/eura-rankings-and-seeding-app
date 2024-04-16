@@ -22,7 +22,7 @@ export const AvailablePlayers = (props: {
     if (selectedPlayers.length === 1) {
       const firstSelectedPlayer = selectedPlayers[0];
       const newTeam: ParticipatingTeam = {
-        name: `${firstSelectedPlayer.name} / ${playerName}`,
+        name: `${firstSelectedPlayer.name}/${playerName}`,
         playerOne: {
           name: firstSelectedPlayer.name,
           id: firstSelectedPlayer.playerId,
