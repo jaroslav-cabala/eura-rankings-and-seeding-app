@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { drawGroups } from "./drawGroups";
 import { GroupDrawSettings } from "./GroupDrawSettings";
 import { Groups } from "./Groups";
@@ -33,11 +33,13 @@ const tournamentDrawSettingsDefault: TournamentDrawSettings = {
 export const TournamentDraw = ({
   participatingTeams,
   importTeamsFromFwangoHandler,
+  resetTournamentHandler,
 }: {
   participatingTeams: Array<ParticipatingTeam>;
   importTeamsFromFwangoHandler: (value?: File) => void;
+  resetTournamentHandler: () => void;
 }) => {
-  const [file, setFile] = useState<File | undefined>(undefined);
+  const [chosenFileName, setChosenFileName] = useState("No file chosen");
   const [tournamentDrawSettings, setTournamentDrawSettings] = useState<TournamentDrawSettings>({
     ...tournamentDrawSettingsDefault,
     groups: (participatingTeams.length / 4).toString(), // set default number of groups based on the number of teams
@@ -49,14 +51,39 @@ export const TournamentDraw = ({
     setTournamentDraw(drawnGroups);
   };
 
+  const importTeamsFromFwango = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setChosenFileName(file?.name ?? "");
+    importTeamsFromFwangoHandler(file);
+  };
+
+  const resetTournament = (): void => {
+    setChosenFileName("No file chosen");
+    setTournamentDrawSettings({ ...tournamentDrawSettingsDefault });
+    resetTournamentHandler();
+  };
+
   return (
     <div className="tournament-draw-content">
       <div className="tournament-teams">
+        <button
+          id="reset-btn"
+          onClick={() => {
+            resetTournament();
+          }}
+        >
+          Reset
+        </button>
         <div className="import-teams">
-          <input type="file" accept=".csv" onChange={(e) => setFile(e.target.files?.[0])} />
-          <button disabled={!file} onClick={() => importTeamsFromFwangoHandler(file)}>
-            Import teams from Fwango
-          </button>
+          <input
+            id="upload-teams"
+            type="file"
+            accept=".csv"
+            onChange={(e) => importTeamsFromFwango(e)}
+            hidden
+          />
+          <label htmlFor="upload-teams">Import teams from Fwango</label>
+          <span>{chosenFileName}</span>
         </div>
         <div>
           <p className="title">Teams {participatingTeams.length}</p>

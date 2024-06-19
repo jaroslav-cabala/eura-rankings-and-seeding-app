@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { AvailablePlayers } from "./components/AvailablePlayers";
-import { AvailableTeams } from "./components/AvailableTeams";
-import { ParticipatingTeam } from "./components/types";
-import { TournamentDraw } from "./components/TournamentDraw";
-import { Player } from "./hooks/types";
-import { useGetAllAvailableTeams } from "./hooks/useGetAllAvailableTeams";
-import { useGetPlayersSortedByPointsOfTwoBestResults } from "./hooks/useGetPlayersSortedByPointsOfTwoBestResults";
+import { AvailablePlayers } from "./AvailablePlayers";
+import { AvailableTeams } from "./AvailableTeams";
+import { ParticipatingTeam } from "./types";
+import { TournamentDraw } from "./TournamentDraw";
+import { Player } from "../hooks/types";
+import { useGetAllAvailableTeams } from "../hooks/useGetAllAvailableTeams";
+import { useGetPlayersSortedByPointsOfTwoBestResults } from "../hooks/useGetPlayersSortedByPointsOfTwoBestResults";
 import "./Homepage.css";
 
 export const Homepage = () => {
@@ -109,6 +109,10 @@ export const Homepage = () => {
     }
   };
 
+  const resetTournament = (): void => {
+    setParticipatingTeams([]);
+  };
+
   return (
     <>
       <section className="available-players">
@@ -124,6 +128,7 @@ export const Homepage = () => {
         <TournamentDraw
           participatingTeams={participatingTeams}
           importTeamsFromFwangoHandler={importTeamsFromFwango}
+          resetTournamentHandler={resetTournament}
         />
       </section>
     </>

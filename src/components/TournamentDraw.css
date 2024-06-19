@@ -7,6 +7,11 @@
 
 .tournament-teams {
   flex: 1 0 35%;
+  padding: 1rem 0;
+}
+
+.tournament-teams #reset-btn {
+  background-color: rgb(241, 76, 54);
 }
 
 .tournament-teams ol {
@@ -18,12 +23,34 @@
 }
 
 .import-teams {
-  text-align: center;
+  /* text-align: center; */
   padding: 1rem 0;
+}
+
+.import-teams label {
+  display: inline-block;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 0.6em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1ef013;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.import-teams label:hover {
+  border-color: #646cff;
+}
+.import-teams label:focus,
+.import-teams label:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
 .group-draw {
   flex-grow: 1;
+  padding: 1rem 0;
 }
 
 .group-draw-settings {

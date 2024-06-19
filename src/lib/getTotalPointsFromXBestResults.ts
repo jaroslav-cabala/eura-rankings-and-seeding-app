@@ -1,4 +1,4 @@
-import { RankedPlayerTournamentResult } from "../api/types";
+import { RankedPlayerTournamentResult } from "../hooks/types";
 
 /**
  * Goes through an array of tournament results and returns total points from X best results.

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { getTotalPointsFromXBestResults } from "../getTotalPointsFromXBestResults";
+import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
 import { Player, RankedTeam } from "./types";
-import { rankedTeams } from "../../testData_rankedTeams";
+import { rankedTeams } from "../testData_rankedTeams";
 
 export type GetAllAvailableTeamsResult = Array<{
   teamId: string;

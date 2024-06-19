@@ -1,5 +1,5 @@
-import { rankedPlayers } from "../../testData_rankedPlayers";
-import { getTotalPointsFromXBestResults } from "../getTotalPointsFromXBestResults";
+import { rankedPlayers } from "../testData_rankedPlayers";
+import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
 
 
 export type GetPlayersSortedByPointsResult = Array<{
