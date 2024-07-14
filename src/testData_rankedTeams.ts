@@ -1,4 +1,4 @@
-import { RankedTeam } from "./home/hooks/types";
+import { RankedTeam } from "./hooks/types";
 
 export const rankedTeams: Array<RankedTeam> = [
   {

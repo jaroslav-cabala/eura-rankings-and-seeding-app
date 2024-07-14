@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { Player } from "../hooks/types";
-import { useGetPlayersSortedByPointsOfTwoBestResults } from "../hooks/useGetPlayersSortedByPointsOfTwoBestResults";
 import { ParticipatingTeam } from "./types";
-
-type AvailablePlayers = ReturnType<typeof useGetPlayersSortedByPointsOfTwoBestResults>;
+import { RankedPlayers, useGetRankedPlayers } from "../hooks/useGetRankedPlayers";
+import { Player } from "../apiTypes";
+import { Division } from "../domain";
+import "./AvailablePlayers.css";
 
 export const AvailablePlayers = (props: {
   participatingTeams: Array<ParticipatingTeam>;
   onTwoPlayersSelected: (teamName: string, playerOne: Player, playerTwo: Player, points: number) => void;
 }) => {
-  const players = useGetPlayersSortedByPointsOfTwoBestResults();
-  const [availablePlayers, setAvailablePlayers] = useState<AvailablePlayers>(players);
-  const [selectedPlayers, setSelectedPlayers] = useState<AvailablePlayers>([]);
+  const { data: players, loading, error } = useGetRankedPlayers(Division.Open);
+  const [selectedPlayers, setSelectedPlayers] = useState<RankedPlayers>([]);
   const [isNewTeamFormOpen, setIsNewTeamFormOpen] = useState<boolean>(false);
 
   const selectedPlayers_ids = selectedPlayers.map((selectedPlayer) => selectedPlayer.playerId);
@@ -31,16 +30,6 @@ export const AvailablePlayers = (props: {
         playerTwo: { name: playerName, id: playerId, uid: playerUid },
         points: firstSelectedPlayer.points + points,
       };
-
-      setAvailablePlayers((availablePlayers) => {
-        const updatedAvailablePlayers = [...availablePlayers];
-        updatedAvailablePlayers.splice(
-          findPlayerIndex(selectedPlayers[0].playerId, updatedAvailablePlayers),
-          1
-        );
-        updatedAvailablePlayers.splice(findPlayerIndex(playerId, updatedAvailablePlayers), 1);
-        return updatedAvailablePlayers;
-      });
       setSelectedPlayers([]);
       props.onTwoPlayersSelected(newTeam.name, newTeam.playerOne, newTeam.playerTwo, newTeam.points);
     } else {
@@ -67,7 +56,16 @@ export const AvailablePlayers = (props: {
       );
     }
   };
-  const onlyPlayersNotInTheTournament: AvailablePlayers = availablePlayers.filter((player) => {
+
+  if (loading) {
+    return <div className="">LOADING RANKED PLAYERS</div>;
+  }
+
+  if (error) {
+    return <div className="">ERROR WHILE LOADING RANKED PLAYERS</div>;
+  }
+
+  const onlyPlayersNotInTheTournament: RankedPlayers = players.filter((player) => {
     const isPlayerInTheTournament = props.participatingTeams.find(
       (team) => team.playerOne.uid === player.playerUid || team.playerTwo.uid === player.playerUid
     );
@@ -118,8 +116,7 @@ export const AvailablePlayers = (props: {
               onClick={() =>
                 onSelectPlayerHandler(player.playerId, player.playerUid, player.name, player.points)
               }
-              // selected={selectedPlayers_ids.includes(player.playerId)}
-              className=""
+              className={selectedPlayers_ids.includes(player.playerId) ? "selected-player" : "player"}
             >
               <span>{player.name}</span>&nbsp;-&nbsp;
               <span>{player.points}</span>
@@ -130,5 +127,5 @@ export const AvailablePlayers = (props: {
   );
 };
 
-const findPlayerIndex = (playerId: string, players: AvailablePlayers): number =>
+const findPlayerIndex = (playerId: string, players: RankedPlayers): number =>
   players.findIndex((player) => playerId === player.playerId);

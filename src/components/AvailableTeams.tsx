@@ -1,9 +1,10 @@
-import { Player } from "../hooks/types";
-import { useGetAllAvailableTeams, useGetAllAvailableTeams2 } from "../hooks/useGetAllAvailableTeams";
-import { useGetPlayersSortedByPointsOfTwoBestResults } from "../hooks/useGetPlayersSortedByPointsOfTwoBestResults";
+import { Player } from "../apiTypes";
+import { Division } from "../domain";
+import { useGetRankedPlayers } from "../hooks/useGetRankedPlayers";
+import { useGetRankedTeams } from "../hooks/useGetRankedTeams";
 import { ParticipatingTeam } from "./types";
 
-type AvailableTeams = ReturnType<typeof useGetAllAvailableTeams>;
+type AvailableTeams = ReturnType<typeof useGetRankedTeams>;
 
 export const AvailableTeams = (props: {
   participatingTeams: Array<ParticipatingTeam>;
@@ -15,10 +16,12 @@ export const AvailableTeams = (props: {
     teamId?: string
   ) => void;
 }) => {
-  // const teams = useGetAllAvailableTeams();
-  const { data: availableTeams, loading, error } = useGetAllAvailableTeams2();
-
-  const players = useGetPlayersSortedByPointsOfTwoBestResults();
+  const {
+    data: rankedTeams,
+    loading: loadingRankedTeams,
+    error: errorRankedTeams,
+  } = useGetRankedTeams(Division.Open);
+  const { data: players, loading, error } = useGetRankedPlayers(Division.Open);
 
   // use Set since duplicates are not allowed
   // const [availableTeams, setAvailableTeams] = useState<AvailableTeams>(teams);
@@ -54,7 +57,7 @@ export const AvailableTeams = (props: {
     return <div className="">ERROR WHILE LOADING RANKED TEAMS</div>;
   }
 
-  const onlyTeamsWithBothPlayersNotInTheTournament = availableTeams?.filter(
+  const onlyTeamsWithBothPlayersNotInTheTournament = rankedTeams?.filter(
     (availableTeam) =>
       !props.participatingTeams.find(
         (participatingTeam) =>

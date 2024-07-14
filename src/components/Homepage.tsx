@@ -3,9 +3,10 @@ import { AvailablePlayers } from "./AvailablePlayers";
 import { AvailableTeams } from "./AvailableTeams";
 import { ParticipatingTeam } from "./types";
 import { TournamentDraw } from "./TournamentDraw";
-import { Player } from "../hooks/types";
-import { useGetAllAvailableTeams } from "../hooks/useGetAllAvailableTeams";
-import { useGetPlayersSortedByPointsOfTwoBestResults } from "../hooks/useGetPlayersSortedByPointsOfTwoBestResults";
+import { useGetRankedTeams } from "../hooks/useGetRankedTeams";
+import { Player } from "../apiTypes";
+import { Division } from "../domain";
+import { useGetRankedPlayers } from "../hooks/useGetRankedPlayers";
 import "./Homepage.css";
 
 export const Homepage = () => {
@@ -25,8 +26,12 @@ export const Homepage = () => {
   };
 
   const importTeamsFromFwango = async (importedTeamsFile?: File): Promise<void> => {
-    const players = useGetPlayersSortedByPointsOfTwoBestResults();
-    const teams = useGetAllAvailableTeams();
+    const {
+      data: players,
+      loading: playersLoading,
+      error: playersError,
+    } = useGetRankedPlayers(Division.Open);
+    const { data: rankedTeams, loading, error } = useGetRankedTeams(Division.Open);
 
     if (importedTeamsFile) {
       // solve case where number of substring split by coma is not divisible by 3 -
@@ -45,7 +50,7 @@ export const Homepage = () => {
 
       const _participatingTeams: Array<ParticipatingTeam> = [];
       for (const importedTeam of importedTeams) {
-        const existingTeam = teams.find(
+        const existingTeam = rankedTeams.find(
           (team) =>
             team.name === importedTeam.name &&
             (team.playerOne.name === importedTeam.playerOne ||
