@@ -1,4 +1,4 @@
-import { Group } from "./TournamentDraw";
+import { Group } from "./GroupStage";
 
 export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpools?: Array<Group> }) => {
   return (

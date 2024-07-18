@@ -1,11 +1,11 @@
 import "./App.css";
-import { Homepage } from "./components/Homepage";
+import { CreateTournamentGroupStage } from "./components/CreateTournamentGroupStage/CreateTournamentGroupStage";
 
 function App() {
   return (
     <main>
       <article className="container">
-        <Homepage />
+        <CreateTournamentGroupStage />
       </article>
     </main>
   );

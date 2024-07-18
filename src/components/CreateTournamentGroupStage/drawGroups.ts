@@ -1,11 +1,11 @@
-import { snakeDraw } from "../lib/snakeDraw";
-import { TournamentDrawSettings, Group, TournamentDraw } from "./TournamentDraw";
-import { ParticipatingTeam } from "./types";
+import { snakeDraw } from "../../lib/snakeDraw";
+import { ParticipatingTeam } from "../types";
+import { Group, GroupStage, GroupStageSettings } from "./GroupStage";
 
 export const drawGroups = (
   participatingTeams: ParticipatingTeam[],
-  tournamentDrawSettings: TournamentDrawSettings
-): TournamentDraw | undefined => {
+  tournamentDrawSettings: GroupStageSettings
+): GroupStage | undefined => {
   let powerpools: Array<Group> | undefined = undefined;
 
   const _participatingTeams = [...participatingTeams].sort((a, b) => b.points - a.points);
@@ -31,7 +31,7 @@ const drawPowerpools = (
   participatingTeams: Array<ParticipatingTeam>,
   noPowerpoolGroups: number,
   noPowerpoolTeams: number
-): TournamentDraw["powerpools"] => {
+): GroupStage["powerpools"] => {
   const powerpoolTeams = participatingTeams.splice(0, noPowerpoolTeams).reverse();
   const powerpoolGroups = snakeDraw<ParticipatingTeam>(powerpoolTeams, noPowerpoolGroups);
 

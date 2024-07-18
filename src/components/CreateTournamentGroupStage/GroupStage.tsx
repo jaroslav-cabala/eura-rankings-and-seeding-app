@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { drawGroups } from "./drawGroups";
 import { GroupDrawSettings } from "./GroupDrawSettings";
 import { Groups } from "./Groups";
-import { ParticipatingTeam } from "./types";
-import "./TournamentDraw.css";
+import { ParticipatingTeam } from "../types";
+import "./GroupStage.css";
 
-export type TournamentDrawSettings = {
+export type GroupStageSettings = {
   powerpools: boolean;
   powerpoolGroups: string;
   powerpoolTeams: string;
@@ -13,7 +13,7 @@ export type TournamentDrawSettings = {
   groupDrawMethod: "snake";
 };
 
-export type TournamentDraw = {
+export type GroupStage = {
   powerpools?: Array<Group>;
   groups?: Array<Group>;
 };
@@ -22,7 +22,7 @@ export type Group = {
   teams: Array<ParticipatingTeam>;
 };
 
-const tournamentDrawSettingsDefault: TournamentDrawSettings = {
+const groupStageSettingsDefault: GroupStageSettings = {
   powerpools: false,
   powerpoolGroups: "",
   powerpoolTeams: "",
@@ -30,7 +30,7 @@ const tournamentDrawSettingsDefault: TournamentDrawSettings = {
   groupDrawMethod: "snake",
 };
 
-export const TournamentDraw = ({
+export const GroupStage = ({
   participatingTeams,
   importTeamsFromFwangoHandler,
   resetTournamentHandler,
@@ -40,15 +40,15 @@ export const TournamentDraw = ({
   resetTournamentHandler: () => void;
 }) => {
   const [chosenFileName, setChosenFileName] = useState("No file chosen");
-  const [tournamentDrawSettings, setTournamentDrawSettings] = useState<TournamentDrawSettings>({
-    ...tournamentDrawSettingsDefault,
+  const [groupStageSettings, setGroupStageSettings] = useState<GroupStageSettings>({
+    ...groupStageSettingsDefault,
     groups: (participatingTeams.length / 4).toString(), // set default number of groups based on the number of teams
   });
-  const [tournamentDraw, setTournamentDraw] = useState<TournamentDraw | undefined>(undefined);
+  const [groupStage, setGroupStage] = useState<GroupStage | undefined>(undefined);
 
   const drawGroupsHandler = (): void => {
-    const drawnGroups = drawGroups(participatingTeams, tournamentDrawSettings);
-    setTournamentDraw(drawnGroups);
+    const drawnGroups = drawGroups(participatingTeams, groupStageSettings);
+    setGroupStage(drawnGroups);
   };
 
   const importTeamsFromFwango = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,7 @@ export const TournamentDraw = ({
 
   const resetTournament = (): void => {
     setChosenFileName("No file chosen");
-    setTournamentDrawSettings({ ...tournamentDrawSettingsDefault });
+    setGroupStageSettings({ ...groupStageSettingsDefault });
     resetTournamentHandler();
   };
 
@@ -102,11 +102,11 @@ export const TournamentDraw = ({
       </div>
       <div className="group-draw">
         <GroupDrawSettings
-          tournamentDrawSettings={tournamentDrawSettings}
-          setTournamentDrawSettings={setTournamentDrawSettings}
+          tournamentDrawSettings={groupStageSettings}
+          setTournamentDrawSettings={setGroupStageSettings}
           drawGroupsHandler={drawGroupsHandler}
         />
-        <Groups groups={tournamentDraw?.groups} powerpools={tournamentDraw?.powerpools} />
+        <Groups groups={groupStage?.groups} powerpools={groupStage?.powerpools} />
       </div>
     </div>
   );

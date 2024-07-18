@@ -1,6 +1,7 @@
 import { Division } from "../domain";
 import { useGetRankedPlayers } from "../hooks/useGetRankedPlayers";
 import { useGetRankedTeams } from "../hooks/useGetRankedTeams";
+import "./Rankings.css";
 
 export const Rankings = () => {
   console.log("Rankings component");

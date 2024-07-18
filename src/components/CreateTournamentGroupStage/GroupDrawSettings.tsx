@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { TournamentDrawSettings } from "./TournamentDraw";
-import "./TournamentDraw.css";
+import { Dispatch, SetStateAction } from "react";
+import { GroupStageSettings } from "./GroupStage";
+import "./GroupStage.css";
 
 export const GroupDrawSettings = ({
   tournamentDrawSettings,
   setTournamentDrawSettings,
   drawGroupsHandler,
 }: {
-  setTournamentDrawSettings: Dispatch<SetStateAction<TournamentDrawSettings>>;
-  tournamentDrawSettings: TournamentDrawSettings;
+  setTournamentDrawSettings: Dispatch<SetStateAction<GroupStageSettings>>;
+  tournamentDrawSettings: GroupStageSettings;
   drawGroupsHandler: () => void;
 }) => {
   return (

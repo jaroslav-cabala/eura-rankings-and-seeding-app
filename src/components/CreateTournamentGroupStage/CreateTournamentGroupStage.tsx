@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { AvailablePlayers } from "./AvailablePlayers";
-import { AvailableTeams } from "./AvailableTeams";
-import { ParticipatingTeam } from "./types";
-import { TournamentDraw } from "./TournamentDraw";
-import { useGetRankedTeams } from "../hooks/useGetRankedTeams";
-import { Player } from "../apiTypes";
-import { Division } from "../domain";
-import { useGetRankedPlayers } from "../hooks/useGetRankedPlayers";
-import "./Homepage.css";
+import { AvailablePlayers } from "../AvailablePlayers";
+import { AvailableTeams } from "../AvailableTeams";
+import { ParticipatingTeam } from "../types";
+import { useGetRankedTeams } from "../../hooks/useGetRankedTeams";
+import { Player } from "../../apiTypes";
+import { Division } from "../../domain";
+import { useGetRankedPlayers } from "../../hooks/useGetRankedPlayers";
+import { GroupStage } from "./GroupStage";
+import "./CreateTournamentGroupStage.css";
 
-export const Homepage = () => {
+export const CreateTournamentGroupStage = () => {
   const [participatingTeams, setParticipatingTeams] = useState<Array<ParticipatingTeam>>([]);
 
   const addTeamToTheTournament = (
@@ -130,7 +130,7 @@ export const Homepage = () => {
         <AvailableTeams participatingTeams={participatingTeams} onSelectTeam={addTeamToTheTournament} />
       </section>
       <section className="tournament-draw">
-        <TournamentDraw
+        <GroupStage
           participatingTeams={participatingTeams}
           importTeamsFromFwangoHandler={importTeamsFromFwango}
           resetTournamentHandler={resetTournament}
