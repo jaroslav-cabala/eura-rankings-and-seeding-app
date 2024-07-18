@@ -1,4 +1,4 @@
-import { snakeDraw } from "../../lib/snakeDraw";
+import { snakeDraw } from "../../../lib/snakeDraw";
 import { ParticipatingTeam } from "../types";
 import { Group, GroupStage, GroupStageSettings } from "./GroupStage";
 

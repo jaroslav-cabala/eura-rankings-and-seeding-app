@@ -1,4 +1,4 @@
-import { Player } from "../hooks/types";
+import { Player } from "@/apiTypes";
 
 export type ParticipatingTeam = {
   id?: string;

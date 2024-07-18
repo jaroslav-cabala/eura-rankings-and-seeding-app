@@ -1,5 +1,5 @@
 import "./App.css";
-import { CreateTournamentGroupStage } from "./components/CreateTournamentGroupStage/CreateTournamentGroupStage";
+import { CreateTournamentGroupStage } from "./components/features/CreateTournamentGroupStage/CreateTournamentGroupStage";
 
 function App() {
   return (

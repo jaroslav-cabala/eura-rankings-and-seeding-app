@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ParticipatingTeam } from "./types";
-import { RankedPlayers, useGetRankedPlayers } from "../hooks/useGetRankedPlayers";
-import { Player } from "../apiTypes";
-import { Division } from "../domain";
+import { RankedPlayers, useGetRankedPlayers } from "../../hooks/useGetRankedPlayers";
+import { Player } from "../../apiTypes";
+import { Division } from "../../domain";
 import "./AvailablePlayers.css";
 
 export const AvailablePlayers = (props: {
