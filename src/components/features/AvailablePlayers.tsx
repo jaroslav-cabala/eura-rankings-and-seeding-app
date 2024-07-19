@@ -5,6 +5,8 @@ import { Player } from "../../apiTypes";
 import { Division } from "../../domain";
 import "./AvailablePlayers.css";
 
+type RankedPlayer = RankedPlayers[number];
+
 export const AvailablePlayers = (props: {
   participatingTeams: Array<ParticipatingTeam>;
   onTwoPlayersSelected: (teamName: string, playerOne: Player, playerTwo: Player, points: number) => void;
@@ -17,25 +19,32 @@ export const AvailablePlayers = (props: {
 
   // when 2. player is selected, both are removed from the list of avialable players and
   // moved to tournament teams list as a new team
-  const onSelectPlayerHandler = (playerId: string, playerUid: string, playerName: string, points: number) => {
+  const onSelectPlayerHandler = (player: RankedPlayer) => {
     if (selectedPlayers.length === 1) {
       const firstSelectedPlayer = selectedPlayers[0];
       const newTeam: ParticipatingTeam = {
-        name: `${firstSelectedPlayer.name}/${playerName}`,
+        name: `${firstSelectedPlayer.name}/${player.name}`,
         playerOne: {
           name: firstSelectedPlayer.name,
           id: firstSelectedPlayer.playerId,
           uid: firstSelectedPlayer.playerUid,
         },
-        playerTwo: { name: playerName, id: playerId, uid: playerUid },
-        points: firstSelectedPlayer.points + points,
+        playerTwo: { name: player.name, id: player.playerId, uid: player.playerUid },
+        points: firstSelectedPlayer.points + player.points,
       };
       setSelectedPlayers([]);
       props.onTwoPlayersSelected(newTeam.name, newTeam.playerOne, newTeam.playerTwo, newTeam.points);
     } else {
       setSelectedPlayers((selectedPlayers) => [
         ...selectedPlayers,
-        { name: playerName, playerId, playerUid, points },
+        {
+          rank: player.rank,
+          name: player.name,
+          playerId: player.playerId,
+          playerUid: player.playerUid,
+          points: player.points,
+          tournamentResults: player.tournamentResults,
+        },
       ]);
     }
   };
@@ -113,9 +122,7 @@ export const AvailablePlayers = (props: {
           .map((player) => (
             <div
               key={player.playerId}
-              onClick={() =>
-                onSelectPlayerHandler(player.playerId, player.playerUid, player.name, player.points)
-              }
+              onClick={() => onSelectPlayerHandler(player)}
               className={selectedPlayers_ids.includes(player.playerId) ? "selected-player" : "player"}
             >
               <span>{player.name}</span>&nbsp;-&nbsp;

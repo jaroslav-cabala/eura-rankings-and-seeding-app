@@ -1,14 +1,15 @@
-import { RankedPlayer } from "../apiTypes";
+import { RankedPlayer, RankedPlayerTournamentResult } from "../apiTypes";
 import { Division } from "../domain";
 import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
 import { useFetchJsonData } from "./useFetchData";
 
-// include individual tournament results as well
 export type RankedPlayers = Array<{
+  rank: number; //either compute rank on the server or on the client, for now, players are already ranked from first to last
   playerId: string;
   playerUid: string;
   name: string;
   points: number;
+  tournamentResults: Array<RankedPlayerTournamentResult>
 }>;
 
 export type GetRankedPlayersResult = {
@@ -24,11 +25,13 @@ export const useGetRankedPlayers = (division: Division): GetRankedPlayersResult 
   );
 
   if (data && !loading && !error) {
-    const rankedPlayers = data.map<RankedPlayers[number]>((player) => ({
+    const rankedPlayers = data.map<RankedPlayers[number]>((player, index) => ({
+      rank: index + 1,
       playerId: player.id,
       playerUid: player.uid,
       name: player.name,
       points: getTotalPointsFromXBestResults(player.tournamentResults, 2),
+      tournamentResults: player.tournamentResults
     }));
 
     return {

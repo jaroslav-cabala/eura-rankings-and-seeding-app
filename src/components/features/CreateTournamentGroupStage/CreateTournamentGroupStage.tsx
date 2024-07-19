@@ -2,12 +2,12 @@ import { useState } from "react";
 import { AvailablePlayers } from "../AvailablePlayers";
 import { AvailableTeams } from "../AvailableTeams";
 import { ParticipatingTeam } from "../types";
-import { useGetRankedTeams } from "../../../hooks/useGetRankedTeams";
-import { Player } from "../../../apiTypes";
-import { Division } from "../../../domain";
-import { useGetRankedPlayers } from "../../../hooks/useGetRankedPlayers";
 import { GroupStage } from "./GroupStage";
 import "./CreateTournamentGroupStage.css";
+import { useGetRankedTeams } from "@/hooks/useGetRankedTeams";
+import { useGetRankedPlayers } from "@/hooks/useGetRankedPlayers";
+import { Player } from "@/apiTypes";
+import { Division } from "@/domain";
 
 export const CreateTournamentGroupStage = () => {
   const [participatingTeams, setParticipatingTeams] = useState<Array<ParticipatingTeam>>([]);
