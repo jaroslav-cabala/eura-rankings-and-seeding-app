@@ -35,10 +35,10 @@ export interface Player {
 }
 
 export interface RankedTeamTournamentResult {
-  rank: number;
-  points: number;
-  tournamentName: string;
   tournamentId: string;
   tournamentResultId: string;
+  tournamentName: string;
   date: string;
+  points: number;
+  rank: number;
 }

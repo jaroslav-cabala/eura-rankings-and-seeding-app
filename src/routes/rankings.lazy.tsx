@@ -1,7 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { Rankings } from "@/components/features/Rankings";
-import { PlayerRankings } from "@/components/features/PlayerRankings/PlayerRankings";
+import { Rankings } from "@/components/features/Rankings/Rankings";
 
 export const Route = createLazyFileRoute("/rankings")({
-  component: PlayerRankings,
+  component: Rankings,
 });

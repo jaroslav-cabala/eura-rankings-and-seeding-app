@@ -1,5 +1,5 @@
 import { Player } from "../../apiTypes";
-import { Division } from "../../domain";
+import { Category } from "../../domain";
 import { useGetRankedPlayers } from "../../hooks/useGetRankedPlayers";
 import { useGetRankedTeams } from "../../hooks/useGetRankedTeams";
 import { ParticipatingTeam } from "./types";
@@ -20,8 +20,8 @@ export const AvailableTeams = (props: {
     data: rankedTeams,
     loading: loadingRankedTeams,
     error: errorRankedTeams,
-  } = useGetRankedTeams(Division.Open);
-  const { data: players, loading, error } = useGetRankedPlayers(Division.Open);
+  } = useGetRankedTeams(Category.Open);
+  const { data: players, loading, error } = useGetRankedPlayers(Category.Open);
 
   // use Set since duplicates are not allowed
   // const [availableTeams, setAvailableTeams] = useState<AvailableTeams>(teams);

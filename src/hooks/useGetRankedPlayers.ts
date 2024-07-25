@@ -1,5 +1,5 @@
 import { RankedPlayer, RankedPlayerTournamentResult } from "../apiTypes";
-import { Division } from "../domain";
+import { Category } from "../domain";
 import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
 import { useFetchJsonData } from "./useFetchData";
 
@@ -18,10 +18,10 @@ export type GetRankedPlayersResult = {
   error: boolean;
 };
 
-export const useGetRankedPlayers = (division: Division): GetRankedPlayersResult => {
+export const useGetRankedPlayers = (category: Category): GetRankedPlayersResult => {
+  console.log("useGetRankedPlayers hook, category = ", category);
   const { data, loading, error } = useFetchJsonData<Array<RankedPlayer>>(
-    new URL(`http:localhost:3001/rankings/${division}/players`)
-
+    `http:localhost:3001/rankings/${category}/players`
   );
 
   if (data && !loading && !error) {

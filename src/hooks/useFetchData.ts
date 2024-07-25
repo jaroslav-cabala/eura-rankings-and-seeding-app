@@ -6,7 +6,7 @@ export type UseFetchJsonDataResult<T> = {
   error: boolean;
 };
 
-export const useFetchJsonData = <T>(fetchUrl: URL): UseFetchJsonDataResult<T> => {
+export const useFetchJsonData = <T>(fetchUrl: string): UseFetchJsonDataResult<T> => {
   const [data, setData] = useState<T | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -17,7 +17,7 @@ export const useFetchJsonData = <T>(fetchUrl: URL): UseFetchJsonDataResult<T> =>
       setIsLoading(true);
 
       try {
-        const response = await fetch(fetchUrl);
+        const response = await fetch(new URL(fetchUrl));
         const json: T = await response.json();
 
         setData(json);
@@ -29,7 +29,7 @@ export const useFetchJsonData = <T>(fetchUrl: URL): UseFetchJsonDataResult<T> =>
     };
 
     fetchData();
-  }, []);
+  }, [fetchUrl]);
 
   return {
     data,

@@ -1,4 +1,4 @@
-import { Division } from "../../domain";
+import { Category } from "../../domain";
 import { useGetRankedPlayers } from "../../hooks/useGetRankedPlayers";
 import { useGetRankedTeams } from "../../hooks/useGetRankedTeams";
 import "./Rankings.css";
@@ -9,8 +9,8 @@ export const Rankings = () => {
     data: availablePlayers,
     loading: playersLoading,
     error: playersError,
-  } = useGetRankedPlayers(Division.Open);
-  const { data: availableTeams, loading: teamsLoading, error: teamsError } = useGetRankedTeams(Division.Open);
+  } = useGetRankedPlayers(Category.Open);
+  const { data: availableTeams, loading: teamsLoading, error: teamsError } = useGetRankedTeams(Category.Open);
 
   return (
     <main>

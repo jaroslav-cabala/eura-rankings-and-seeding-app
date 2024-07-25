@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ParticipatingTeam } from "./types";
 import { RankedPlayers, useGetRankedPlayers } from "../../hooks/useGetRankedPlayers";
 import { Player } from "../../apiTypes";
-import { Division } from "../../domain";
+import { Category } from "../../domain";
 import "./AvailablePlayers.css";
 
 type RankedPlayer = RankedPlayers[number];
@@ -11,7 +11,7 @@ export const AvailablePlayers = (props: {
   participatingTeams: Array<ParticipatingTeam>;
   onTwoPlayersSelected: (teamName: string, playerOne: Player, playerTwo: Player, points: number) => void;
 }) => {
-  const { data: players, loading, error } = useGetRankedPlayers(Division.Open);
+  const { data: players, loading, error } = useGetRankedPlayers(Category.Open);
   const [selectedPlayers, setSelectedPlayers] = useState<RankedPlayers>([]);
   const [isNewTeamFormOpen, setIsNewTeamFormOpen] = useState<boolean>(false);
 

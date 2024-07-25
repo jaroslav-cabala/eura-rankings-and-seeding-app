@@ -36,14 +36,15 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   });
 
   return (
-    <div>
-      <div className="flex items-center py-4">
+    <>
+      <div className="flex items-center py-1">
         <Input
           placeholder="Search players..."
           value={(table.getColumn("Name")?.getFilterValue() as string) ?? ""}
           onChange={(event) => table.getColumn("Name")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
+        <div className="ml-5">{table.getRowModel().rows?.length} ranked players</div>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -52,7 +53,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="px-3">
                       {header.isPlaceholder
                         ? null
                         : flexRender(header.column.columnDef.header, header.getContext())}
@@ -62,12 +63,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               </TableRow>
             ))}
           </TableHeader>
+          {/* TODO show loading message when data are being loaded */}
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="p-3">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -75,7 +77,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={columns.length} className="h-24 text-center p-3">
                   No results.
                 </TableCell>
               </TableRow>
@@ -83,6 +85,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           </TableBody>
         </Table>
       </div>
-    </div>
+    </>
   );
 }

@@ -7,7 +7,7 @@ import "./CreateTournamentGroupStage.css";
 import { useGetRankedTeams } from "@/hooks/useGetRankedTeams";
 import { useGetRankedPlayers } from "@/hooks/useGetRankedPlayers";
 import { Player } from "@/apiTypes";
-import { Division } from "@/domain";
+import { Category } from "@/domain";
 
 export const CreateTournamentGroupStage = () => {
   const [participatingTeams, setParticipatingTeams] = useState<Array<ParticipatingTeam>>([]);
@@ -30,8 +30,8 @@ export const CreateTournamentGroupStage = () => {
       data: players,
       loading: playersLoading,
       error: playersError,
-    } = useGetRankedPlayers(Division.Open);
-    const { data: rankedTeams, loading, error } = useGetRankedTeams(Division.Open);
+    } = useGetRankedPlayers(Category.Open);
+    const { data: rankedTeams, loading, error } = useGetRankedTeams(Category.Open);
 
     if (importedTeamsFile) {
       // solve case where number of substring split by coma is not divisible by 3 -
