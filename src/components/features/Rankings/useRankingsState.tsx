@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Category, Division, RankedEntity } from "@/domain";
+import { Category, Division } from "@/domain";
 import { TimePeriod } from "@/utils";
 
 export type RankingsState = {

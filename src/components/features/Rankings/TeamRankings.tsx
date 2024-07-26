@@ -1,9 +1,19 @@
 import { useGetRankedTeams } from "@/hooks/useGetRankedTeams";
-import { ColumnDef } from "@tanstack/react-table";
-import { useRankingsState } from "./useRankingsState";
-import { DataTable } from "./DataTable";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { UseRankingsState, useRankingsState } from "./useRankingsState";
+import { DataTable } from "./DataTable/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
-import { SortingButton, ColumnSimpleValueWrapper } from "./dataTableCommon";
+import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
+import React, { FC } from "react";
+import { SearchInput } from "./DataTable/SearchInput";
 
 export const TeamRankings = () => {
   console.log("TeamRankings component");
@@ -28,11 +38,45 @@ export const TeamRankings = () => {
       </>
     );
   }
+  return <TeamRankingsComponent data={tableData} dataLoading={teamsLoading} filterState={rankingsState} />;
+};
+
+type TeamRankingsComponentProps = {
+  data: TeamRankingsTableDataRow[];
+  dataLoading: boolean;
+  filterState: UseRankingsState;
+};
+const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({ data, dataLoading, filterState }) => {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
+  });
   return (
     <>
-      <RankingsFilter rankingsFilterState={rankingsState} />
+      <RankingsFilter rankingsFilterState={filterState} />
       <div className="w-1/2 mx-auto py-1">
-        {teamsLoading ? <p>loading team rankings</p> : <DataTable columns={columns} data={tableData} />}
+        {dataLoading ? (
+          <p>loading team rankings</p>
+        ) : (
+          <>
+            <div className="flex items-center py-1">
+              <SearchInput table={table} columnId="Team" placeholder="Search teams..." />
+              <div className="ml-5">{table.getRowModel().rows?.length} ranked teams</div>
+            </div>
+            <DataTable table={table} />
+          </>
+        )}
       </div>
     </>
   );
@@ -46,7 +90,7 @@ type TeamRankingsTableDataRow = {
     playerTwoName: string;
   };
   points: number;
-  // tournamentsPlayed: number;
+  tournamentsPlayed: number;
 };
 
 const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
@@ -71,7 +115,7 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
         <>
           <div className="text-base font-medium">{row.getValue("Team")}</div>
           <div className="text-sm text-muted-foreground">
-            {row.original.team.playerOneName}/{row.original.team.playerTwoName}
+            {row.original.team.playerOneName} / {row.original.team.playerTwoName}
           </div>
         </>
       );

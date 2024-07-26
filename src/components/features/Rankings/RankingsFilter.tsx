@@ -154,7 +154,4 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
 const timePeriodStartYear = 2023;
 const timePeriodOptions = Array(getCurrentYear - timePeriodStartYear + 1)
   .fill(0)
-  .map((_, index) => {
-    console.log("index = ", index);
-    return timePeriodStartYear + index;
-  });
+  .map((_, index) => timePeriodStartYear + index);
