@@ -18,10 +18,19 @@ import { SearchInput } from "./DataTable/SearchInput";
 export const TeamRankings = () => {
   console.log("TeamRankings component");
   const rankingsState = useRankingsState();
-  const { data: teams, loading: teamsLoading, error: teamsError } = useGetRankedTeams(rankingsState.category);
+  const {
+    data: teams,
+    loading: teamsLoading,
+    error: teamsError,
+  } = useGetRankedTeams({
+    category: rankingsState.category,
+    division: rankingsState.division,
+    numberOfResultsCountedToPointsTotal: rankingsState.numberOfResultsCountedToPointsTotal,
+    seasons: rankingsState.seasons,
+  });
 
-  const tableData: Array<TeamRankingsTableDataRow> = teams.map((team) => ({
-    rank: team.rank,
+  const tableData: Array<TeamRankingsTableDataRow> = teams.map((team, index) => ({
+    rank: index + 1,
     team: {
       name: team.name,
       playerOneName: team.playerOne.name,

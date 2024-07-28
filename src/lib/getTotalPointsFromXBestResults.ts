@@ -1,24 +1,24 @@
-import { RankedPlayerTournamentResult } from "../hooks/types";
+import { RankedPlayerTournamentResult } from "@/apiTypes";
 
 /**
  * Goes through an array of tournament results and returns total points from X best results.
  *
  * @param results array of tournament results
- * @param numberOfResultsToCount number of results to count
+ * @param numberOfBestResultsToCount number of results to count
  * @returns total points of X best results
  */
 export const getTotalPointsFromXBestResults = (
   results: Array<Results>,
-  numberOfResultsToCount: number | 'all'
+  numberOfBestResultsToCount: number | 'all'
 ): number => {
-  if (typeof numberOfResultsToCount === 'number') {
+  if (typeof numberOfBestResultsToCount === 'number') {
     return results
       .reduce<Array<number>>((acc, curr) => {
-        // if array of results does not have 'numberOfResultsToCount' result yet, just add current result into it
-        if (acc.length < numberOfResultsToCount) {
+        // if array of results does not have 'numberOfBestResultsToCount' result yet, just add current result into it
+        if (acc.length < numberOfBestResultsToCount) {
           return [...acc, curr.points];
         }
-        // if array of result has 'numberOfResultsToCount' results
+        // if array of result has 'numberOfBestResultsToCount' results
         // replace the lowest value from the result with the current value if the current value > lowest value from the result
         const lowestValue = Math.min(...acc);
         const highestValue = Math.max(...acc);

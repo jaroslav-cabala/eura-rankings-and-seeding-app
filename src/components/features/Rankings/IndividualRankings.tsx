@@ -22,10 +22,15 @@ export const IndividualRankings = () => {
     data: players,
     loading: playersLoading,
     error: playersError,
-  } = useGetRankedPlayers(rankingsState.category);
+  } = useGetRankedPlayers({
+    category: rankingsState.category,
+    division: rankingsState.division,
+    numberOfResultsCountedToPointsTotal: rankingsState.numberOfResultsCountedToPointsTotal,
+    seasons: rankingsState.seasons,
+  });
 
-  const tableData: Array<IndividualRankingsTableDataRow> = players.map((player) => ({
-    rank: player.rank,
+  const tableData: Array<IndividualRankingsTableDataRow> = players.map((player, index) => ({
+    rank: index + 1,
     name: player.name,
     points: player.points,
     tournamentsPlayed: player.tournamentResults.length,

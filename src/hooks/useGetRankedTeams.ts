@@ -1,11 +1,11 @@
 import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
-import { Category } from "../domain";
+import { Category, Division } from "../domain";
 import { useFetchJsonData } from "./useFetchData";
 import { Player, RankedTeam, RankedTeamTournamentResult } from "../apiTypes";
+import { TimePeriod } from "@/utils";
+import { createQueryString } from "./createQueryStringsContainingFilters";
 
-// include individual tournament results as well
 export type RankedTeams = Array<{
-  rank: number;
   teamId: string;
   teamUid: string;
   name: string;
@@ -21,25 +21,41 @@ export type GetRankedTeamsResult = {
   error: boolean;
 };
 
-export const useGetRankedTeams = (division: Category): GetRankedTeamsResult => {
+type UseGetRankedTeamsProps = {
+  category: Category;
+  division: Division;
+  seasons: TimePeriod;
+  numberOfResultsCountedToPointsTotal: number;
+};
+
+export const useGetRankedTeams = ({
+  category,
+  division,
+  numberOfResultsCountedToPointsTotal,
+  seasons, }: UseGetRankedTeamsProps): GetRankedTeamsResult => {
+  console.log(`useGetRankedTeams hook, category=${category},division=${division},
+    numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal},
+    seasons={from=${seasons.from},to=${seasons.to}}`);
+  const queryString = createQueryString(division, seasons);
   const { data, loading, error } = useFetchJsonData<Array<RankedTeam>>(
-    `http:localhost:3001/rankings/${division}/teams`
+    `http:localhost:3001/rankings/${category}/teams?${queryString}`
   );
 
   if (data && !loading && !error) {
-    const rankedTeams = data.map<RankedTeams[number]>((team, index) => ({
-      rank: index + 1,
+    const rankedTeamsUnsorted = data.map<RankedTeams[number]>((team) => ({
       teamId: team.id,
       teamUid: team.uid,
       name: team.name,
       playerOne: team.players[0],
       playerTwo: team.players[1],
-      points: getTotalPointsFromXBestResults(team.tournamentResults, 2),
+      points: getTotalPointsFromXBestResults(team.tournamentResults, numberOfResultsCountedToPointsTotal),
       tournamentResults: team.tournamentResults
     }));
 
+    const rankedTeamsSorted = rankedTeamsUnsorted.sort((teamA, teamB) => teamB.points - teamA.points)
+
     return {
-      data: rankedTeams,
+      data: rankedTeamsSorted,
       loading,
       error,
     };
