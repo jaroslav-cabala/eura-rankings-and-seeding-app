@@ -13,15 +13,23 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as RankingsIndexImport } from './routes/rankings/index'
+import { Route as RankingsLayoutImport } from './routes/rankings/_layout'
+import { Route as RankingsLayoutTeamImport } from './routes/rankings/_layout.team'
+import { Route as RankingsLayoutIndividualImport } from './routes/rankings/_layout.individual'
 
 // Create Virtual Routes
 
+const RankingsImport = createFileRoute('/rankings')()
 const TournamentDrawLazyImport = createFileRoute('/tournament-draw')()
-const RankingsLazyImport = createFileRoute('/rankings')()
-const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const RankingsRoute = RankingsImport.update({
+  path: '/rankings',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const TournamentDrawLazyRoute = TournamentDrawLazyImport.update({
   path: '/tournament-draw',
@@ -30,20 +38,30 @@ const TournamentDrawLazyRoute = TournamentDrawLazyImport.update({
   import('./routes/tournament-draw.lazy').then((d) => d.Route),
 )
 
-const RankingsLazyRoute = RankingsLazyImport.update({
-  path: '/rankings',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/rankings.lazy').then((d) => d.Route))
-
-const AboutLazyRoute = AboutLazyImport.update({
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
-
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const RankingsIndexRoute = RankingsIndexImport.update({
+  path: '/',
+  getParentRoute: () => RankingsRoute,
+} as any)
+
+const RankingsLayoutRoute = RankingsLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => RankingsRoute,
+} as any)
+
+const RankingsLayoutTeamRoute = RankingsLayoutTeamImport.update({
+  path: '/team',
+  getParentRoute: () => RankingsLayoutRoute,
+} as any)
+
+const RankingsLayoutIndividualRoute = RankingsLayoutIndividualImport.update({
+  path: '/individual',
+  getParentRoute: () => RankingsLayoutRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -53,17 +71,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      preLoaderRoute: typeof AboutLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/rankings': {
-      preLoaderRoute: typeof RankingsLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/tournament-draw': {
       preLoaderRoute: typeof TournamentDrawLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/rankings': {
+      preLoaderRoute: typeof RankingsImport
+      parentRoute: typeof rootRoute
+    }
+    '/rankings/_layout': {
+      preLoaderRoute: typeof RankingsLayoutImport
+      parentRoute: typeof RankingsRoute
+    }
+    '/rankings/': {
+      preLoaderRoute: typeof RankingsIndexImport
+      parentRoute: typeof RankingsImport
+    }
+    '/rankings/_layout/individual': {
+      preLoaderRoute: typeof RankingsLayoutIndividualImport
+      parentRoute: typeof RankingsLayoutImport
+    }
+    '/rankings/_layout/team': {
+      preLoaderRoute: typeof RankingsLayoutTeamImport
+      parentRoute: typeof RankingsLayoutImport
     }
   }
 }
@@ -72,9 +102,14 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
-  AboutLazyRoute,
-  RankingsLazyRoute,
   TournamentDrawLazyRoute,
+  RankingsRoute.addChildren([
+    RankingsLayoutRoute.addChildren([
+      RankingsLayoutIndividualRoute,
+      RankingsLayoutTeamRoute,
+    ]),
+    RankingsIndexRoute,
+  ]),
 ])
 
 /* prettier-ignore-end */

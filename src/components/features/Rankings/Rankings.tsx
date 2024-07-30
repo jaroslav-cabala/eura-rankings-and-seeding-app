@@ -28,18 +28,3 @@ export const Rankings = () => {
     </main>
   );
 };
-
-// const RankingsSelectionTabs: FC<PropsWithChildren> = ({ children }) => {
-//   return (
-//     <Tabs defaultValue={RankedEntity.Individual} className="">
-//       <TabsList>
-//         <TabsTrigger value={RankedEntity.Individual}>
-//           {capitalizeFirstChar(RankedEntity.Individual)}
-//         </TabsTrigger>
-//         <TabsTrigger value={RankedEntity.Team}>{capitalizeFirstChar(RankedEntity.Team)}</TabsTrigger>
-//       </TabsList>
-//       <TabsContent value={RankedEntity.Individual}>{children}</TabsContent>
-//       <TabsContent value={RankedEntity.Team}>{children}</TabsContent>
-//     </Tabs>
-//   );
-// };

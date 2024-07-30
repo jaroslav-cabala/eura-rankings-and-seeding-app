@@ -9,15 +9,19 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useGetRankedPlayers } from "@/hooks/useGetRankedPlayers";
-import { UseRankingsState, useRankingsState } from "./useRankingsState";
+import { UseRankingsFilterState, useRankingsFilterState } from "./useRankingsFilterState";
 import { DataTable } from "./DataTable/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
 import { SearchInput } from "./DataTable/SearchInput";
+import { useSearch } from "@tanstack/react-router";
+import { Route as IndividualRankingsRoute } from "@/routes/rankings/_layout.individual";
+import { Button } from "@/components/ui/button";
 
 export const IndividualRankings = () => {
   console.log("IndividualRankings component");
-  const rankingsState = useRankingsState();
+  const queryString = useSearch({ from: IndividualRankingsRoute.id });
+  const rankingsState = useRankingsFilterState(queryString);
   const {
     data: players,
     loading: playersLoading,
@@ -36,6 +40,9 @@ export const IndividualRankings = () => {
     tournamentsPlayed: player.tournamentResults.length,
   }));
 
+  console.log(`IndividualRankings component - queryString=`, queryString);
+  console.log(`IndividualRankings component - players=${players}, loading=${playersLoading}`);
+
   if (playersError) {
     return (
       <>
@@ -51,13 +58,14 @@ export const IndividualRankings = () => {
 type IndividualRankingsComponentProps = {
   data: IndividualRankingsTableDataRow[];
   dataLoading: boolean;
-  filterState: UseRankingsState;
+  filterState: UseRankingsFilterState;
 };
 const IndividualRankingsComponent: FC<IndividualRankingsComponentProps> = ({
   data,
   dataLoading,
   filterState,
 }) => {
+  console.log(`IndividualRankings component - tableData=`, data);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -75,6 +83,16 @@ const IndividualRankingsComponent: FC<IndividualRankingsComponentProps> = ({
   });
   return (
     <>
+      <Button
+        onClick={() => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("__xxx___", "11111111");
+          url.searchParams.set("category", "women");
+          history.replaceState({}, "", url);
+        }}
+      >
+        history.pushState()
+      </Button>
       <RankingsFilter rankingsFilterState={filterState} />
       <div className="w-1/2 mx-auto py-1">
         {dataLoading ? (

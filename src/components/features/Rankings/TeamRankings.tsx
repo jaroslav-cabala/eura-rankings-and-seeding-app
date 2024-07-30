@@ -8,16 +8,19 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { UseRankingsState, useRankingsState } from "./useRankingsState";
+import { UseRankingsFilterState, useRankingsFilterState } from "./useRankingsFilterState";
 import { DataTable } from "./DataTable/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
 import React, { FC } from "react";
 import { SearchInput } from "./DataTable/SearchInput";
+import { Route as TeamRankingsRoute } from "@/routes/rankings/_layout.team";
+import { useSearch } from "@tanstack/react-router";
 
 export const TeamRankings = () => {
   console.log("TeamRankings component");
-  const rankingsState = useRankingsState();
+  const queryString = useSearch({ from: TeamRankingsRoute.id });
+  const rankingsState = useRankingsFilterState(queryString);
   const {
     data: teams,
     loading: teamsLoading,
@@ -53,7 +56,7 @@ export const TeamRankings = () => {
 type TeamRankingsComponentProps = {
   data: TeamRankingsTableDataRow[];
   dataLoading: boolean;
-  filterState: UseRankingsState;
+  filterState: UseRankingsFilterState;
 };
 const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({ data, dataLoading, filterState }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);

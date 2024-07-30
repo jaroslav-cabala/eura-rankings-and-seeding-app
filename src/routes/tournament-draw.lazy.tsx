@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import App from "../App";
 
 export const Route = createFileRoute("/tournament-draw")({
-  component: App,
+  component: TournamentDrawComponent,
 });
+
+function TournamentDrawComponent() {
+  return (
+    <>
+      <div>Hello from tournamentDraw component</div>
+    </>
+  );
+}

@@ -10,14 +10,15 @@ import {
 import { Category, Division } from "@/domain";
 import { TimePeriod, capitalizeFirstChar, getCurrentYear } from "@/utils";
 import { Separator } from "@/components/ui/separator";
-import { UseRankingsState } from "./useRankingsState";
+import { UseRankingsFilterState } from "./useRankingsFilterState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { timePeriodOptions } from "./settings";
 
 type RankingsFilterProps = {
   rankingsFilterState: Pick<
-    UseRankingsState,
+    UseRankingsFilterState,
     | "category"
     | "division"
     | "seasons"
@@ -48,7 +49,12 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
     <div className="w-1/2 mx-auto">
       Category:
       <Separator orientation="vertical" className="mx-1" />
-      <Select value={category} onValueChange={(value) => setCategory(value as Category)}>
+      <Select
+        value={category}
+        onValueChange={(value) => {
+          setCategory(value as Category);
+        }}
+      >
         <SelectTrigger className="w-[120px]">
           <SelectValue>{capitalizeFirstChar(category)}</SelectValue>
         </SelectTrigger>
@@ -126,7 +132,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
           variant="outline"
           size="icon"
           className="ml-1"
-          onClick={() => setNumberOfResultsCountedToPointsTotal((val) => val - 1)}
+          onClick={() => setNumberOfResultsCountedToPointsTotal(numberOfResultsCountedToPointsTotal - 1)}
         >
           <ChevronLeftIcon className="h-4 w-4" />
         </Button>
@@ -141,7 +147,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
           variant="outline"
           size="icon"
           className="mr-1"
-          onClick={() => setNumberOfResultsCountedToPointsTotal((val) => val + 1)}
+          onClick={() => setNumberOfResultsCountedToPointsTotal(numberOfResultsCountedToPointsTotal + 1)}
         >
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
@@ -150,8 +156,3 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
     </div>
   );
 };
-
-const timePeriodStartYear = 2023;
-const timePeriodOptions = Array(getCurrentYear - timePeriodStartYear + 1)
-  .fill(0)
-  .map((_, index) => timePeriodStartYear + index);
