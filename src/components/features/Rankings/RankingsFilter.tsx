@@ -10,39 +10,21 @@ import {
 import { Category, Division } from "@/domain";
 import { TimePeriod, capitalizeFirstChar, getCurrentYear } from "@/utils";
 import { Separator } from "@/components/ui/separator";
-import { UseRankingsFilterState } from "./useRankingsFilterState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { timePeriodOptions } from "./settings";
+import { RankingsFilterOptions, timePeriodOptions } from "./settings";
+import { useNavigate } from "@tanstack/react-router";
 
 type RankingsFilterProps = {
-  rankingsFilterState: Pick<
-    UseRankingsFilterState,
-    | "category"
-    | "division"
-    | "seasons"
-    | "numberOfResultsCountedToPointsTotal"
-    | "setCategory"
-    | "setDivision"
-    | "setSeasons"
-    | "setNumberOfResultsCountedToPointsTotal"
-  >;
+  rankingsFilterParams: RankingsFilterOptions;
 };
 
-export const RankingsFilter: FC<RankingsFilterProps> = ({
-  rankingsFilterState: {
-    category,
-    setCategory,
-    division,
-    setDivision,
-    seasons,
-    setSeasons,
-    numberOfResultsCountedToPointsTotal,
-    setNumberOfResultsCountedToPointsTotal,
-  },
-}) => {
+export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }) => {
   console.log("RankingsFilter component");
+  const { category, division, numberOfResultsCountedToPointsTotal, seasons } = rankingsFilterParams;
+
+  const navigate = useNavigate();
 
   return (
     // <div className="w-1/2 flex mx-auto items-center py-1" style={{ justifyContent: "left" }}>
@@ -51,9 +33,9 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
       <Separator orientation="vertical" className="mx-1" />
       <Select
         value={category}
-        onValueChange={(value) => {
-          setCategory(value as Category);
-        }}
+        onValueChange={(value) =>
+          navigate({ search: { ...rankingsFilterParams, category: value as Category } })
+        }
       >
         <SelectTrigger className="w-[120px]">
           <SelectValue>{capitalizeFirstChar(category)}</SelectValue>
@@ -70,7 +52,12 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
       <Separator orientation="vertical" className="mx-2" />
       Division:
       <Separator orientation="vertical" className="mx-1" />
-      <Select value={division} onValueChange={(value) => setDivision(value as Division)}>
+      <Select
+        value={division}
+        onValueChange={(value) =>
+          navigate({ search: { ...rankingsFilterParams, division: value as Division } })
+        }
+      >
         <SelectTrigger className="w-[120px]">
           <SelectValue>{capitalizeFirstChar(division)}</SelectValue>
         </SelectTrigger>
@@ -84,7 +71,12 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
       <Separator orientation="vertical" className="mx-2" />
       Seasons:
       <Separator orientation="vertical" className="mx-1" />
-      <Select value={seasons.from} onValueChange={(value) => setSeasons({ ...seasons, from: value })}>
+      <Select
+        value={seasons.from}
+        onValueChange={(value) =>
+          navigate({ search: { ...rankingsFilterParams, seasons: { ...seasons, from: value } } })
+        }
+      >
         <SelectTrigger className="w-[100px]">
           <SelectValue>{seasons.from}</SelectValue>
         </SelectTrigger>
@@ -101,7 +93,12 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
       <Separator orientation="vertical" className="mx-1" />
       to
       <Separator orientation="vertical" className="mx-1" />
-      <Select value={seasons.to} onValueChange={(value) => setSeasons({ ...seasons, to: value })}>
+      <Select
+        value={seasons.to}
+        onValueChange={(value) =>
+          navigate({ search: { ...rankingsFilterParams, seasons: { ...seasons, to: value } } })
+        }
+      >
         <SelectTrigger className="w-[100px]">
           <SelectValue>{seasons.to}</SelectValue>
         </SelectTrigger>
@@ -120,7 +117,12 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
         variant="link"
         className="px-1"
         onClick={() =>
-          setSeasons({ from: getCurrentYear.toString(), to: getCurrentYear.toString() } as TimePeriod)
+          navigate({
+            search: {
+              ...rankingsFilterParams,
+              seasons: { from: getCurrentYear.toString(), to: getCurrentYear.toString() } as TimePeriod,
+            },
+          })
         }
       >
         {getCurrentYear}
@@ -132,7 +134,14 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
           variant="outline"
           size="icon"
           className="ml-1"
-          onClick={() => setNumberOfResultsCountedToPointsTotal(numberOfResultsCountedToPointsTotal - 1)}
+          onClick={() =>
+            navigate({
+              search: {
+                ...rankingsFilterParams,
+                numberOfResultsCountedToPointsTotal: numberOfResultsCountedToPointsTotal - 1,
+              },
+            })
+          }
         >
           <ChevronLeftIcon className="h-4 w-4" />
         </Button>
@@ -140,14 +149,26 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({
           className="w-[50px] mx-1"
           value={numberOfResultsCountedToPointsTotal}
           onChange={(event) =>
-            setNumberOfResultsCountedToPointsTotal(event.target.value as unknown as number)
+            navigate({
+              search: {
+                ...rankingsFilterParams,
+                numberOfResultsCountedToPointsTotal: event.currentTarget.value,
+              },
+            })
           }
         ></Input>
         <Button
           variant="outline"
           size="icon"
           className="mr-1"
-          onClick={() => setNumberOfResultsCountedToPointsTotal(numberOfResultsCountedToPointsTotal + 1)}
+          onClick={() =>
+            navigate({
+              search: {
+                ...rankingsFilterParams,
+                numberOfResultsCountedToPointsTotal: numberOfResultsCountedToPointsTotal + 1,
+              },
+            })
+          }
         >
           <ChevronRightIcon className="h-4 w-4" />
         </Button>

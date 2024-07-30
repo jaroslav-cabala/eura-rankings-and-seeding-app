@@ -8,7 +8,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { UseRankingsFilterState, useRankingsFilterState } from "./useRankingsFilterState";
 import { DataTable } from "./DataTable/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
@@ -16,20 +15,20 @@ import React, { FC } from "react";
 import { SearchInput } from "./DataTable/SearchInput";
 import { Route as TeamRankingsRoute } from "@/routes/rankings/_layout.team";
 import { useSearch } from "@tanstack/react-router";
+import { RankingsFilterOptions } from "./settings";
 
 export const TeamRankings = () => {
   console.log("TeamRankings component");
-  const queryString = useSearch({ from: TeamRankingsRoute.id });
-  const rankingsState = useRankingsFilterState(queryString);
+  const rankingsFilterParams = useSearch({ from: TeamRankingsRoute.id });
   const {
     data: teams,
     loading: teamsLoading,
     error: teamsError,
   } = useGetRankedTeams({
-    category: rankingsState.category,
-    division: rankingsState.division,
-    numberOfResultsCountedToPointsTotal: rankingsState.numberOfResultsCountedToPointsTotal,
-    seasons: rankingsState.seasons,
+    category: rankingsFilterParams.category,
+    division: rankingsFilterParams.division,
+    numberOfResultsCountedToPointsTotal: rankingsFilterParams.numberOfResultsCountedToPointsTotal,
+    seasons: rankingsFilterParams.seasons,
   });
 
   const tableData: Array<TeamRankingsTableDataRow> = teams.map((team, index) => ({
@@ -50,15 +49,25 @@ export const TeamRankings = () => {
       </>
     );
   }
-  return <TeamRankingsComponent data={tableData} dataLoading={teamsLoading} filterState={rankingsState} />;
+  return (
+    <TeamRankingsComponent
+      data={tableData}
+      dataLoading={teamsLoading}
+      rankingsFilterParams={rankingsFilterParams}
+    />
+  );
 };
 
 type TeamRankingsComponentProps = {
   data: TeamRankingsTableDataRow[];
   dataLoading: boolean;
-  filterState: UseRankingsFilterState;
+  rankingsFilterParams: RankingsFilterOptions;
 };
-const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({ data, dataLoading, filterState }) => {
+const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({
+  data,
+  dataLoading,
+  rankingsFilterParams,
+}) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -76,7 +85,7 @@ const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({ data, dataLoadi
   });
   return (
     <>
-      <RankingsFilter rankingsFilterState={filterState} />
+      <RankingsFilter rankingsFilterParams={rankingsFilterParams} />
       <div className="w-1/2 mx-auto py-1">
         {dataLoading ? (
           <p>loading team rankings</p>
