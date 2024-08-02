@@ -49,7 +49,9 @@ export const useGetRankedPlayers = ({
       tournamentResults: player.tournamentResults,
     }));
 
-    const rankedPlayersSorted = rankedPlayersUnsorted.sort((playerA, playerB) => playerB.points - playerA.points)
+    const rankedPlayersSorted = rankedPlayersUnsorted.sort(
+      (playerA, playerB) => playerB.points - playerA.points
+    );
 
     return {
       data: rankedPlayersSorted,
