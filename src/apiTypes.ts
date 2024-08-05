@@ -1,11 +1,13 @@
-export interface RankedPlayer {
+import { Division } from "./domain";
+
+export type RankedPlayer = {
   id: string;
   uid: string;
   name: string;
   tournamentResults: RankedPlayerTournamentResult[];
-}
+};
 
-export interface RankedPlayerTournamentResult {
+export type RankedPlayerTournamentResult = {
   tournamentId: string;
   tournamentResultId: string;
   tournamentName: string;
@@ -13,32 +15,42 @@ export interface RankedPlayerTournamentResult {
   points: number;
   rank: number;
   team: Team;
-}
+  division: Division;
+};
 
-export interface Team {
+export type Team = {
   uid: string;
   name: string;
-}
+};
 
-export interface RankedTeam {
+export type RankedTeam = {
   id: string;
   uid: string;
   name: string;
   players: Player[];
   tournamentResults: RankedTeamTournamentResult[];
-}
+};
 
-export interface Player {
+export type Player = {
   id: string;
   uid: string;
   name: string;
-}
+};
 
-export interface RankedTeamTournamentResult {
+export type RankedTeamTournamentResult = {
   tournamentId: string;
   tournamentResultId: string;
   tournamentName: string;
   date: string;
   points: number;
   rank: number;
-}
+  division: Division;
+};
+
+export type RankedTournament = {
+  tournamentId: string;
+  tournamentResultId: string;
+  name: string;
+  date: string;
+  totalCount: number;
+};
