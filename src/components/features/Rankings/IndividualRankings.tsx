@@ -9,7 +9,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useGetRankedPlayers } from "@/hooks/useGetRankedPlayers";
-import { DataTable } from "./DataTable/DataTable";
+import { DataTable } from "../../ui/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
 import { SearchInput } from "./DataTable/SearchInput";
@@ -44,10 +44,11 @@ export const IndividualRankings = () => {
   if (playersError) {
     return (
       <>
-        <div className="container mx-auto">Error while loading player rankings</div>
+        <div className="container mx-auto">Error while fetching player rankings</div>
       </>
     );
   }
+
   return (
     <IndividualRankingsComponent
       data={tableData}

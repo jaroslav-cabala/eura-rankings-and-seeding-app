@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { DataTable } from "./DataTable/DataTable";
+import { DataTable } from "../../ui/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
 import React, { FC } from "react";
@@ -45,7 +45,7 @@ export const TeamRankings = () => {
   if (teamsError) {
     return (
       <>
-        <div className="container mx-auto">Error while loading team rankings</div>
+        <div className="w-1/2 container mx-auto py-1">Error while loading team rankings</div>
       </>
     );
   }
@@ -128,9 +128,7 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
   {
     id: "Team",
     accessorKey: "team.name",
-    header: ({ column }) => {
-      return SortingButton(column);
-    },
+    header: ({ column }) => SortingButton(column),
     cell: ({ row }) => {
       return (
         <>
@@ -145,9 +143,7 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
   {
     id: "Points",
     accessorKey: "points",
-    header: ({ column }) => {
-      return SortingButton(column);
-    },
+    header: ({ column }) => SortingButton(column),
     cell: ({ row }) => {
       return <ColumnSimpleValueWrapper>{row.getValue("Points")}</ColumnSimpleValueWrapper>;
     },
@@ -155,8 +151,6 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
   {
     id: "Tournaments Played",
     accessorKey: "tournamentsPlayed",
-    header: ({ column }) => {
-      return SortingButton(column);
-    },
+    header: ({ column }) => SortingButton(column),
   },
 ];
