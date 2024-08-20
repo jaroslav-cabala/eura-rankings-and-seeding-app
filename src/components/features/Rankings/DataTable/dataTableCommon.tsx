@@ -6,7 +6,7 @@ import { ArrowUpDown } from "lucide-react";
 export const SortingButton = <TData,>(column: Column<TData, unknown>) => {
   return (
     <Button
-      className="py-1 px-0 text-xs hover:bg-transparent"
+      className="py-1 px-0 text-sm"
       variant="ghost"
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
     >

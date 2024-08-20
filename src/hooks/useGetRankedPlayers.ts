@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { TimePeriod } from "@/utils";
 import { RankedPlayer, RankedPlayerTournamentResult } from "../apiTypes";
 import { Category, Division } from "../domain";
 import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
-import { useFetchJsonData } from "./useFetchData";
+import { useFetch } from "./useFetchData";
 import { createQueryString } from "./createQueryStringsContainingFilters";
 
 export type RankedPlayers = Array<{
@@ -35,34 +36,31 @@ export const useGetRankedPlayers = ({
   console.log(`useGetRankedPlayers hook, category=${category},division=${division},
     numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal},
     seasons={from=${seasons.from},to=${seasons.to}}`);
-  const queryString = createQueryString(division, seasons);
-  const { data, loading, error } = useFetchJsonData<Array<RankedPlayer>>(
-    `http:localhost:3001/rankings/${category}/players?${queryString}`
-  );
 
-  if (data && !loading && !error) {
-    const rankedPlayersUnsorted = data.map<RankedPlayers[number]>((player) => ({
+  const { fetch, data, loading, error } = useFetch<Array<RankedPlayer>>();
+
+  useEffect(() => {
+    const queryString = createQueryString(division, seasons);
+    fetch(`http:localhost:3001/rankings/${category}/players?${queryString}`);
+  }, [category, division, seasons, fetch]);
+
+  return {
+    data: sortPlayers(data, numberOfResultsCountedToPointsTotal),
+    loading,
+    error,
+  };
+};
+
+const sortPlayers = (
+  data: Array<RankedPlayer> | undefined,
+  numberOfResultsCountedToPointsTotal: number
+): RankedPlayers =>
+  data
+    ?.map<RankedPlayers[number]>((player) => ({
       playerId: player.id,
       playerUid: player.uid,
       name: player.name,
       points: getTotalPointsFromXBestResults(player.tournamentResults, numberOfResultsCountedToPointsTotal),
       tournamentResults: player.tournamentResults,
-    }));
-
-    const rankedPlayersSorted = rankedPlayersUnsorted.sort(
-      (playerA, playerB) => playerB.points - playerA.points
-    );
-
-    return {
-      data: rankedPlayersSorted,
-      loading,
-      error,
-    };
-  }
-
-  return {
-    data: [],
-    loading,
-    error,
-  };
-};
+    }))
+    .sort((playerA, playerB) => playerB.points - playerA.points) ?? [];

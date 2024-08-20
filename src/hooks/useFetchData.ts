@@ -1,37 +1,36 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 
-export type UseFetchJsonDataResult<T> = {
+export type UseFetchResult<T> = {
+  fetch: (url: string, requestInit?: RequestInit) => Promise<void>;
   data: T | undefined;
   loading: boolean;
   error: boolean;
 };
 
-export const useFetchJsonData = <T>(fetchUrl: string): UseFetchJsonDataResult<T> => {
+export const useFetch = <T>(): UseFetchResult<T> => {
   const [data, setData] = useState<T | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false);
-      setIsLoading(true);
+  const fetchData = useCallback(async (fetchUrl: string, requestInit?: RequestInit) => {
+    setIsError(false);
+    setIsLoading(true);
 
-      try {
-        const response = await fetch(new URL(fetchUrl));
-        const json: T = await response.json();
+    try {
+      // handle also cases when Response.OK is false
+      const response = await fetch(new URL(fetchUrl), requestInit);
+      const json: T = await response.json();
 
-        setData(json);
-      } catch (error) {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [fetchUrl]);
+      setData(json);
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   return {
+    fetch: fetchData,
     data,
     loading: isLoading,
     error: isError,

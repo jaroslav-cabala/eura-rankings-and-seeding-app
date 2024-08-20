@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
 import { Category, Division } from "../domain";
-import { useFetchJsonData } from "./useFetchData";
+import { useFetch } from "./useFetchData";
 import { Player, RankedTeam, RankedTeamTournamentResult } from "../apiTypes";
 import { TimePeriod } from "@/utils";
 import { createQueryString } from "./createQueryStringsContainingFilters";
@@ -12,7 +13,7 @@ export type RankedTeams = Array<{
   playerOne: Player;
   playerTwo: Player;
   points: number;
-  tournamentResults: Array<RankedTeamTournamentResult>
+  tournamentResults: Array<RankedTeamTournamentResult>;
 }>;
 
 export type GetRankedTeamsResult = {
@@ -32,38 +33,37 @@ export const useGetRankedTeams = ({
   category,
   division,
   numberOfResultsCountedToPointsTotal,
-  seasons, }: UseGetRankedTeamsProps): GetRankedTeamsResult => {
+  seasons,
+}: UseGetRankedTeamsProps): GetRankedTeamsResult => {
   console.log(`useGetRankedTeams hook, category=${category},division=${division},
     numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal},
     seasons={from=${seasons.from},to=${seasons.to}}`);
-  const queryString = createQueryString(division, seasons);
-  const { data, loading, error } = useFetchJsonData<Array<RankedTeam>>(
-    `http:localhost:3001/rankings/${category}/teams?${queryString}`
-  );
+  const { fetch, data, loading, error } = useFetch<Array<RankedTeam>>();
 
-  if (data && !loading && !error) {
-    const rankedTeamsUnsorted = data.map<RankedTeams[number]>((team) => ({
+  useEffect(() => {
+    const queryString = createQueryString(division, seasons);
+    fetch(`http:localhost:3001/rankings/${category}/teams?${queryString}`);
+  }, [category, division, seasons, fetch]);
+
+  return {
+    data: sortTeams(data, numberOfResultsCountedToPointsTotal),
+    loading,
+    error,
+  };
+};
+
+const sortTeams = (
+  data: Array<RankedTeam> | undefined,
+  numberOfResultsCountedToPointsTotal: number
+): RankedTeams =>
+  data
+    ?.map<RankedTeams[number]>((team) => ({
       teamId: team.id,
       teamUid: team.uid,
       name: team.name,
       playerOne: team.players[0],
       playerTwo: team.players[1],
       points: getTotalPointsFromXBestResults(team.tournamentResults, numberOfResultsCountedToPointsTotal),
-      tournamentResults: team.tournamentResults
-    }));
-
-    const rankedTeamsSorted = rankedTeamsUnsorted.sort((teamA, teamB) => teamB.points - teamA.points)
-
-    return {
-      data: rankedTeamsSorted,
-      loading,
-      error,
-    };
-  }
-
-  return {
-    data: [],
-    loading,
-    error,
-  };
-};
+      tournamentResults: team.tournamentResults,
+    }))
+    .sort((teamA, teamB) => teamB.points - teamA.points) ?? [];
