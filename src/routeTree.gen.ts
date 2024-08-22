@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as TournamentDrawIndexImport } from './routes/tournament-draw/index'
 import { Route as RankingsIndexImport } from './routes/rankings/index'
 import { Route as ManagementIndexImport } from './routes/management/index'
 import { Route as RankingsLayoutImport } from './routes/rankings/_layout'
@@ -23,7 +24,6 @@ import { Route as RankingsLayoutIndividualImport } from './routes/rankings/_layo
 // Create Virtual Routes
 
 const RankingsImport = createFileRoute('/rankings')()
-const TournamentDrawLazyImport = createFileRoute('/tournament-draw')()
 
 // Create/Update Routes
 
@@ -32,15 +32,13 @@ const RankingsRoute = RankingsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const TournamentDrawLazyRoute = TournamentDrawLazyImport.update({
-  path: '/tournament-draw',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/tournament-draw.lazy').then((d) => d.Route),
-)
-
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TournamentDrawIndexRoute = TournamentDrawIndexImport.update({
+  path: '/tournament-draw/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -77,10 +75,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/tournament-draw': {
-      preLoaderRoute: typeof TournamentDrawLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/rankings': {
       preLoaderRoute: typeof RankingsImport
       parentRoute: typeof rootRoute
@@ -97,6 +91,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RankingsIndexImport
       parentRoute: typeof RankingsImport
     }
+    '/tournament-draw/': {
+      preLoaderRoute: typeof TournamentDrawIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/rankings/_layout/individual': {
       preLoaderRoute: typeof RankingsLayoutIndividualImport
       parentRoute: typeof RankingsLayoutImport
@@ -112,7 +110,6 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  TournamentDrawLazyRoute,
   RankingsRoute.addChildren([
     RankingsLayoutRoute.addChildren([
       RankingsLayoutIndividualRoute,
@@ -121,6 +118,7 @@ export const routeTree = rootRoute.addChildren([
     RankingsIndexRoute,
   ]),
   ManagementIndexRoute,
+  TournamentDrawIndexRoute,
 ])
 
 /* prettier-ignore-end */

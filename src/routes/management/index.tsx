@@ -20,10 +20,10 @@ import { formatDate, getHrefToFwangoTournamentResult } from "@/utils";
 import { useGetTournaments } from "../../components/features/Management/useGetTournaments";
 
 export const Route = createFileRoute("/management/")({
-  component: Index,
+  component: Management,
 });
 
-function Index() {
+function Management() {
   console.log("Rankings data management component");
   const {
     data: dataStorage,
