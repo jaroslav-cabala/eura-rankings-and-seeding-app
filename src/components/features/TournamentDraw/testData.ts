@@ -1,4 +1,4 @@
-export const testData = [
+export const participatingTeamsMock = [
   {
     name: "Team",
     playerOne: {
@@ -385,5 +385,46 @@ export const testData = [
       points: 0,
     },
     points: 0,
+  },
+];
+
+export const tournamentsMock = [
+  {
+    id: "1",
+    name: "ETS Barcelona",
+    tournamentDraws: [
+      { id: "a", name: "Open Pro division" },
+      { id: "b", name: "Women Pro division" },
+      { id: "c", name: "Mixed Pro division" },
+    ],
+  },
+  {
+    id: "2",
+    name: "ETS Bologna",
+    tournamentDraws: [
+      { id: "a", name: "Open Contender division" },
+      { id: "b", name: "Open Pro division" },
+      { id: "c", name: "Women Pro division" },
+      { id: "d", name: "Mixed Pro division" },
+      { id: "e", name: "Mixed Advanced division" },
+    ],
+  },
+  {
+    id: "3",
+    name: "ETS Championships Vienna",
+    tournamentDraws: [
+      { id: "a", name: "Open Elite division" },
+      { id: "b", name: "Open Pro division" },
+      { id: "c", name: "Women Pro division" },
+      { id: "d", name: "Mixed Pro division" },
+      { id: "e", name: "Open Contender division" },
+      { id: "f", name: "Women Contender division" },
+      { id: "g", name: "Mixed Contender division" },
+    ],
+  },
+  {
+    id: "4",
+    name: "TEST ETS",
+    tournamentDraws: [{ id: "c", name: "Super duper division" }],
   },
 ];

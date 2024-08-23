@@ -5,13 +5,12 @@ import { GroupDrawSettings } from "./GroupDrawSettings";
 import { Groups } from "./Groups";
 import { drawGroups } from "./drawGroups";
 import { GroupDrawMethod, tournamentDrawDefaults } from "@/config";
-import { testData } from "./testData";
-import { fetchTeams } from "./fetchTeams";
-import { fetchPlayers } from "./fetchPlayers";
+import { fetchTeams, RankedTeams } from "./fetchTeams";
+import { fetchPlayers, RankedPlayers } from "./fetchPlayers";
 import { Button } from "@/components/ui/button";
 import { AddTeam } from "./AddTeam";
-import { Trash2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { SquarePlus, Trash2 } from "lucide-react";
+import { participatingTeamsMock, tournamentsMock } from "./testData";
 
 export type GroupStageSettings = {
   powerpools: boolean;
@@ -38,8 +37,16 @@ const groupStageSettingsDefault: GroupStageSettings = {
   groupDrawMethod: tournamentDrawDefaults.groupDrawMethod,
 };
 
+type Tournament = {
+  id: string;
+  name: string;
+  tournamentDraws: Array<{ id: string; name: string }>;
+};
+
 export const TournamentDraw = () => {
-  const [participatingTeams, setParticipatingTeams] = useState<Array<ParticipatingTeam>>(testData);
+  const [tournaments, setTournaments] = useState<Array<Tournament>>(tournamentsMock);
+  const [participatingTeams, setParticipatingTeams] =
+    useState<Array<ParticipatingTeam>>(participatingTeamsMock);
   // const [chosenFileName, setChosenFileName] = useState("No file chosen");
   const [groupStageSettings, setGroupStageSettings] = useState<GroupStageSettings>({
     ...groupStageSettingsDefault,
@@ -74,56 +81,11 @@ export const TournamentDraw = () => {
         });
       }
 
-      const _participatingTeams: Array<ParticipatingTeam> = [];
-      for (const importedTeam of importedTeams) {
-        const existingTeam = rankedTeams.find(
-          (team) =>
-            team.name === importedTeam.name &&
-            (team.playerOne.name === importedTeam.playerOne ||
-              team.playerOne.name === importedTeam.playerTwo) &&
-            (team.playerTwo.name === importedTeam.playerOne || team.playerTwo.name === importedTeam.playerTwo)
-        );
-
-        if (existingTeam) {
-          const existingPlayerOne = rankedPlayers.find((player) => player.name === importedTeam.playerOne);
-          const existingPlayerTwo = rankedPlayers.find((player) => player.name === importedTeam.playerTwo);
-
-          _participatingTeams.push({
-            id: existingTeam.teamUid,
-            name: existingTeam.name,
-            playerOne: { ...existingTeam.playerOne, points: existingPlayerOne?.points ?? 0 },
-            playerTwo: { ...existingTeam.playerTwo, points: existingPlayerTwo?.points ?? 0 },
-            points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
-          });
-          continue; // team is found in the ranked teams, take the next team
-        }
-
-        // team is not found in the ranked teams, it is a new team.
-        // But the players might be ranked so we need to look for them
-        const existingPlayerOne = rankedPlayers.find((player) => player.name === importedTeam.playerOne);
-        const existingPlayerTwo = rankedPlayers.find((player) => player.name === importedTeam.playerTwo);
-
-        _participatingTeams.push({
-          name: importedTeam.name,
-          playerOne: existingPlayerOne
-            ? {
-                name: existingPlayerOne.name,
-                id: existingPlayerOne.playerId,
-                uid: existingPlayerOne.playerUid,
-                points: existingPlayerOne.points,
-              }
-            : { name: importedTeam.playerOne, id: "", uid: "", points: 0 },
-          playerTwo: existingPlayerTwo
-            ? {
-                name: existingPlayerTwo.name,
-                id: existingPlayerTwo.playerId,
-                uid: existingPlayerTwo.playerUid,
-                points: existingPlayerTwo.points,
-              }
-            : { name: importedTeam.playerTwo, id: "", uid: "", points: 0 },
-          points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
-        });
-      }
+      const _participatingTeams: Array<ParticipatingTeam> = createPArticipatingTeamsFromImportedData(
+        importedTeams,
+        rankedTeams,
+        rankedPlayers
+      );
 
       setParticipatingTeams(_participatingTeams);
     } else {
@@ -138,30 +100,27 @@ export const TournamentDraw = () => {
     setParticipatingTeams([]);
   };
 
-  // const addTeamToTheTournament = (
-  //   teamName: string,
-  //   playerOne: Player,
-  //   playerTwo: Player,
-  //   points: number,
-  //   teamId?: string
-  // ): void => {
-  //   setParticipatingTeams((teams) => [
-  //     ...teams,
-  //     { id: teamId, name: teamName, playerOne, playerTwo, points },
-  //   ]);
-  // };
+  const createNewTournament = (): void => {
+    setTournaments([{ id: "newId", name: "new tournament 1", tournamentDraws: [] }, ...tournaments]);
+  };
 
   return (
-    <section id="tournament-draw-content">
-      <section id="tournament-draws">
-        <Input placeholder="Tournament name" />
-        <Button className="">Create tournament</Button>
-        <p className="title py-4">Tournaments</p>
-        <div id="tournament-name">ETS Barcelona</div>
-        <div id="tournament-name">ETS Bologna</div>
-        <div id="tournament-name">ETS Leuven</div>
-        <div id="tournament-name">ETS Bern</div>
-        <div id="tournament-name">ETS Helsinki</div>
+    <section id="tournament-content">
+      <section id="tournaments">
+        <p className="title py-4 text-white">Tournaments</p>
+        <Button variant="outline" className="w-full mb-2 py-1.5 px-3" onClick={createNewTournament}>
+          <SquarePlus className="mr-2" /> Create new
+        </Button>
+        {tournaments.map((t) => (
+          <div id="tournament">
+            <div key={t.id} id="tournament-name">
+              {t.name}
+            </div>
+            {t.tournamentDraws.map((td) => (
+              <div id="tournament-draw">{td.name}</div>
+            ))}
+          </div>
+        ))}
       </section>
       <section className="tournament-draw">
         <div className="tournament-teams">
@@ -173,6 +132,14 @@ export const TournamentDraw = () => {
             }}
           >
             Reset
+          </Button>
+          <Button
+            className="mb-2 ml-2"
+            // onClick={() => {
+            //   saveTournamentDraw();
+            // }}
+          >
+            Save
           </Button>
           <div className="import-teams mb-2">
             <input
@@ -225,4 +192,61 @@ export const TournamentDraw = () => {
       </section>
     </section>
   );
+};
+
+const createPArticipatingTeamsFromImportedData = (
+  importedTeams: { name: string; playerOne: string; playerTwo: string }[],
+  rankedTeams: RankedTeams,
+  rankedPlayers: RankedPlayers
+) => {
+  const _participatingTeams: Array<ParticipatingTeam> = [];
+  for (const importedTeam of importedTeams) {
+    const existingTeam = rankedTeams.find(
+      (team) =>
+        team.name === importedTeam.name &&
+        (team.playerOne.name === importedTeam.playerOne || team.playerOne.name === importedTeam.playerTwo) &&
+        (team.playerTwo.name === importedTeam.playerOne || team.playerTwo.name === importedTeam.playerTwo)
+    );
+
+    if (existingTeam) {
+      const existingPlayerOne = rankedPlayers.find((player) => player.name === importedTeam.playerOne);
+      const existingPlayerTwo = rankedPlayers.find((player) => player.name === importedTeam.playerTwo);
+
+      _participatingTeams.push({
+        id: existingTeam.teamUid,
+        name: existingTeam.name,
+        playerOne: { ...existingTeam.playerOne, points: existingPlayerOne?.points ?? 0 },
+        playerTwo: { ...existingTeam.playerTwo, points: existingPlayerTwo?.points ?? 0 },
+        points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
+      });
+      continue; // team is found in the ranked teams, take the next team
+    }
+
+    // team is not found in the ranked teams, it is a new team.
+    // But the players might be ranked so we need to look for them
+    const existingPlayerOne = rankedPlayers.find((player) => player.name === importedTeam.playerOne);
+    const existingPlayerTwo = rankedPlayers.find((player) => player.name === importedTeam.playerTwo);
+
+    _participatingTeams.push({
+      name: importedTeam.name,
+      playerOne: existingPlayerOne
+        ? {
+            name: existingPlayerOne.name,
+            id: existingPlayerOne.playerId,
+            uid: existingPlayerOne.playerUid,
+            points: existingPlayerOne.points,
+          }
+        : { name: importedTeam.playerOne, id: "", uid: "", points: 0 },
+      playerTwo: existingPlayerTwo
+        ? {
+            name: existingPlayerTwo.name,
+            id: existingPlayerTwo.playerId,
+            uid: existingPlayerTwo.playerUid,
+            points: existingPlayerTwo.points,
+          }
+        : { name: importedTeam.playerTwo, id: "", uid: "", points: 0 },
+      points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
+    });
+  }
+  return _participatingTeams;
 };

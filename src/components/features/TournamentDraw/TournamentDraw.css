@@ -4,7 +4,7 @@ article.container {
   column-gap: 1rem;
 }
 
-#tournament-draw-content {
+#tournament-content {
   padding: 0.5rem 0.5rem 0 0;
   display: flex;
   gap: 1.5rem;
@@ -12,23 +12,39 @@ article.container {
   min-width: 600px;
 }
 
-#tournament-draws {
+#tournaments {
   min-width: 300px;
   max-width: 375px;
-  background-color: rgb(192 197 203);
+  background-color: hsl(var(--primary));
   border-top-right-radius: 6px;
   padding: 0.5rem 0.5rem;
 }
 
-#tournament-draws div#tournament-name {
+#tournaments div#tournament {
+  margin-bottom: 0.5rem;
+}
+
+#tournaments #tournament #tournament-name {
   border-radius: 6px;
   padding: 0.375rem 0.75rem;
   font-weight: 500;
   background-color: white;
 }
 
-#tournament-draws div#tournament-name:not(:last-child) {
+#tournaments #tournament #tournament-name:not(:last-child) {
   margin-bottom: 0.5rem;
+}
+
+#tournaments #tournament #tournament-draw {
+  border-radius: 6px;
+  padding: 0.1rem 0.75rem;
+  background-color: white;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#tournaments #tournament #tournament-draw:not(:last-child) {
+  margin-bottom: 0.25rem;
 }
 
 section.tournament-draw {
