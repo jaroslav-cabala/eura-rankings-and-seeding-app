@@ -1,4 +1,4 @@
-import { RankedPlayer } from "./hooks/types";
+import { RankedPlayer } from "./api/types";
 
 export const rankedPlayers: Array<RankedPlayer> = [
   {
@@ -15,8 +15,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
+          name: "Eisenträger/Siemer",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -27,8 +27,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
+          name: "Eisenträger/Siemer",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -39,8 +39,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
+          name: "Eisenträger/Siemer",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -51,10 +51,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
-      }
-    ]
+          name: "Eisenträger/Siemer",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca6176",
@@ -70,8 +70,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
+          name: "Eisenträger/Siemer",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -82,8 +82,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
+          name: "Eisenträger/Siemer",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -94,8 +94,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
+          name: "Eisenträger/Siemer",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -106,10 +106,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "9Q3p4fdR2GOhKTx9U9YZ",
-          name: "Eisenträger/Siemer"
-        }
-      }
-    ]
+          name: "Eisenträger/Siemer",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94ed",
@@ -125,8 +125,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "f4RQyKITCX5K1MMc8fz5",
-          name: "Zwaffle everyone"
-        }
+          name: "Zwaffle everyone",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -137,8 +137,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "K0MGid2Ruqic8bmlvgbT",
-          name: "Clarké au floor"
-        }
+          name: "Clarké au floor",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -149,8 +149,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "Xa3GC8XUOzV95EehVUcT",
-          name: "Pour Combien ?"
-        }
+          name: "Pour Combien ?",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -161,8 +161,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "Xa3GC8XUOzV95EehVUcT",
-          name: "Pour Combien ?"
-        }
+          name: "Pour Combien ?",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -173,8 +173,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "y91DK92FuWo93LErQEdA",
-          name: "Machine slayers"
-        }
+          name: "Machine slayers",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -185,10 +185,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "Xa3GC8XUOzV95EehVUcT",
-          name: "Pour Combien ?"
-        }
-      }
-    ]
+          name: "Pour Combien ?",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94ee",
@@ -204,8 +204,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "f4RQyKITCX5K1MMc8fz5",
-          name: "Zwaffle everyone"
-        }
+          name: "Zwaffle everyone",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -216,8 +216,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "R7q4uCUDUXr9Eia0NXB5",
-          name: "Hustling Brothers"
-        }
+          name: "Hustling Brothers",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -228,8 +228,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "d2D8cjXinO9CLNdwZYT8",
-          name: "Les Machiines"
-        }
+          name: "Les Machiines",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -240,8 +240,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "R7q4uCUDUXr9Eia0NXB5",
-          name: "Hustling Brothers"
-        }
+          name: "Hustling Brothers",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -252,10 +252,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "R7q4uCUDUXr9Eia0NXB5",
-          name: "Hustling Brothers"
-        }
-      }
-    ]
+          name: "Hustling Brothers",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce981d",
@@ -271,8 +271,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "WLEkxiZe8avglRhSC8PU",
-          name: "Bürkle/Hinkle"
-        }
+          name: "Bürkle/Hinkle",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -283,10 +283,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "iFeFLMK6zPcY7N5jtOjw",
-          name: "Those Roundnet Players"
-        }
-      }
-    ]
+          name: "Those Roundnet Players",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94f1",
@@ -302,8 +302,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -314,8 +314,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -326,8 +326,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -338,8 +338,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "jIncPzjp05hiaS5pRGB0",
-          name: "Jan & Nel"
-        }
+          name: "Jan & Nel",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -350,8 +350,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -362,10 +362,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 29,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
-      }
-    ]
+          name: "Never Cold🌡️",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9518",
@@ -381,8 +381,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -393,8 +393,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -405,8 +405,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -417,8 +417,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "jIncPzjp05hiaS5pRGB0",
-          name: "Jan & Nel"
-        }
+          name: "Jan & Nel",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -429,8 +429,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -441,10 +441,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
-      }
-    ]
+          name: "RCG Powerline",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94f0",
@@ -460,8 +460,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -472,8 +472,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -484,8 +484,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -496,8 +496,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
+          name: "Never Cold🌡️",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -508,10 +508,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 29,
         team: {
           uid: "WgIQj6tQTCrHHpn8V9vR",
-          name: "Never Cold🌡️"
-        }
-      }
-    ]
+          name: "Never Cold🌡️",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9517",
@@ -527,8 +527,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -539,8 +539,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -551,8 +551,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -563,8 +563,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
+          name: "RCG Powerline",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -575,10 +575,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "5fKNJPqUfjYLtMD4tSti",
-          name: "RCG Powerline"
-        }
-      }
-    ]
+          name: "RCG Powerline",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca617d",
@@ -594,8 +594,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "R7q4uCUDUXr9Eia0NXB5",
-          name: "Hustling Brothers"
-        }
+          name: "Hustling Brothers",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -606,8 +606,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "R7q4uCUDUXr9Eia0NXB5",
-          name: "Hustling Brothers"
-        }
+          name: "Hustling Brothers",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -618,8 +618,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "R7q4uCUDUXr9Eia0NXB5",
-          name: "Hustling Brothers"
-        }
+          name: "Hustling Brothers",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -630,8 +630,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "y91DK92FuWo93LErQEdA",
-          name: "Machine slayers"
-        }
+          name: "Machine slayers",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -642,10 +642,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "N4K4u6WXyNG41zS9C7fz",
-          name: "Twinzz"
-        }
-      }
-    ]
+          name: "Twinzz",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca617a",
@@ -661,8 +661,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "sV3MDs4u8IuECHIHv8sC",
-          name: "Lacombe/Chapelière"
-        }
+          name: "Lacombe/Chapelière",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -673,8 +673,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "7TWB0TNl8tLnY2rk3WVE",
-          name: "Hors Services"
-        }
+          name: "Hors Services",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -685,8 +685,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "sV3MDs4u8IuECHIHv8sC",
-          name: "Lacombe/Chapelière"
-        }
+          name: "Lacombe/Chapelière",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -697,10 +697,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "r0pV9SoJNCas6btblaTj",
-          name: "Lacombe/Chapelière"
-        }
-      }
-    ]
+          name: "Lacombe/Chapelière",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a950b",
@@ -716,8 +716,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "j4QoH81ugYPjaXvUqG5a",
-          name: "RCB Drü"
-        }
+          name: "RCB Drü",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -728,8 +728,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "j4QoH81ugYPjaXvUqG5a",
-          name: "RCB Drü"
-        }
+          name: "RCB Drü",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -740,8 +740,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "j4QoH81ugYPjaXvUqG5a",
-          name: "RCB Drü"
-        }
+          name: "RCB Drü",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -752,10 +752,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "Yc1lQV4pxFDZv2Sht2O8",
-          name: "Merlor & Bird"
-        }
-      }
-    ]
+          name: "Merlor & Bird",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca6179",
@@ -771,8 +771,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "sV3MDs4u8IuECHIHv8sC",
-          name: "Lacombe/Chapelière"
-        }
+          name: "Lacombe/Chapelière",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -783,8 +783,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "sV3MDs4u8IuECHIHv8sC",
-          name: "Lacombe/Chapelière"
-        }
+          name: "Lacombe/Chapelière",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -795,8 +795,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "r0pV9SoJNCas6btblaTj",
-          name: "Lacombe/Chapelière"
-        }
+          name: "Lacombe/Chapelière",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -807,10 +807,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "uUD7jn6WmVQTHteDDqhk",
-          name: "Roundnet Orléans "
-        }
-      }
-    ]
+          name: "Roundnet Orléans ",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a950c",
@@ -826,8 +826,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "j4QoH81ugYPjaXvUqG5a",
-          name: "RCB Drü"
-        }
+          name: "RCB Drü",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -838,8 +838,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "j4QoH81ugYPjaXvUqG5a",
-          name: "RCB Drü"
-        }
+          name: "RCB Drü",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -850,10 +850,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "j4QoH81ugYPjaXvUqG5a",
-          name: "RCB Drü"
-        }
-      }
-    ]
+          name: "RCB Drü",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9535",
@@ -869,8 +869,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "WLEkxiZe8avglRhSC8PU",
-          name: "Bürkle/Hinkle"
-        }
+          name: "Bürkle/Hinkle",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -881,10 +881,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 25,
         team: {
           uid: "sRDIcfl57sYrv2ktv0fu",
-          name: "Bürkle/Kandula"
-        }
-      }
-    ]
+          name: "Bürkle/Kandula",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9500",
@@ -900,8 +900,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -912,8 +912,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -924,8 +924,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -936,8 +936,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "vM7MpXfk6KAJrEI9OlkN",
-          name: "Cedric & Julian"
-        }
+          name: "Cedric & Julian",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -948,8 +948,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -960,10 +960,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 20,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
-      }
-    ]
+          name: "Hokus Boom",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94f3",
@@ -979,8 +979,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "I0kjcxKHcdXP5ekHNj1R",
-          name: " Paindrops"
-        }
+          name: " Paindrops",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -991,8 +991,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "I0kjcxKHcdXP5ekHNj1R",
-          name: " Paindrops"
-        }
+          name: " Paindrops",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -1003,8 +1003,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "8XyCzpIhtr5QZYTVjiFc",
-          name: "Future Burnouts"
-        }
+          name: "Future Burnouts",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1015,8 +1015,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 16,
         team: {
           uid: "voowwR6bsiBGdRZootkv",
-          name: "Babbel Boys"
-        }
+          name: "Babbel Boys",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1027,10 +1027,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 20,
         team: {
           uid: "8XyCzpIhtr5QZYTVjiFc",
-          name: "Future Burnouts"
-        }
-      }
-    ]
+          name: "Future Burnouts",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9514",
@@ -1046,8 +1046,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "iFeFLMK6zPcY7N5jtOjw",
-          name: "Those Roundnet Players"
-        }
+          name: "Those Roundnet Players",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1058,8 +1058,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "A7qgHiHVXNo0exrZlvkM",
-          name: "Scott/Wout"
-        }
+          name: "Scott/Wout",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1070,10 +1070,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "iVpmVLRYwXvAg0jZixdW",
-          name: "Beeks/Elbourne"
-        }
-      }
-    ]
+          name: "Beeks/Elbourne",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a951e",
@@ -1089,8 +1089,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "ZtdXNvMWgCVc4LkCPzpx",
-          name: "Kandula/Visek"
-        }
+          name: "Kandula/Visek",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1101,8 +1101,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "ZtdXNvMWgCVc4LkCPzpx",
-          name: "Kandula/Visek"
-        }
+          name: "Kandula/Visek",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1113,8 +1113,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "25eY8oZtvpfn3jayTZBz",
-          name: "UnderDAWGS"
-        }
+          name: "UnderDAWGS",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1125,10 +1125,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "tJ3xg41s2xDKLQCArF5M",
-          name: "Kuba/Frederik"
-        }
-      }
-    ]
+          name: "Kuba/Frederik",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca618c",
@@ -1144,8 +1144,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1156,8 +1156,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -1168,8 +1168,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1180,8 +1180,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
+          name: "Hokus Boom",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1192,10 +1192,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 20,
         team: {
           uid: "hN9DhDX6pOuYYehvltS6",
-          name: "Hokus Boom"
-        }
-      }
-    ]
+          name: "Hokus Boom",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9536",
@@ -1211,8 +1211,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "ZtdXNvMWgCVc4LkCPzpx",
-          name: "Kandula/Visek"
-        }
+          name: "Kandula/Visek",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1223,8 +1223,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "ZtdXNvMWgCVc4LkCPzpx",
-          name: "Kandula/Visek"
-        }
+          name: "Kandula/Visek",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1235,10 +1235,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 25,
         team: {
           uid: "sRDIcfl57sYrv2ktv0fu",
-          name: "Bürkle/Kandula"
-        }
-      }
-    ]
+          name: "Bürkle/Kandula",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a951a",
@@ -1254,8 +1254,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1266,8 +1266,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -1278,8 +1278,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "N4K4u6WXyNG41zS9C7fz",
-          name: "Twinzz"
-        }
+          name: "Twinzz",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1290,8 +1290,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 16,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1302,8 +1302,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1314,10 +1314,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 24,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
-      }
-    ]
+          name: "nerds in disguise",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9506",
@@ -1333,8 +1333,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
+          name: "RBZ Capri Sons",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1345,8 +1345,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
+          name: "RBZ Capri Sons",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1357,8 +1357,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
+          name: "RBZ Capri Sons",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1369,10 +1369,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
-      }
-    ]
+          name: "RBZ Capri Sons",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9505",
@@ -1388,8 +1388,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
+          name: "RBZ Capri Sons",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1400,8 +1400,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
+          name: "RBZ Capri Sons",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1412,8 +1412,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
+          name: "RBZ Capri Sons",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1424,10 +1424,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "bd8Q62OC33F22AUEBhVT",
-          name: "RBZ Capri Sons"
-        }
-      }
-    ]
+          name: "RBZ Capri Sons",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9523",
@@ -1443,8 +1443,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "MNZ3W4zqs8JPBua5Nx1D",
-          name: "Pilon/Sandoz"
-        }
+          name: "Pilon/Sandoz",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1455,8 +1455,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "uUD7jn6WmVQTHteDDqhk",
-          name: "Roundnet Orléans "
-        }
+          name: "Roundnet Orléans ",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1467,8 +1467,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "t1jauKxEvNUenpGtdN35",
-          name: "AS TELGRUC"
-        }
+          name: "AS TELGRUC",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1479,8 +1479,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "TQ9qCILKGulKOf3MzhHp",
-          name: "Pas Toucheyyy"
-        }
+          name: "Pas Toucheyyy",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1491,10 +1491,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 26,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
-      }
-    ]
+          name: "Pierre Feuille Victor",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94f7",
@@ -1510,8 +1510,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "0gnoCKJm9i9NktEp78kI",
-          name: "Rainbow Warriors"
-        }
+          name: "Rainbow Warriors",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1522,8 +1522,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "HPgVieQjt3s1cVlZJlkc",
-          name: "Pump up the Jam"
-        }
+          name: "Pump up the Jam",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1534,10 +1534,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "0gnoCKJm9i9NktEp78kI",
-          name: "Rainbow Warriors"
-        }
-      }
-    ]
+          name: "Rainbow Warriors",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94fa",
@@ -1553,8 +1553,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "xKvxsfjmX0GsingQcm1v",
-          name: "[SUI] Rimle/Peter"
-        }
+          name: "[SUI] Rimle/Peter",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1565,8 +1565,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "xKvxsfjmX0GsingQcm1v",
-          name: "[SUI] Rimle/Peter"
-        }
+          name: "[SUI] Rimle/Peter",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1577,10 +1577,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "xKvxsfjmX0GsingQcm1v",
-          name: "[SUI] Rimle/Peter"
-        }
-      }
-    ]
+          name: "[SUI] Rimle/Peter",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94f9",
@@ -1596,8 +1596,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "xKvxsfjmX0GsingQcm1v",
-          name: "[SUI] Rimle/Peter"
-        }
+          name: "[SUI] Rimle/Peter",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1608,8 +1608,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "xKvxsfjmX0GsingQcm1v",
-          name: "[SUI] Rimle/Peter"
-        }
+          name: "[SUI] Rimle/Peter",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1620,10 +1620,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "xKvxsfjmX0GsingQcm1v",
-          name: "[SUI] Rimle/Peter"
-        }
-      }
-    ]
+          name: "[SUI] Rimle/Peter",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94f4",
@@ -1639,8 +1639,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "I0kjcxKHcdXP5ekHNj1R",
-          name: " Paindrops"
-        }
+          name: " Paindrops",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -1651,10 +1651,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "I0kjcxKHcdXP5ekHNj1R",
-          name: " Paindrops"
-        }
-      }
-    ]
+          name: " Paindrops",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8746",
@@ -1670,10 +1670,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "K0MGid2Ruqic8bmlvgbT",
-          name: "Clarké au floor"
-        }
-      }
-    ]
+          name: "Clarké au floor",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a951b",
@@ -1689,8 +1689,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1701,8 +1701,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1713,8 +1713,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 16,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1725,8 +1725,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
+          name: "nerds in disguise",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1737,10 +1737,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 24,
         team: {
           uid: "WxOXdf5ahsQcCLXqGjyc",
-          name: "nerds in disguise"
-        }
-      }
-    ]
+          name: "nerds in disguise",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94ff",
@@ -1756,8 +1756,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "ZN1AxS3dRUC8o31Jg6QF",
-          name: "JulJan"
-        }
+          name: "JulJan",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1768,8 +1768,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "vM7MpXfk6KAJrEI9OlkN",
-          name: "Cedric & Julian"
-        }
+          name: "Cedric & Julian",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1780,10 +1780,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "ZN1AxS3dRUC8o31Jg6QF",
-          name: "JulJan"
-        }
-      }
-    ]
+          name: "JulJan",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9509",
@@ -1799,8 +1799,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
+          name: "RCB Spikeleeks",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1811,8 +1811,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
+          name: "RCB Spikeleeks",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1823,8 +1823,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
+          name: "RCB Spikeleeks",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1835,10 +1835,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
-      }
-    ]
+          name: "RCB Spikeleeks",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9508",
@@ -1854,8 +1854,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
+          name: "RCB Spikeleeks",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1866,8 +1866,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
+          name: "RCB Spikeleeks",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1878,8 +1878,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
+          name: "RCB Spikeleeks",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1890,10 +1890,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "gqinDYsAW57CyTba638O",
-          name: "RCB Spikeleeks"
-        }
-      }
-    ]
+          name: "RCB Spikeleeks",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca6183",
@@ -1909,8 +1909,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "Xa3GC8XUOzV95EehVUcT",
-          name: "Pour Combien ?"
-        }
+          name: "Pour Combien ?",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1921,10 +1921,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "Xa3GC8XUOzV95EehVUcT",
-          name: "Pour Combien ?"
-        }
-      }
-    ]
+          name: "Pour Combien ?",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9526",
@@ -1940,8 +1940,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
+          name: "Pierre Feuille Victor",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -1952,8 +1952,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
+          name: "Pierre Feuille Victor",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -1964,8 +1964,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
+          name: "Pierre Feuille Victor",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -1976,8 +1976,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 20,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
+          name: "Pierre Feuille Victor",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -1988,10 +1988,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 26,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
-      }
-    ]
+          name: "Pierre Feuille Victor",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9503",
@@ -2007,8 +2007,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "HPgVieQjt3s1cVlZJlkc",
-          name: "Pump up the Jam"
-        }
+          name: "Pump up the Jam",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2019,8 +2019,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "LlrW7fJcqO7xbYrKq0By",
-          name: "Stadtaffen"
-        }
+          name: "Stadtaffen",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -2031,10 +2031,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "LlrW7fJcqO7xbYrKq0By",
-          name: "Stadtaffen"
-        }
-      }
-    ]
+          name: "Stadtaffen",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c6611",
@@ -2050,8 +2050,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "d2D8cjXinO9CLNdwZYT8",
-          name: "Les Machiines"
-        }
+          name: "Les Machiines",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2062,10 +2062,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "Xa3GC8XUOzV95EehVUcT",
-          name: "Pour Combien ?"
-        }
-      }
-    ]
+          name: "Pour Combien ?",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9515",
@@ -2081,8 +2081,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "h8LTapy7JnoCd5oK0Yeq",
-          name: "Elbourne/Hatas"
-        }
+          name: "Elbourne/Hatas",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2093,8 +2093,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "iVpmVLRYwXvAg0jZixdW",
-          name: "Beeks/Elbourne"
-        }
+          name: "Beeks/Elbourne",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -2105,8 +2105,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "P278i55uNxorYRfHFxX5",
-          name: "Elbourne/Lim"
-        }
+          name: "Elbourne/Lim",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2117,10 +2117,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 16,
         team: {
           uid: "fZ6eEcWe6cojj5HCZGQ9",
-          name: "GBR - ELBOURNE / COOK"
-        }
-      }
-    ]
+          name: "GBR - ELBOURNE / COOK",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9527",
@@ -2136,8 +2136,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
+          name: "Pierre Feuille Victor",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -2148,8 +2148,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
+          name: "Pierre Feuille Victor",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -2160,8 +2160,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
+          name: "Pierre Feuille Victor",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2172,10 +2172,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 20,
         team: {
           uid: "oYVFl8iMtSQf8iWNlW8A",
-          name: "Pierre Feuille Victor"
-        }
-      }
-    ]
+          name: "Pierre Feuille Victor",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94fc",
@@ -2191,8 +2191,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "oq2uXgHpnUL9xmpaaGPm",
-          name: "Czech this swede"
-        }
+          name: "Czech this swede",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -2203,8 +2203,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "hKTs1iAKXuIziM591Gff",
-          name: "Future Commando"
-        }
+          name: "Future Commando",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2215,10 +2215,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "Ub21igq22YSbW5DWudzC",
-          name: "Double O steal your hoe"
-        }
-      }
-    ]
+          name: "Double O steal your hoe",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94f6",
@@ -2234,8 +2234,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "0gnoCKJm9i9NktEp78kI",
-          name: "Rainbow Warriors"
-        }
+          name: "Rainbow Warriors",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2246,10 +2246,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "0gnoCKJm9i9NktEp78kI",
-          name: "Rainbow Warriors"
-        }
-      }
-    ]
+          name: "Rainbow Warriors",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9520",
@@ -2265,8 +2265,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "mOsFpQRDCYKzbJHjKGvF",
-          name: "LTTL RNDNT"
-        }
+          name: "LTTL RNDNT",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -2277,8 +2277,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "DfavGOnj0tl2wAlhTUq5",
-          name: "Tapken/Von Hänisch"
-        }
+          name: "Tapken/Von Hänisch",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2289,8 +2289,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "mOsFpQRDCYKzbJHjKGvF",
-          name: "LTTL RNDNT"
-        }
+          name: "LTTL RNDNT",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2301,10 +2301,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 21,
         team: {
           uid: "mOsFpQRDCYKzbJHjKGvF",
-          name: "LTTL RNDNT"
-        }
-      }
-    ]
+          name: "LTTL RNDNT",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a94fd",
@@ -2320,8 +2320,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "oq2uXgHpnUL9xmpaaGPm",
-          name: "Czech this swede"
-        }
+          name: "Czech this swede",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -2332,8 +2332,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "ISA4JLElABknU5xMVKWd",
-          name: "TWO SWEDES"
-        }
+          name: "TWO SWEDES",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2344,10 +2344,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "bZ25MVJyBxGvIdTKq3rD",
-          name: "One Swedish Machine"
-        }
-      }
-    ]
+          name: "One Swedish Machine",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a951d",
@@ -2363,8 +2363,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "oE1jKGHpywe0FKicLvA9",
-          name: "Fré-vor"
-        }
+          name: "Fré-vor",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -2375,8 +2375,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "8dBRuCDq6F5uuCVYDGGN",
-          name: "Perplexing Zwambo"
-        }
+          name: "Perplexing Zwambo",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -2387,8 +2387,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "Rl5vY1kCzo2ZduMbBIVG",
-          name: "Curtain Call"
-        }
+          name: "Curtain Call",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2399,10 +2399,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "tJ3xg41s2xDKLQCArF5M",
-          name: "Kuba/Frederik"
-        }
-      }
-    ]
+          name: "Kuba/Frederik",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca6188",
@@ -2418,8 +2418,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "SYhMaJSk6nKgJylSuUsx",
-          name: "Fred Potter"
-        }
+          name: "Fred Potter",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2430,8 +2430,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "SYhMaJSk6nKgJylSuUsx",
-          name: "Fred Potter"
-        }
+          name: "Fred Potter",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -2442,10 +2442,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "sT1aQGvmjgweTQJPuoF5",
-          name: "Erik/Marco"
-        }
-      }
-    ]
+          name: "Erik/Marco",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca6187",
@@ -2461,8 +2461,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "SYhMaJSk6nKgJylSuUsx",
-          name: "Fred Potter"
-        }
+          name: "Fred Potter",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2473,8 +2473,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "SYhMaJSk6nKgJylSuUsx",
-          name: "Fred Potter"
-        }
+          name: "Fred Potter",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -2485,10 +2485,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "sT1aQGvmjgweTQJPuoF5",
-          name: "Erik/Marco"
-        }
-      }
-    ]
+          name: "Erik/Marco",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce9831",
@@ -2504,8 +2504,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "i6hcDMZHsl3g4BiE2fj4",
-          name: "Smile"
-        }
+          name: "Smile",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2516,8 +2516,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "8YPdR0EnwJ7xWd9EkwUY",
-          name: "Jonas/Stoisser"
-        }
+          name: "Jonas/Stoisser",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -2528,10 +2528,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "C43BsLTXnvVJ8XhPS1FJ",
-          name: "Never too late"
-        }
-      }
-    ]
+          name: "Never too late",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8749",
@@ -2547,10 +2547,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "JMKRC7dDKrK0PsXhiI6g",
-          name: "Willy Wonka"
-        }
-      }
-    ]
+          name: "Willy Wonka",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8748",
@@ -2566,10 +2566,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "JMKRC7dDKrK0PsXhiI6g",
-          name: "Willy Wonka"
-        }
-      }
-    ]
+          name: "Willy Wonka",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c660f",
@@ -2585,10 +2585,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "LiZBYoUrPDMZNlm6WtHF",
-          name: "Mathieu/Pilon"
-        }
-      }
-    ]
+          name: "Mathieu/Pilon",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c660e",
@@ -2604,10 +2604,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "LiZBYoUrPDMZNlm6WtHF",
-          name: "Mathieu/Pilon"
-        }
-      }
-    ]
+          name: "Mathieu/Pilon",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9512",
@@ -2623,8 +2623,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "hnuvjQLOcMuM820OeEWi",
-          name: "Double Bang"
-        }
+          name: "Double Bang",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2635,8 +2635,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "hnuvjQLOcMuM820OeEWi",
-          name: "Double Bang"
-        }
+          name: "Double Bang",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2647,10 +2647,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "hnuvjQLOcMuM820OeEWi",
-          name: "Double Bang"
-        }
-      }
-    ]
+          name: "Double Bang",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9511",
@@ -2666,8 +2666,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "hnuvjQLOcMuM820OeEWi",
-          name: "Double Bang"
-        }
+          name: "Double Bang",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2678,8 +2678,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "hnuvjQLOcMuM820OeEWi",
-          name: "Double Bang"
-        }
+          name: "Double Bang",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2690,10 +2690,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "hnuvjQLOcMuM820OeEWi",
-          name: "Double Bang"
-        }
-      }
-    ]
+          name: "Double Bang",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a950e",
@@ -2709,8 +2709,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "hKTs1iAKXuIziM591Gff",
-          name: "Future Commando"
-        }
+          name: "Future Commando",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2721,8 +2721,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "XPKIGu230x762BTer8Zu",
-          name: "gLim of POP"
-        }
+          name: "gLim of POP",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -2733,10 +2733,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "CPPyKhqTXFjIA67qTQ5P",
-          name: "Bavaria meets Texas"
-        }
-      }
-    ]
+          name: "Bavaria meets Texas",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca617f",
@@ -2752,8 +2752,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "ZN1AxS3dRUC8o31Jg6QF",
-          name: "JulJan"
-        }
+          name: "JulJan",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2764,10 +2764,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "ZN1AxS3dRUC8o31Jg6QF",
-          name: "JulJan"
-        }
-      }
-    ]
+          name: "JulJan",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce9825",
@@ -2783,8 +2783,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "8XyCzpIhtr5QZYTVjiFc",
-          name: "Future Burnouts"
-        }
+          name: "Future Burnouts",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2795,8 +2795,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 2,
         team: {
           uid: "8YPdR0EnwJ7xWd9EkwUY",
-          name: "Jonas/Stoisser"
-        }
+          name: "Jonas/Stoisser",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2807,10 +2807,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 20,
         team: {
           uid: "8XyCzpIhtr5QZYTVjiFc",
-          name: "Future Burnouts"
-        }
-      }
-    ]
+          name: "Future Burnouts",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c6613",
@@ -2826,8 +2826,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "7TWB0TNl8tLnY2rk3WVE",
-          name: "Hors Services"
-        }
+          name: "Hors Services",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -2838,10 +2838,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "GoaIR12kSRxgtPh0WpWa",
-          name: "French Contact"
-        }
-      }
-    ]
+          name: "French Contact",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9521",
@@ -2857,8 +2857,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "mOsFpQRDCYKzbJHjKGvF",
-          name: "LTTL RNDNT"
-        }
+          name: "LTTL RNDNT",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2869,8 +2869,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "mOsFpQRDCYKzbJHjKGvF",
-          name: "LTTL RNDNT"
-        }
+          name: "LTTL RNDNT",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2881,10 +2881,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 21,
         team: {
           uid: "mOsFpQRDCYKzbJHjKGvF",
-          name: "LTTL RNDNT"
-        }
-      }
-    ]
+          name: "LTTL RNDNT",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9502",
@@ -2900,8 +2900,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "LlrW7fJcqO7xbYrKq0By",
-          name: "Stadtaffen"
-        }
+          name: "Stadtaffen",
+        },
       },
       {
         tournamentId: "eAEWzbmc5ROFywYMQhJs",
@@ -2912,10 +2912,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "LlrW7fJcqO7xbYrKq0By",
-          name: "Stadtaffen"
-        }
-      }
-    ]
+          name: "Stadtaffen",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9529",
@@ -2931,8 +2931,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 3,
         team: {
           uid: "GoaIR12kSRxgtPh0WpWa",
-          name: "French Contact"
-        }
+          name: "French Contact",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2943,8 +2943,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 21,
         team: {
           uid: "Y4HnqKBrOMR55UZExvHb",
-          name: "Tac Tac"
-        }
+          name: "Tac Tac",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2955,10 +2955,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 23,
         team: {
           uid: "Y4HnqKBrOMR55UZExvHb",
-          name: "Tac Tac"
-        }
-      }
-    ]
+          name: "Tac Tac",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a952d",
@@ -2974,8 +2974,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "DDHEjXa7FQSUVr7OKKLA",
-          name: "Sayy no to GunZ"
-        }
+          name: "Sayy no to GunZ",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -2986,8 +2986,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 22,
         team: {
           uid: "CIXdGdI8jgxns8rEWWR5",
-          name: "Incrediballers"
-        }
+          name: "Incrediballers",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -2998,10 +2998,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 22,
         team: {
           uid: "aXG4n5Iq3BOQnq9ZrkwF",
-          name: "Sayyed/Gunneson"
-        }
-      }
-    ]
+          name: "Sayyed/Gunneson",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce981f",
@@ -3017,10 +3017,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "MNZ3W4zqs8JPBua5Nx1D",
-          name: "Pilon/Sandoz"
-        }
-      }
-    ]
+          name: "Pilon/Sandoz",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd874e",
@@ -3036,8 +3036,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "E5XWcuS4mQYlCJhg0gEw",
-          name: "Gemmathi & Let's Jo"
-        }
+          name: "Gemmathi & Let's Jo",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3048,10 +3048,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "E5XWcuS4mQYlCJhg0gEw",
-          name: "Gemmathi & Let's Jo"
-        }
-      }
-    ]
+          name: "Gemmathi & Let's Jo",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd874d",
@@ -3067,8 +3067,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "E5XWcuS4mQYlCJhg0gEw",
-          name: "Gemmathi & Let's Jo"
-        }
+          name: "Gemmathi & Let's Jo",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3079,10 +3079,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 1,
         team: {
           uid: "E5XWcuS4mQYlCJhg0gEw",
-          name: "Gemmathi & Let's Jo"
-        }
-      }
-    ]
+          name: "Gemmathi & Let's Jo",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a950f",
@@ -3098,8 +3098,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "XPKIGu230x762BTer8Zu",
-          name: "gLim of POP"
-        }
+          name: "gLim of POP",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -3110,10 +3110,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "P278i55uNxorYRfHFxX5",
-          name: "Elbourne/Lim"
-        }
-      }
-    ]
+          name: "Elbourne/Lim",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8755",
@@ -3129,8 +3129,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "S7S4tyCWulS3ywbQ5GpE",
-          name: "Double Touch"
-        }
+          name: "Double Touch",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3141,10 +3141,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "BD1X6pf9P7WBGIt0ZXCN",
-          name: "Eynard/Sacchini"
-        }
-      }
-    ]
+          name: "Eynard/Sacchini",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c6624",
@@ -3160,8 +3160,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 4,
         team: {
           uid: "bZ25MVJyBxGvIdTKq3rD",
-          name: "One Swedish Machine"
-        }
+          name: "One Swedish Machine",
+        },
       },
       {
         tournamentId: "rmrwZR0x87ozC1ggBGAH",
@@ -3172,10 +3172,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "UV27xGXJNiRrZsOeqvrX",
-          name: "Setters of Catan"
-        }
-      }
-    ]
+          name: "Setters of Catan",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8759",
@@ -3191,8 +3191,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 6,
         team: {
           uid: "BD1X6pf9P7WBGIt0ZXCN",
-          name: "Eynard/Sacchini"
-        }
+          name: "Eynard/Sacchini",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -3203,10 +3203,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "c7KohSPzDiuTJwm7nQrv",
-          name: "RBZ Tocco Italiano"
-        }
-      }
-    ]
+          name: "RBZ Tocco Italiano",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce9834",
@@ -3222,8 +3222,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "kdIXrYmiNWLbiS2z5Ep1",
-          name: "Pocket Aces"
-        }
+          name: "Pocket Aces",
+        },
       },
       {
         tournamentId: "nmPMO7EZOIjjAGYoQ0kv",
@@ -3234,10 +3234,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "Yc1lQV4pxFDZv2Sht2O8",
-          name: "Merlor & Bird"
-        }
-      }
-    ]
+          name: "Merlor & Bird",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a952a",
@@ -3253,8 +3253,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 16,
         team: {
           uid: "voowwR6bsiBGdRZootkv",
-          name: "Babbel Boys"
-        }
+          name: "Babbel Boys",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -3265,10 +3265,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 21,
         team: {
           uid: "Y4HnqKBrOMR55UZExvHb",
-          name: "Tac Tac"
-        }
-      }
-    ]
+          name: "Tac Tac",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a952c",
@@ -3284,8 +3284,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "DDHEjXa7FQSUVr7OKKLA",
-          name: "Sayy no to GunZ"
-        }
+          name: "Sayy no to GunZ",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -3296,10 +3296,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 22,
         team: {
           uid: "aXG4n5Iq3BOQnq9ZrkwF",
-          name: "Sayyed/Gunneson"
-        }
-      }
-    ]
+          name: "Sayyed/Gunneson",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a952f",
@@ -3315,8 +3315,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "8dBRuCDq6F5uuCVYDGGN",
-          name: "Perplexing Zwambo"
-        }
+          name: "Perplexing Zwambo",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -3327,10 +3327,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 23,
         team: {
           uid: "TZrZCLLdWfJFbtKQLasi",
-          name: "Czecky "
-        }
-      }
-    ]
+          name: "Czecky ",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce9829",
@@ -3346,8 +3346,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "oE1jKGHpywe0FKicLvA9",
-          name: "Fré-vor"
-        }
+          name: "Fré-vor",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3358,10 +3358,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 16,
         team: {
           uid: "fZ6eEcWe6cojj5HCZGQ9",
-          name: "GBR - ELBOURNE / COOK"
-        }
-      }
-    ]
+          name: "GBR - ELBOURNE / COOK",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9533",
@@ -3377,8 +3377,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "Ub21igq22YSbW5DWudzC",
-          name: "Double O steal your hoe"
-        }
+          name: "Double O steal your hoe",
+        },
       },
       {
         tournamentId: "2sTg8DqJiBoFig8Tjr8L",
@@ -3389,10 +3389,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 23,
         team: {
           uid: "i3H26Nv91tBmhCaegIDD",
-          name: "The untouchable"
-        }
-      }
-    ]
+          name: "The untouchable",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c6616",
@@ -3408,10 +3408,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "A7qgHiHVXNo0exrZlvkM",
-          name: "Scott/Wout"
-        }
-      }
-    ]
+          name: "Scott/Wout",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd875a",
@@ -3427,8 +3427,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "c7KohSPzDiuTJwm7nQrv",
-          name: "RBZ Tocco Italiano"
-        }
+          name: "RBZ Tocco Italiano",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3439,10 +3439,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "IjXCnbDjTtRVZTscAxhH",
-          name: "Mareschal/Merlin"
-        }
-      }
-    ]
+          name: "Mareschal/Merlin",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c6621",
@@ -3458,8 +3458,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "8G8R06vzZtagf7SuvNAT",
-          name: "Cobra Spike"
-        }
+          name: "Cobra Spike",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3470,10 +3470,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "8G8R06vzZtagf7SuvNAT",
-          name: "Cobra Spike"
-        }
-      }
-    ]
+          name: "Cobra Spike",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c6620",
@@ -3489,8 +3489,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 18,
         team: {
           uid: "8G8R06vzZtagf7SuvNAT",
-          name: "Cobra Spike"
-        }
+          name: "Cobra Spike",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3501,10 +3501,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "8G8R06vzZtagf7SuvNAT",
-          name: "Cobra Spike"
-        }
-      }
-    ]
+          name: "Cobra Spike",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca618a",
@@ -3520,8 +3520,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "Rl5vY1kCzo2ZduMbBIVG",
-          name: "Curtain Call"
-        }
+          name: "Curtain Call",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -3532,10 +3532,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 25,
         team: {
           uid: "tjvVu2iSKuQfKI4amfHW",
-          name: "Gauterin/Rösinger"
-        }
-      }
-    ]
+          name: "Gauterin/Rösinger",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce9822",
@@ -3551,10 +3551,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "z556swtgJf7awCIGTx9L",
-          name: "Now That We’re Men"
-        }
-      }
-    ]
+          name: "Now That We’re Men",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce9821",
@@ -3570,10 +3570,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "z556swtgJf7awCIGTx9L",
-          name: "Now That We’re Men"
-        }
-      }
-    ]
+          name: "Now That We’re Men",
+        },
+      },
+    ],
   },
   {
     id: "6467afb2e37388dfa8ca6181",
@@ -3589,10 +3589,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 8,
         team: {
           uid: "h8LTapy7JnoCd5oK0Yeq",
-          name: "Elbourne/Hatas"
-        }
-      }
-    ]
+          name: "Elbourne/Hatas",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9524",
@@ -3608,8 +3608,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "t1jauKxEvNUenpGtdN35",
-          name: "AS TELGRUC"
-        }
+          name: "AS TELGRUC",
+        },
       },
       {
         tournamentId: "YP0mft39ZIXjZTRXwBwb",
@@ -3620,10 +3620,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "TQ9qCILKGulKOf3MzhHp",
-          name: "Pas Toucheyyy"
-        }
-      }
-    ]
+          name: "Pas Toucheyyy",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd874b",
@@ -3639,10 +3639,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "i6hcDMZHsl3g4BiE2fj4",
-          name: "Smile"
-        }
-      }
-    ]
+          name: "Smile",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd875f",
@@ -3658,8 +3658,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "QqzHRfEahKGTt4i4ahjG",
-          name: "Bodybag!"
-        }
+          name: "Bodybag!",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -3670,10 +3670,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 25,
         team: {
           uid: "tjvVu2iSKuQfKI4amfHW",
-          name: "Gauterin/Rösinger"
-        }
-      }
-    ]
+          name: "Gauterin/Rösinger",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8765",
@@ -3689,8 +3689,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "C6gJpCcfg8MZeJ1taAQb",
-          name: "halo, halo, palma?"
-        }
+          name: "halo, halo, palma?",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -3701,10 +3701,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 28,
         team: {
           uid: "C6gJpCcfg8MZeJ1taAQb",
-          name: "halo, halo, palma?"
-        }
-      }
-    ]
+          name: "halo, halo, palma?",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8764",
@@ -3720,8 +3720,8 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "C6gJpCcfg8MZeJ1taAQb",
-          name: "halo, halo, palma?"
-        }
+          name: "halo, halo, palma?",
+        },
       },
       {
         tournamentId: "uyVANAYWFLAB6HgDiOy5",
@@ -3732,10 +3732,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 28,
         team: {
           uid: "C6gJpCcfg8MZeJ1taAQb",
-          name: "halo, halo, palma?"
-        }
-      }
-    ]
+          name: "halo, halo, palma?",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c661a",
@@ -3751,10 +3751,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 13,
         team: {
           uid: "ISA4JLElABknU5xMVKWd",
-          name: "TWO SWEDES"
-        }
-      }
-    ]
+          name: "TWO SWEDES",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8751",
@@ -3770,10 +3770,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "NbB2xgkyEWFulipigJNe",
-          name: "RDO Flix und Fertig"
-        }
-      }
-    ]
+          name: "RDO Flix und Fertig",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8750",
@@ -3789,10 +3789,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "NbB2xgkyEWFulipigJNe",
-          name: "RDO Flix und Fertig"
-        }
-      }
-    ]
+          name: "RDO Flix und Fertig",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce982e",
@@ -3808,10 +3808,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "DfavGOnj0tl2wAlhTUq5",
-          name: "Tapken/Von Hänisch"
-        }
-      }
-    ]
+          name: "Tapken/Von Hänisch",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce982c",
@@ -3827,10 +3827,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "JcJHzwbvYQovtFDzTevI",
-          name: "Serve & Chill"
-        }
-      }
-    ]
+          name: "Serve & Chill",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce982b",
@@ -3846,10 +3846,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 14,
         team: {
           uid: "JcJHzwbvYQovtFDzTevI",
-          name: "Serve & Chill"
-        }
-      }
-    ]
+          name: "Serve & Chill",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8754",
@@ -3865,10 +3865,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 15,
         team: {
           uid: "S7S4tyCWulS3ywbQ5GpE",
-          name: "Double Touch"
-        }
-      }
-    ]
+          name: "Double Touch",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8757",
@@ -3884,10 +3884,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "25eY8oZtvpfn3jayTZBz",
-          name: "UnderDAWGS"
-        }
-      }
-    ]
+          name: "UnderDAWGS",
+        },
+      },
+    ],
   },
   {
     id: "64b4fd0d436b959528ce9830",
@@ -3903,10 +3903,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "C43BsLTXnvVJ8XhPS1FJ",
-          name: "Never too late"
-        }
-      }
-    ]
+          name: "Never too late",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c661e",
@@ -3922,10 +3922,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 17,
         team: {
           uid: "CPPyKhqTXFjIA67qTQ5P",
-          name: "Bavaria meets Texas"
-        }
-      }
-    ]
+          name: "Bavaria meets Texas",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c96",
@@ -3941,10 +3941,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "HLTimhfFmuoEVTonnhLW",
-          name: "Serial Chillers"
-        }
-      }
-    ]
+          name: "Serial Chillers",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c95",
@@ -3960,10 +3960,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "HLTimhfFmuoEVTonnhLW",
-          name: "Serial Chillers"
-        }
-      }
-    ]
+          name: "Serial Chillers",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c93",
@@ -3979,10 +3979,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 7,
         team: {
           uid: "kdIXrYmiNWLbiS2z5Ep1",
-          name: "Pocket Aces"
-        }
-      }
-    ]
+          name: "Pocket Aces",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c90",
@@ -3998,10 +3998,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "ysJZ1gQMaeCjj7fNJsH7",
-          name: "Marcos/Halvard"
-        }
-      }
-    ]
+          name: "Marcos/Halvard",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c8f",
@@ -4017,10 +4017,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 5,
         team: {
           uid: "ysJZ1gQMaeCjj7fNJsH7",
-          name: "Marcos/Halvard"
-        }
-      }
-    ]
+          name: "Marcos/Halvard",
+        },
+      },
+    ],
   },
   {
     id: "6495ddb2b5ce109aa99c6623",
@@ -4036,10 +4036,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 19,
         team: {
           uid: "UV27xGXJNiRrZsOeqvrX",
-          name: "Setters of Catan"
-        }
-      }
-    ]
+          name: "Setters of Catan",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd875c",
@@ -4055,10 +4055,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 22,
         team: {
           uid: "CIXdGdI8jgxns8rEWWR5",
-          name: "Incrediballers"
-        }
-      }
-    ]
+          name: "Incrediballers",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd875d",
@@ -4074,10 +4074,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 23,
         team: {
           uid: "Y4HnqKBrOMR55UZExvHb",
-          name: "Tac Tac"
-        }
-      }
-    ]
+          name: "Tac Tac",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9532",
@@ -4093,10 +4093,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 23,
         team: {
           uid: "i3H26Nv91tBmhCaegIDD",
-          name: "The untouchable"
-        }
-      }
-    ]
+          name: "The untouchable",
+        },
+      },
+    ],
   },
   {
     id: "6467afa2bfd71dd46a6a9530",
@@ -4112,10 +4112,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 23,
         team: {
           uid: "TZrZCLLdWfJFbtKQLasi",
-          name: "Czecky "
-        }
-      }
-    ]
+          name: "Czecky ",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461ca0",
@@ -4131,10 +4131,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 12,
         team: {
           uid: "IjXCnbDjTtRVZTscAxhH",
-          name: "Mareschal/Merlin"
-        }
-      }
-    ]
+          name: "Mareschal/Merlin",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c9e",
@@ -4150,10 +4150,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "2PPfTr9rHz33d7OWaD1Y",
-          name: "Belgian Fries"
-        }
-      }
-    ]
+          name: "Belgian Fries",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c9d",
@@ -4169,10 +4169,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 11,
         team: {
           uid: "2PPfTr9rHz33d7OWaD1Y",
-          name: "Belgian Fries"
-        }
-      }
-    ]
+          name: "Belgian Fries",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c9b",
@@ -4188,10 +4188,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "jIL4UoYTF78MYp0ktCfZ",
-          name: "Spikeghetti"
-        }
-      }
-    ]
+          name: "Spikeghetti",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c9a",
@@ -4207,10 +4207,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 10,
         team: {
           uid: "jIL4UoYTF78MYp0ktCfZ",
-          name: "Spikeghetti"
-        }
-      }
-    ]
+          name: "Spikeghetti",
+        },
+      },
+    ],
   },
   {
     id: "653184080b5014f728461c98",
@@ -4226,10 +4226,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 9,
         team: {
           uid: "QqzHRfEahKGTt4i4ahjG",
-          name: "Bodybag!"
-        }
-      }
-    ]
+          name: "Bodybag!",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8762",
@@ -4245,10 +4245,10 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 27,
         team: {
           uid: "GCSsBBaEwIdkmeXaHVPa",
-          name: "Ingo Ingo Ingo Ingolstaaadt"
-        }
-      }
-    ]
+          name: "Ingo Ingo Ingo Ingolstaaadt",
+        },
+      },
+    ],
   },
   {
     id: "64ee22edcf79a5a5cecd8761",
@@ -4264,9 +4264,9 @@ export const rankedPlayers: Array<RankedPlayer> = [
         rank: 27,
         team: {
           uid: "GCSsBBaEwIdkmeXaHVPa",
-          name: "Ingo Ingo Ingo Ingolstaaadt"
-        }
-      }
-    ]
-  }
-]
+          name: "Ingo Ingo Ingo Ingolstaaadt",
+        },
+      },
+    ],
+  },
+];

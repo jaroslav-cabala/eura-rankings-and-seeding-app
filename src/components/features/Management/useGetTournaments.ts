@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Tournament } from "@/apiTypes";
-import { useFetch } from "../../../hooks/useFetchData";
+import { Tournament } from "@/api/apiTypes";
+import { useFetch } from "../../../api/useFetchData";
 
 export type UseGetTournamentsResult = {
   data?: Array<Tournament>;

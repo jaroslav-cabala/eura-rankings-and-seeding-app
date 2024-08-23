@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { ParticipatingTeam } from "./types";
-import { RankedPlayers, useGetRankedPlayers } from "../../hooks/useGetRankedPlayers";
-import { Player } from "../../apiTypes";
-import { Category } from "../../domain";
+import { ParticipatingTeam } from "../types";
+import { RankedPlayers, useGetRankedPlayers } from "../../../api/useGetRankedPlayers";
+import { Player } from "../../../api/apiTypes";
+import { Category } from "../../../domain";
 import "./AvailablePlayers.css";
 
 type RankedPlayer = RankedPlayers[number];

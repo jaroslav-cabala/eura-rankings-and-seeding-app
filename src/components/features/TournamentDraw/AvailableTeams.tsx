@@ -1,8 +1,8 @@
-import { Player } from "../../apiTypes";
-import { Category } from "../../domain";
-import { useGetRankedPlayers } from "../../hooks/useGetRankedPlayers";
-import { useGetRankedTeams } from "../../hooks/useGetRankedTeams";
-import { ParticipatingTeam } from "./types";
+import { Player } from "../../../api/apiTypes";
+import { Category } from "../../../domain";
+import { useGetRankedPlayers } from "../../../api/useGetRankedPlayers";
+import { useGetRankedTeams } from "../../../api/useGetRankedTeams";
+import { ParticipatingTeam } from "../types";
 
 type AvailableTeams = ReturnType<typeof useGetRankedTeams>;
 

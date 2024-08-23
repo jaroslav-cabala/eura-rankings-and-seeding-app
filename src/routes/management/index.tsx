@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Tournament, TournamentResult } from "@/apiTypes";
-import { useFetch } from "@/hooks/useFetchData";
+import { Tournament, TournamentResult } from "@/api/apiTypes";
+import { useFetch } from "@/api/useFetchData";
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable } from "@/components/ui/DataTable";
 import {

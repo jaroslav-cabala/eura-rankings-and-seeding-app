@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { TimePeriod } from "@/utils";
-import { RankedPlayer, RankedPlayerTournamentResult } from "../apiTypes";
+import { RankedPlayer, RankedPlayerTournamentResult } from "./apiTypes";
 import { Category, Division } from "../domain";
 import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
 import { useFetch } from "./useFetchData";
 import { createQueryString } from "./createQueryStringsContainingFilters";
+import { tournamentDrawDefaults } from "@/config";
 
 export type RankedPlayers = Array<{
   playerId: string;
@@ -24,7 +25,7 @@ type UseGetRankedPlayersProps = {
   category: Category;
   division: Division;
   seasons: TimePeriod;
-  numberOfResultsCountedToPointsTotal: number;
+  numberOfResultsCountedToPointsTotal?: number;
 };
 
 export const useGetRankedPlayers = ({
@@ -45,7 +46,10 @@ export const useGetRankedPlayers = ({
   }, [category, division, seasons, fetch]);
 
   return {
-    data: sortPlayers(data, numberOfResultsCountedToPointsTotal),
+    data: sortPlayers(
+      data,
+      numberOfResultsCountedToPointsTotal ?? tournamentDrawDefaults.numberOfResultsCountedToPointsTotal
+    ),
     loading,
     error,
   };
@@ -60,7 +64,10 @@ const sortPlayers = (
       playerId: player.id,
       playerUid: player.uid,
       name: player.name,
-      points: getTotalPointsFromXBestResults(player.tournamentResults, numberOfResultsCountedToPointsTotal),
+      points: getTotalPointsFromXBestResults(
+        player.tournamentResults,
+        numberOfResultsCountedToPointsTotal ?? tournamentDrawDefaults.numberOfResultsCountedToPointsTotal
+      ),
       tournamentResults: player.tournamentResults,
     }))
     .sort((playerA, playerB) => playerB.points - playerA.points) ?? [];

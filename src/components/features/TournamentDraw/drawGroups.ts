@@ -1,6 +1,6 @@
 import { snakeDraw } from "../../../lib/snakeDraw";
 import { ParticipatingTeam } from "../types";
-import { Group, GroupStage, GroupStageSettings } from "./GroupStage";
+import { GroupStageSettings, GroupStage, Group } from "./TournamentDraw";
 
 export const drawGroups = (
   participatingTeams: ParticipatingTeam[],

@@ -26,6 +26,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
 
   const navigate = useNavigate();
 
+  // TODO onValue change - hide call to navigate into an event handler here in the component
   return (
     // <div className="w-1/2 flex mx-auto items-center py-1" style={{ justifyContent: "left" }}>
     <div className="w-1/2 mx-auto">

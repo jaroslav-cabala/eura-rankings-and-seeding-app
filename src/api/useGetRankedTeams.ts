@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
 import { Category, Division } from "../domain";
 import { useFetch } from "./useFetchData";
-import { Player, RankedTeam, RankedTeamTournamentResult } from "../apiTypes";
+import { Player, RankedTeam, RankedTeamTournamentResult } from "./apiTypes";
 import { TimePeriod } from "@/utils";
 import { createQueryString } from "./createQueryStringsContainingFilters";
+import { tournamentDrawDefaults } from "@/config";
 
 export type RankedTeams = Array<{
   teamId: string;
@@ -47,6 +48,32 @@ export const useGetRankedTeams = ({
 
   return {
     data: sortTeams(data, numberOfResultsCountedToPointsTotal),
+    loading,
+    error,
+  };
+};
+
+export type GetRankedTeamsLazyResult = {
+  fetch: (url: string, requestInit?: RequestInit) => Promise<void>;
+  data: RankedTeams;
+  loading: boolean;
+  error: boolean;
+};
+
+export const useGetRankedTeamsLazy = (
+  numberOfResultsCountedToPointsTotal?: number
+): GetRankedTeamsLazyResult => {
+  console.log(`useGetRankedPlayersLazy hook,
+    numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal}`);
+
+  const { fetch, data, loading, error } = useFetch<Array<RankedTeam>>();
+
+  return {
+    fetch,
+    data: sortTeams(
+      data,
+      numberOfResultsCountedToPointsTotal ?? tournamentDrawDefaults.numberOfResultsCountedToPointsTotal
+    ),
     loading,
     error,
   };

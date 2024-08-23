@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useGetRankedPlayers } from "@/hooks/useGetRankedPlayers";
+import { useGetRankedPlayers } from "@/api/useGetRankedPlayers";
 import { DataTable } from "../../ui/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";

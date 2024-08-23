@@ -1,4 +1,4 @@
-import { Group } from "./GroupStage";
+import { Group } from "./TournamentDraw";
 
 export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpools?: Array<Group> }) => {
   return (
@@ -20,8 +20,8 @@ export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpoo
           <p className="title">Group {index + 1}</p>
           <ol>
             {group.teams.map((team) => (
-              <li key={team.id}>
-                <span>{`${team.name} - ${team.points}`}</span>
+              <li className="teamname" key={team.id}>
+                <span>{`${team.name} (${team.points})`}</span>
               </li>
             ))}
           </ol>

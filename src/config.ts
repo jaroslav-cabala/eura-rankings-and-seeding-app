@@ -37,3 +37,13 @@ export const rankingIdsMetadataMap: Record<RANKING_ID, { division: Division; cat
     category: Category.Mixed,
   },
 };
+
+export type GroupDrawMethod = "snake";
+
+export const tournamentDrawDefaults: {
+  numberOfResultsCountedToPointsTotal: number;
+  groupDrawMethod: GroupDrawMethod;
+} = {
+  numberOfResultsCountedToPointsTotal: 2,
+  groupDrawMethod: "snake",
+};

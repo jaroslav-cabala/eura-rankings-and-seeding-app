@@ -1,4 +1,4 @@
-import { Category, Division } from "./domain";
+import { Category, Division } from "../domain";
 
 export type RankedPlayer = {
   id: string;

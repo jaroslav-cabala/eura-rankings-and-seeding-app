@@ -1,4 +1,4 @@
-import { useGetRankedTeams } from "@/hooks/useGetRankedTeams";
+import { useGetRankedTeams } from "@/api/useGetRankedTeams";
 import {
   ColumnDef,
   ColumnFiltersState,

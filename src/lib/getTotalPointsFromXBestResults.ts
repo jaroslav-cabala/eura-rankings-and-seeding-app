@@ -1,4 +1,4 @@
-import { RankedPlayerTournamentResult } from "@/apiTypes";
+import { RankedPlayerTournamentResult } from "@/api/apiTypes";
 
 /**
  * Goes through an array of tournament results and returns total points from X best results.
