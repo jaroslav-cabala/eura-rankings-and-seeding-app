@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import "./TournamentDraw.css";
 import { ParticipatingTeam } from "../types";
-import { GroupDrawSettings } from "./GroupDrawSettings";
+import { TournamentDrawSettings } from "./GroupDrawSettings";
 import { Groups } from "./Groups";
 import { drawGroups } from "./drawGroups";
 import { GroupDrawMethod, tournamentDrawDefaults } from "@/config";
@@ -9,41 +9,44 @@ import { fetchTeams, RankedTeams } from "./fetchTeams";
 import { fetchPlayers, RankedPlayers } from "./fetchPlayers";
 import { Button } from "@/components/ui/button";
 import { AddTeam } from "./AddTeam";
-import { SquarePlus, Trash2 } from "lucide-react";
+import { Loader2, SquarePlus, Trash2 } from "lucide-react";
 import { participatingTeamsMock, tournamentsMock } from "./testData";
-
-export type GroupStageSettings = {
-  powerpools: boolean;
-  powerpoolGroups: string;
-  powerpoolTeams: string;
-  groups: string;
-  groupDrawMethod: GroupDrawMethod;
-};
-
-export type GroupStage = {
-  powerpools?: Array<Group>;
-  groups?: Array<Group>;
-};
-
-export type Group = {
-  teams: Array<ParticipatingTeam>;
-};
-
-const groupStageSettingsDefault: GroupStageSettings = {
-  powerpools: false,
-  powerpoolGroups: "0",
-  powerpoolTeams: "0",
-  groups: "0",
-  groupDrawMethod: tournamentDrawDefaults.groupDrawMethod,
-};
-
-type Tournament = {
-  id: string;
-  name: string;
-  tournamentDraws: Array<{ id: string; name: string }>;
-};
+import { TournamentDrawDTO } from "@/api/apiTypes";
+import { useGetTournamentDraw } from "@/api/useGetTournamentDraw";
+import { useParams } from "@tanstack/react-router";
 
 export const TournamentDraw = () => {
+  const params = useParams({ from: "/tournament-draws/$tournamentDrawId" });
+  const { data, loading, error } = useGetTournamentDraw(params.tournamentDrawId);
+
+  if (error) {
+    return (
+      <section id="fullscreen-section">
+        <div className="py-2">Error while fetching tournament draw data</div>
+      </section>
+    );
+  }
+
+  if (loading) {
+    return (
+      <section>
+        <div className="py-2">
+          <Loader2 className="animate-spin mr-2" />
+          Loading tournament data...
+        </div>
+      </section>
+    );
+  }
+
+  return <TournamentDrawComponent data={data} loading={loading} />;
+};
+
+type TournamentDrawComponentProps = {
+  data?: TournamentDrawDTO;
+  loading: boolean;
+};
+
+const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loading }) => {
   const [tournaments, setTournaments] = useState<Array<Tournament>>(tournamentsMock);
   const [participatingTeams, setParticipatingTeams] =
     useState<Array<ParticipatingTeam>>(participatingTeamsMock);
@@ -81,7 +84,7 @@ export const TournamentDraw = () => {
         });
       }
 
-      const _participatingTeams: Array<ParticipatingTeam> = createPArticipatingTeamsFromImportedData(
+      const _participatingTeams: Array<ParticipatingTeam> = createParticipatingTeamsFromImportedData(
         importedTeams,
         rankedTeams,
         rankedPlayers
@@ -105,25 +108,22 @@ export const TournamentDraw = () => {
   };
 
   return (
-    <section id="tournament-content">
-      <section id="tournaments">
-        <p className="title py-4 text-white">Tournaments</p>
+    <section id="tournament-draw">
+      <div id="tournament-draws">
+        <p className="title pb-6 pt-2 text-white">Tournaments</p>
         <Button variant="outline" className="w-full mb-2 py-1.5 px-3" onClick={createNewTournament}>
           <SquarePlus className="mr-2" /> Create new
         </Button>
         {tournaments.map((t) => (
-          <div id="tournament">
-            <div key={t.id} id="tournament-name">
+          <div id="tournament-draw-item">
+            <div key={t.id} id="tournament-draw-name">
               {t.name}
             </div>
-            {t.tournamentDraws.map((td) => (
-              <div id="tournament-draw">{td.name}</div>
-            ))}
           </div>
         ))}
-      </section>
-      <section className="tournament-draw">
-        <div className="tournament-teams">
+      </div>
+      <div id="group-stage-draw">
+        <div id="tournament-teams">
           <Button
             variant="destructive"
             className="mb-2"
@@ -182,19 +182,19 @@ export const TournamentDraw = () => {
           </div>
         </div>
         <div className="group-draw">
-          <GroupDrawSettings
+          <TournamentDrawSettings
             tournamentDrawSettings={groupStageSettings}
             setTournamentDrawSettings={setGroupStageSettings}
             drawGroupsHandler={drawGroupsHandler}
           />
           <Groups groups={groupStage?.groups} powerpools={groupStage?.powerpools} />
         </div>
-      </section>
+      </div>
     </section>
   );
 };
 
-const createPArticipatingTeamsFromImportedData = (
+const createParticipatingTeamsFromImportedData = (
   importedTeams: { name: string; playerOne: string; playerTwo: string }[],
   rankedTeams: RankedTeams,
   rankedPlayers: RankedPlayers
@@ -249,4 +249,35 @@ const createPArticipatingTeamsFromImportedData = (
     });
   }
   return _participatingTeams;
+};
+
+export type GroupStageSettings = {
+  powerpools: boolean;
+  powerpoolGroups: string;
+  powerpoolTeams: string;
+  groups: string;
+  groupDrawMethod: GroupDrawMethod;
+};
+
+export type GroupStage = {
+  powerpools?: Array<Group>;
+  groups?: Array<Group>;
+};
+
+export type Group = {
+  teams: Array<ParticipatingTeam>;
+};
+
+const groupStageSettingsDefault: GroupStageSettings = {
+  powerpools: false,
+  powerpoolGroups: "0",
+  powerpoolTeams: "0",
+  groups: "0",
+  groupDrawMethod: tournamentDrawDefaults.groupDrawMethod,
+};
+
+type Tournament = {
+  id: string;
+  name: string;
+  tournamentDraws: Array<{ id: string; name: string }>;
 };

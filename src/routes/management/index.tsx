@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Tournament, TournamentResult } from "@/api/apiTypes";
+import { Tournament, TournamentDivisionDTO } from "@/api/apiTypes";
 import { useFetch } from "@/api/useFetchData";
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable } from "@/components/ui/DataTable";
@@ -88,7 +88,7 @@ type RankingsDataManagementTableDataRow = {
   date: string;
   name: string;
   isTournamentImported: boolean;
-  results: TournamentResult[];
+  results: TournamentDivisionDTO[];
 };
 
 const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [

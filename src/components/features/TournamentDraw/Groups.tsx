@@ -2,7 +2,7 @@ import { Group } from "./TournamentDraw";
 
 export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpools?: Array<Group> }) => {
   return (
-    <section className="groups">
+    <div className="groups">
       {powerpools?.map((powerpool, index) => (
         <div className="powerpool">
           <p className="title">Powerpool {index + 1}</p>
@@ -27,6 +27,6 @@ export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpoo
           </ol>
         </div>
       ))}
-    </section>
+    </div>
   );
 };

@@ -51,11 +51,22 @@ export type Tournament = {
   tournamentId: string;
   name: string;
   date: string;
-  results: TournamentResult[];
+  results: TournamentDivisionDTO[];
 };
 
-export type TournamentResult = {
+export type TournamentDivisionDTO = {
   tournamentResultId: string;
   division: Division;
   category: Category;
+};
+
+export type TournamentDrawDTO = {
+  id: string;
+  name: string;
+  divisions: Array<Division>;
+  category: Category;
+  groups: number;
+  powerpools: number;
+  powerpoolTeams: number;
+  teams: Array<RankedTeam>;
 };

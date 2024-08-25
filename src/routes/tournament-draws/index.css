@@ -1,0 +1,6 @@
+#tournament-draws-landing {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 8rem 0.5rem;
+}

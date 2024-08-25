@@ -1,10 +1,4 @@
-article.container {
-  display: flex;
-  flex-direction: row;
-  column-gap: 1rem;
-}
-
-#tournament-content {
+#tournament-draw {
   padding: 0.5rem 0.5rem 0 0;
   display: flex;
   gap: 1.5rem;
@@ -12,7 +6,7 @@ article.container {
   min-width: 600px;
 }
 
-#tournaments {
+#tournament-draws {
   min-width: 300px;
   max-width: 375px;
   background-color: hsl(var(--primary));
@@ -20,55 +14,38 @@ article.container {
   padding: 0.5rem 0.5rem;
 }
 
-#tournaments div#tournament {
+#tournament-draw-item:not(:last-child) {
   margin-bottom: 0.5rem;
 }
 
-#tournaments #tournament #tournament-name {
+#tournament-draw-item #tournament-draw-name {
   border-radius: 6px;
   padding: 0.375rem 0.75rem;
   font-weight: 500;
   background-color: white;
 }
 
-#tournaments #tournament #tournament-name:not(:last-child) {
+#tournament-draw-item #tournament-draw-name:not(:last-child) {
   margin-bottom: 0.5rem;
 }
 
-#tournaments #tournament #tournament-draw {
-  border-radius: 6px;
-  padding: 0.1rem 0.75rem;
-  background-color: white;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-#tournaments #tournament #tournament-draw:not(:last-child) {
-  margin-bottom: 0.25rem;
-}
-
-section.tournament-draw {
+#group-stage-draw {
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
   flex: 1 0;
 }
 
-#tournament-draw-settings-form {
-  display: flex;
-  align-items: center;
-}
-
-.tournament-teams {
+#group-stage-draw #tournament-teams {
   flex: 1 0;
   padding: 0.5rem;
 }
 
-.tournament-teams #reset-btn {
+#group-stage-draw #tournament-teams #reset-btn {
   background-color: rgb(241, 76, 54);
 }
 
-.tournament-teams li {
+#group-stage-draw #tournament-teams li {
   background-color: rgb(245 248 252);
   padding: 0.375rem 0.75rem;
   border-radius: 6px;
@@ -79,16 +56,16 @@ section.tournament-draw {
   gap: 0.5rem;
 }
 
-.tournament-teams li:not(:last-child) {
+#group-stage-draw #tournament-teams li:not(:last-child) {
   margin-bottom: 0.5rem;
 }
 
-.tournament-teams #add-team input {
+#group-stage-draw #tournament-teams #add-team input {
   margin-bottom: 0.5rem;
   max-width: 420px;
 }
 
-.import-teams label {
+#group-stage-draw #tournament-teams .import-teams label {
   display: inline-block;
   border-radius: 6px;
   border: 1px solid transparent;
@@ -111,13 +88,7 @@ section.tournament-draw {
   padding: 0.5rem;
 }
 
-#group-draw-settings-form {
-  display: flex;
-  align-items: center;
-}
-
-#group-draw-settings-form input {
-  max-width: 68px;
+#group-stage-draw-settings {
 }
 
 .groups {
@@ -174,4 +145,12 @@ label {
 
 .grey-color {
   color: grey;
+}
+
+#fullscreen-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 3.51rem);
 }
