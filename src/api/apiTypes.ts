@@ -1,13 +1,16 @@
 import { Category, Division } from "../domain";
 
-export type RankedPlayer = {
+export const teamPointsCountMethods = ["sumOfPlayersPoints", "sumOfTeamPoints"] as const;
+export type TeamPointsCountMethod = (typeof teamPointsCountMethods)[number];
+
+export type RankedPlayerDTO = {
   id: string;
   uid: string;
   name: string;
-  tournamentResults: RankedPlayerTournamentResult[];
+  tournamentResults: RankedPlayerTournamentResultDTO[];
 };
 
-export type RankedPlayerTournamentResult = {
+export type RankedPlayerTournamentResultDTO = {
   tournamentId: string;
   tournamentResultId: string;
   tournamentName: string;
@@ -18,15 +21,15 @@ export type RankedPlayerTournamentResult = {
   team: Team;
 };
 
-export type RankedTeam = {
+export type RankedTeamDTO = {
   id: string;
   uid: string;
   name: string;
   players: Player[];
-  tournamentResults: RankedTeamTournamentResult[];
+  tournamentResults: RankedTeamTournamentResultDTO[];
 };
 
-export type RankedTeamTournamentResult = {
+export type RankedTeamTournamentResultDTO = {
   tournamentId: string;
   tournamentResultId: string;
   tournamentName: string;
@@ -47,11 +50,11 @@ export type Team = {
   name: string;
 };
 
-export type Tournament = {
+export type TournamentDTO = {
   tournamentId: string;
   name: string;
   date: string;
-  results: TournamentDivisionDTO[];
+  divisions: TournamentDivisionDTO[];
 };
 
 export type TournamentDivisionDTO = {
@@ -68,5 +71,24 @@ export type TournamentDrawDTO = {
   groups: number;
   powerpools: number;
   powerpoolTeams: number;
-  teams: Array<RankedTeam>;
+  teamPointsCountMethod: TeamPointsCountMethod;
+  numberOfResultsCountedToPointsTotal: number;
+  teams: Array<TournamentDrawTeamDTO>;
 };
+
+export type TournamentDrawTeamDTO = {
+  id: string | null;
+  uid: string | null;
+  name: string;
+  players: Array<TournamentDrawPlayerDTO>;
+  tournamentResults: Array<RankedTeamTournamentResultDTO>;
+};
+
+export type TournamentDrawPlayerDTO = {
+  id: string | null;
+  uid: string | null;
+  name: string;
+  tournamentResults: Array<RankedPlayerTournamentResultDTO>;
+};
+
+export type TournamentDrawNameAndIdDTO = Pick<TournamentDrawDTO, "id" | "name">;

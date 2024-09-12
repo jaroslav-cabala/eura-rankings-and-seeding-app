@@ -7,7 +7,7 @@ export type UseFetchResult<T> = {
   error: boolean;
 };
 
-export const useFetch = <T>(): UseFetchResult<T> => {
+export const useFetchLazy = <T>(): UseFetchResult<T> => {
   const [data, setData] = useState<T | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

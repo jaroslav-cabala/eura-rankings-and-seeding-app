@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Tournament, TournamentDivisionDTO } from "@/api/apiTypes";
-import { useFetch } from "@/api/useFetchData";
+import { TournamentDTO, TournamentDivisionDTO } from "@/api/apiTypes";
+import { useFetchLazy } from "@/api/useFetch";
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable } from "@/components/ui/DataTable";
 import {
@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { CircleX, Import, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, getHrefToFwangoTournamentResult } from "@/utils";
-import { useGetTournaments } from "../../components/features/Management/useGetTournaments";
+import { useGetTournaments } from "../../api/useGetTournaments";
 
 export const Route = createFileRoute("/management/")({
   component: Management,
@@ -88,7 +88,7 @@ type RankingsDataManagementTableDataRow = {
   date: string;
   name: string;
   isTournamentImported: boolean;
-  results: TournamentDivisionDTO[];
+  divisions: TournamentDivisionDTO[];
 };
 
 const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
@@ -121,14 +121,18 @@ function Header<TData>(column: Column<TData, unknown>) {
 }
 
 const TournamentCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) => {
-  const tournamentResultLinks = row.original.results.map((result) => (
+  const tournamentResultLinks = row.original.divisions.map((divisionResult) => (
     <a
-      href={getHrefToFwangoTournamentResult(result.tournamentResultId, result.category, result.division)}
+      href={getHrefToFwangoTournamentResult(
+        divisionResult.tournamentResultId,
+        divisionResult.category,
+        divisionResult.division
+      )}
       target="_blank"
-      key={result.tournamentResultId}
+      key={divisionResult.tournamentResultId}
       className="text-sm font-normal text-blue-400 hover:cursor-pointer hover:text-blue-600 hover:underline hover:underline-offset-2 p-0 h-4 mr-2"
     >
-      {`${result.category} ${result.division}`}
+      {`${divisionResult.category} ${divisionResult.division}`}
     </a>
   ));
   return (
@@ -140,16 +144,18 @@ const TournamentCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> 
 };
 
 const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) => {
-  const { fetch, data, loading, error } = useFetch<boolean>();
+  const { fetch, data, loading, error } = useFetchLazy<boolean>();
 
   const importTournamentResults = (tournamentResultsRow: Row<RankingsDataManagementTableDataRow>) => {
-    const tournamentResultsArg: Tournament = {
+    const tournamentResultsArg: TournamentDTO = {
       tournamentId: tournamentResultsRow.original.tournamentId,
       name: tournamentResultsRow.original.name,
       date: tournamentResultsRow.original.date,
-      results: tournamentResultsRow.original.results,
+      divisions: tournamentResultsRow.original.divisions,
     };
 
+    // TODO think about this function. Async operation is executed here but we are not waiting for the result...
+    // what about errors ?
     fetch(`http:localhost:3001/tournaments/import-tournament-result`, {
       method: "POST",
       headers: {
@@ -192,5 +198,5 @@ const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) =
           ? errorMarkup
           : importedMarkup;
 
-  return <>{row.getValue("Status") ? importedMarkup : statusMarkup}</>;
+  return <>{row.original.isTournamentImported ? importedMarkup : statusMarkup}</>;
 };

@@ -1,22 +1,14 @@
 import { useEffect } from "react";
 import { TimePeriod } from "@/utils";
-import { RankedPlayer, RankedPlayerTournamentResult } from "./apiTypes";
-import { Category, Division } from "../domain";
-import { getTotalPointsFromXBestResults } from "../lib/getTotalPointsFromXBestResults";
-import { useFetch } from "./useFetchData";
+import { RankedPlayerDTO } from "./apiTypes";
+import { Category, Division, RankedPlayer } from "../domain";
+import { useFetchLazy } from "./useFetch";
 import { createQueryString } from "./createQueryStringsContainingFilters";
 import { tournamentDrawDefaults } from "@/config";
-
-export type RankedPlayers = Array<{
-  playerId: string;
-  playerUid: string;
-  name: string;
-  points: number;
-  tournamentResults: Array<RankedPlayerTournamentResult>;
-}>;
+import { sortPlayersByPoints } from "@/lib/sortPlayersByPoints";
 
 export type GetRankedPlayersResult = {
-  data: RankedPlayers;
+  data: Array<RankedPlayer>;
   loading: boolean;
   error: boolean;
 };
@@ -38,7 +30,7 @@ export const useGetRankedPlayers = ({
     numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal},
     seasons={from=${seasons.from},to=${seasons.to}}`);
 
-  const { fetch, data, loading, error } = useFetch<Array<RankedPlayer>>();
+  const { fetch, data, loading, error } = useFetchLazy<Array<RankedPlayerDTO>>();
 
   useEffect(() => {
     const queryString = createQueryString(division, seasons);
@@ -46,7 +38,7 @@ export const useGetRankedPlayers = ({
   }, [category, division, seasons, fetch]);
 
   return {
-    data: sortPlayers(
+    data: sortPlayersByPoints(
       data,
       numberOfResultsCountedToPointsTotal ?? tournamentDrawDefaults.numberOfResultsCountedToPointsTotal
     ),
@@ -54,20 +46,3 @@ export const useGetRankedPlayers = ({
     error,
   };
 };
-
-const sortPlayers = (
-  data: Array<RankedPlayer> | undefined,
-  numberOfResultsCountedToPointsTotal: number
-): RankedPlayers =>
-  data
-    ?.map<RankedPlayers[number]>((player) => ({
-      playerId: player.id,
-      playerUid: player.uid,
-      name: player.name,
-      points: getTotalPointsFromXBestResults(
-        player.tournamentResults,
-        numberOfResultsCountedToPointsTotal ?? tournamentDrawDefaults.numberOfResultsCountedToPointsTotal
-      ),
-      tournamentResults: player.tournamentResults,
-    }))
-    .sort((playerA, playerB) => playerB.points - playerA.points) ?? [];

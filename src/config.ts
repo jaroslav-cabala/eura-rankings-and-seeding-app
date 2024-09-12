@@ -44,6 +44,6 @@ export const tournamentDrawDefaults: {
   numberOfResultsCountedToPointsTotal: number;
   groupDrawMethod: GroupDrawMethod;
 } = {
-  numberOfResultsCountedToPointsTotal: 2,
+  numberOfResultsCountedToPointsTotal: 3,
   groupDrawMethod: "snake",
 };

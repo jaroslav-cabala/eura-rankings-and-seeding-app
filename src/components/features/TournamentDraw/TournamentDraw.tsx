@@ -1,25 +1,43 @@
-import { FC, useState } from "react";
+import { FC, useReducer, useState } from "react";
+import { Loader2, SquarePlus } from "lucide-react";
+import { useParams } from "@tanstack/react-router";
 import "./TournamentDraw.css";
-import { ParticipatingTeam } from "../types";
-import { TournamentDrawSettings } from "./GroupDrawSettings";
+import { TournamentDrawSettings } from "./TournamentDrawSettings";
 import { Groups } from "./Groups";
 import { drawGroups } from "./drawGroups";
-import { GroupDrawMethod, tournamentDrawDefaults } from "@/config";
-import { fetchTeams, RankedTeams } from "./fetchTeams";
-import { fetchPlayers, RankedPlayers } from "./fetchPlayers";
+import { fetchTeams } from "./fetchTeams";
+import { fetchPlayers } from "./fetchPlayers";
 import { Button } from "@/components/ui/button";
 import { AddTeam } from "./AddTeam";
-import { Loader2, SquarePlus, Trash2 } from "lucide-react";
-import { participatingTeamsMock, tournamentsMock } from "./testData";
-import { TournamentDrawDTO } from "@/api/apiTypes";
+import {
+  RankedPlayerDTO,
+  RankedTeamDTO,
+  TeamPointsCountMethod,
+  TournamentDrawDTO,
+  TournamentDrawPlayerDTO,
+  TournamentDrawTeamDTO,
+} from "@/api/apiTypes";
 import { useGetTournamentDraw } from "@/api/useGetTournamentDraw";
-import { useParams } from "@tanstack/react-router";
+import { useGetTournamentDraws } from "@/api/useGetTournamentDraws";
+import { tournamentDrawReducer, TournamentDrawReducerActionType } from "./tournamentDrawReducer";
+import { Teams } from "./Teams";
+import { getTotalPointsFromXBestResults } from "@/lib/getTotalPointsFromXBestResults";
+import { useFetchLazy } from "@/api/useFetch";
 
 export const TournamentDraw = () => {
   const params = useParams({ from: "/tournament-draws/$tournamentDrawId" });
-  const { data, loading, error } = useGetTournamentDraw(params.tournamentDrawId);
+  const {
+    data: tournamentDraw,
+    loading: tournamentDrawLoading,
+    error: tournamentDrawError,
+  } = useGetTournamentDraw(params.tournamentDrawId);
+  const {
+    data: tournamentDraws,
+    loading: tournamentDrawsLoading,
+    error: tournamentDrawsError,
+  } = useGetTournamentDraws();
 
-  if (error) {
+  if (tournamentDrawError || tournamentDrawsError) {
     return (
       <section id="fullscreen-section">
         <div className="py-2">Error while fetching tournament draw data</div>
@@ -27,48 +45,58 @@ export const TournamentDraw = () => {
     );
   }
 
-  if (loading) {
+  if (tournamentDrawLoading || tournamentDrawsLoading || !tournamentDraw || !tournamentDraws) {
     return (
       <section>
         <div className="py-2">
           <Loader2 className="animate-spin mr-2" />
-          Loading tournament data...
+          Loading tournament draw data...
         </div>
       </section>
     );
   }
 
-  return <TournamentDrawComponent data={data} loading={loading} />;
+  return (
+    <TournamentDrawComponent
+      tournamentDrawId={params.tournamentDrawId}
+      tournamentDrawInitial={tournamentDraw}
+      tournamentDrawsInitial={tournamentDraws}
+    />
+  );
 };
 
 type TournamentDrawComponentProps = {
-  data?: TournamentDrawDTO;
-  loading: boolean;
+  tournamentDrawId: string;
+  tournamentDrawInitial: TournamentDrawDTO;
+  tournamentDrawsInitial: Array<TournamentDrawDTO>;
 };
 
-const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loading }) => {
-  const [tournaments, setTournaments] = useState<Array<Tournament>>(tournamentsMock);
-  const [participatingTeams, setParticipatingTeams] =
-    useState<Array<ParticipatingTeam>>(participatingTeamsMock);
-  // const [chosenFileName, setChosenFileName] = useState("No file chosen");
-  const [groupStageSettings, setGroupStageSettings] = useState<GroupStageSettings>({
-    ...groupStageSettingsDefault,
-    groups: (participatingTeams.length / 4).toString(), // set default number of groups based on the number of teams
-  });
+const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
+  tournamentDrawId,
+  tournamentDrawInitial,
+  tournamentDrawsInitial,
+}) => {
+  const [tournamentDraws, setTournamentDraws] = useState<Array<TournamentDrawDTO>>(tournamentDrawsInitial);
+  const [tournamentDraw, dispatch] = useReducer(tournamentDrawReducer, tournamentDrawInitial);
   const [groupStage, setGroupStage] = useState<GroupStage | undefined>(undefined);
+  // const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const { fetch, data: saveResponse, loading: saveInProgress, error: saveError } = useFetchLazy<boolean>();
 
   const drawGroupsHandler = (): void => {
-    const drawnGroups = drawGroups(participatingTeams, groupStageSettings);
+    const drawnGroups = drawGroups(teamsWithPoints, {
+      groups: tournamentDraw.groups,
+      powerpools: tournamentDraw.powerpools,
+      powerpoolTeams: tournamentDraw.powerpoolTeams,
+    });
     setGroupStage(drawnGroups);
   };
 
   const importTeamsFromFwango = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    alert("importing same file again, yay!");
     const importedTeamsFile = e.target.files?.[0];
     // setChosenFileName(importedTeamsFile?.name ?? "");
-
     const rankedTeams = await fetchTeams();
     const rankedPlayers = await fetchPlayers();
-
     if (importedTeamsFile) {
       // solve case where number of substring split by coma is not divisible by 3 -
       // team name or player's name is missing for some reason
@@ -83,14 +111,15 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loadi
           playerTwo: importedTeam[2].trim(),
         });
       }
-
-      const _participatingTeams: Array<ParticipatingTeam> = createParticipatingTeamsFromImportedData(
+      const _participatingTeams: Array<TournamentDrawTeamWithPoints> = createTournamentTeamsFromImportedData(
         importedTeams,
         rankedTeams,
-        rankedPlayers
+        rankedPlayers,
+        tournamentDraw.numberOfResultsCountedToPointsTotal,
+        tournamentDraw.teamPointsCountMethod
       );
 
-      setParticipatingTeams(_participatingTeams);
+      dispatch({ type: TournamentDrawReducerActionType.SetTeams, teams: _participatingTeams });
     } else {
       console.log("file not specified, cannot import teams");
     }
@@ -98,14 +127,31 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loadi
 
   const resetTournament = (): void => {
     // setChosenFileName("No file chosen");
-    setGroupStageSettings({ ...groupStageSettingsDefault });
-    setGroupStage({});
-    setParticipatingTeams([]);
+    dispatch({ type: TournamentDrawReducerActionType.Reset });
+    setGroupStage(undefined);
   };
 
-  const createNewTournament = (): void => {
-    setTournaments([{ id: "newId", name: "new tournament 1", tournamentDraws: [] }, ...tournaments]);
+  const saveTournamentDraw = async (): Promise<void> => {
+    // TODO think about this function. Async operation is executed here but we are not waiting for the result...
+    // what about errors ?
+    fetch(`http:localhost:3001/tournament-draws/${tournamentDrawId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tournamentDraw),
+    });
   };
+
+  const createNewTournament = async (): Promise<void> => {
+    // setTournamentDraws([{ id: "newId", name: "new tournament 1", tournamentDraws: [] }, ...tournamentDraws]);
+  };
+
+  const teamsWithPoints = sortTeamsByPoints(
+    tournamentDraw.teams,
+    tournamentDraw.teamPointsCountMethod,
+    tournamentDraw.numberOfResultsCountedToPointsTotal
+  );
 
   return (
     <section id="tournament-draw">
@@ -114,11 +160,9 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loadi
         <Button variant="outline" className="w-full mb-2 py-1.5 px-3" onClick={createNewTournament}>
           <SquarePlus className="mr-2" /> Create new
         </Button>
-        {tournaments.map((t) => (
-          <div id="tournament-draw-item">
-            <div key={t.id} id="tournament-draw-name">
-              {t.name}
-            </div>
+        {tournamentDraws?.map((t) => (
+          <div key={t.id} id="tournament-draw-item">
+            <div id="tournament-draw-name">{t.name}</div>
           </div>
         ))}
       </div>
@@ -135,11 +179,18 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loadi
           </Button>
           <Button
             className="mb-2 ml-2"
-            // onClick={() => {
-            //   saveTournamentDraw();
-            // }}
+            onClick={() => {
+              saveTournamentDraw();
+            }}
+            disabled={saveInProgress}
           >
-            Save
+            {saveInProgress ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" /> Save
+              </>
+            ) : (
+              <>Save</>
+            )}
           </Button>
           <div className="import-teams mb-2">
             <input
@@ -158,33 +209,18 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loadi
             }}
           />
           <div>
-            <p className="title py-4">Teams ({participatingTeams.length})</p>
-            <ol>
-              {participatingTeams
-                .slice()
-                .sort((a, b) => b.points - a.points)
-                .map((team) => (
-                  <li key={team.id ?? `${team.playerOne.name}_${team.playerTwo.name}`}>
-                    <div id="team-info">
-                      <div className="team-name">{`${team.name} (${team.points} points)`}</div>
-                      <div className="team-players">
-                        {`${team.playerOne.name} (${team.playerOne.points}), ${team.playerTwo.name} (${team.playerTwo.points})`}
-                      </div>
-                    </div>
-                    <div id="team-actions">
-                      <Button title="Delete team" size="icon" variant="icon" className="hover:text-red-500">
-                        <Trash2 />
-                      </Button>
-                    </div>
-                  </li>
-                ))}
-            </ol>
+            <p className="title py-4">Teams ({tournamentDraw.teams.length})</p>
+            <Teams
+              removeTeam={dispatch}
+              teams={teamsWithPoints}
+              teamPointsCountMethod={tournamentDraw.teamPointsCountMethod}
+            />
           </div>
         </div>
         <div className="group-draw">
           <TournamentDrawSettings
-            tournamentDrawSettings={groupStageSettings}
-            setTournamentDrawSettings={setGroupStageSettings}
+            tournamentDrawSettings={tournamentDraw}
+            setTournamentDrawSettings={dispatch}
             drawGroupsHandler={drawGroupsHandler}
           />
           <Groups groups={groupStage?.groups} powerpools={groupStage?.powerpools} />
@@ -194,69 +230,142 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({ data, loadi
   );
 };
 
-const createParticipatingTeamsFromImportedData = (
+const createTournamentTeamsFromImportedData = (
   importedTeams: { name: string; playerOne: string; playerTwo: string }[],
-  rankedTeams: RankedTeams,
-  rankedPlayers: RankedPlayers
-) => {
-  const _participatingTeams: Array<ParticipatingTeam> = [];
+  rankedTeams: Array<RankedTeamDTO>,
+  rankedPlayers: Array<RankedPlayerDTO>,
+  numberOfResultsCountedToPointsTotal: number,
+  teamPointsCountMethod: TeamPointsCountMethod
+): Array<TournamentDrawTeamWithPoints> => {
+  const _tournamentTeams: Array<TournamentDrawTeamWithPoints> = [];
+
   for (const importedTeam of importedTeams) {
     const existingTeam = rankedTeams.find(
-      (team) =>
-        team.name === importedTeam.name &&
-        (team.playerOne.name === importedTeam.playerOne || team.playerOne.name === importedTeam.playerTwo) &&
-        (team.playerTwo.name === importedTeam.playerOne || team.playerTwo.name === importedTeam.playerTwo)
+      (rankedTeam) =>
+        rankedTeam.name === importedTeam.name &&
+        rankedTeam.players.find((rankedTeamPlayer) => rankedTeamPlayer.name === importedTeam.playerOne) &&
+        rankedTeam.players.find((rankedTeamPlayer) => rankedTeamPlayer.name === importedTeam.playerTwo)
     );
 
-    if (existingTeam) {
-      const existingPlayerOne = rankedPlayers.find((player) => player.name === importedTeam.playerOne);
-      const existingPlayerTwo = rankedPlayers.find((player) => player.name === importedTeam.playerTwo);
+    const existingPlayerOne = rankedPlayers.find(
+      (rankedPlayer) => rankedPlayer.name === importedTeam.playerOne
+    );
+    const existingPlayerTwo = rankedPlayers.find(
+      (rankedPlayer) => rankedPlayer.name === importedTeam.playerTwo
+    );
 
-      _participatingTeams.push({
-        id: existingTeam.teamUid,
-        name: existingTeam.name,
-        playerOne: { ...existingTeam.playerOne, points: existingPlayerOne?.points ?? 0 },
-        playerTwo: { ...existingTeam.playerTwo, points: existingPlayerTwo?.points ?? 0 },
-        points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
-      });
-      continue; // team is found in the ranked teams, take the next team
+    // TODO fix scenario when existingTeam is not found, because the team name is not found in the repository.
+    // Players changed their team name or there is a typo, but the actual players from that team already played
+    // together under a different name. User should be notified on UI about this discrepancy and should be able
+    // to change the team name for all existing records in the db or do smth else....
+    if (existingTeam) {
+      if (existingPlayerOne && existingPlayerTwo) {
+        const existingPlayerOnePoints =
+          teamPointsCountMethod === "sumOfPlayersPoints"
+            ? getTotalPointsFromXBestResults(
+                existingPlayerOne.tournamentResults,
+                numberOfResultsCountedToPointsTotal
+              )
+            : 0;
+
+        const existingPlayerTwoPoints =
+          teamPointsCountMethod === "sumOfPlayersPoints"
+            ? getTotalPointsFromXBestResults(
+                existingPlayerTwo.tournamentResults,
+                numberOfResultsCountedToPointsTotal
+              )
+            : 0;
+
+        _tournamentTeams.push({
+          id: existingTeam.id,
+          uid: existingTeam.uid,
+          name: existingTeam.name,
+          tournamentResults: existingTeam.tournamentResults,
+          players: [
+            {
+              ...existingPlayerOne,
+              points: existingPlayerOnePoints,
+            },
+            {
+              ...existingPlayerTwo,
+              points: existingPlayerTwoPoints,
+            },
+          ],
+          points:
+            teamPointsCountMethod === "sumOfPlayersPoints"
+              ? existingPlayerOnePoints + existingPlayerTwoPoints
+              : getTotalPointsFromXBestResults(
+                  existingTeam.tournamentResults,
+                  numberOfResultsCountedToPointsTotal
+                ),
+        });
+        continue; // team is found in the ranked teams, take the next team
+      }
     }
 
     // team is not found in the ranked teams, it is a new team.
-    // But the players might be ranked so we need to look for them
-    const existingPlayerOne = rankedPlayers.find((player) => player.name === importedTeam.playerOne);
-    const existingPlayerTwo = rankedPlayers.find((player) => player.name === importedTeam.playerTwo);
-
-    _participatingTeams.push({
+    // But both or one of the players might be ranked so we need check that
+    _tournamentTeams.push({
+      id: null,
+      uid: null,
       name: importedTeam.name,
-      playerOne: existingPlayerOne
-        ? {
-            name: existingPlayerOne.name,
-            id: existingPlayerOne.playerId,
-            uid: existingPlayerOne.playerUid,
-            points: existingPlayerOne.points,
-          }
-        : { name: importedTeam.playerOne, id: "", uid: "", points: 0 },
-      playerTwo: existingPlayerTwo
-        ? {
-            name: existingPlayerTwo.name,
-            id: existingPlayerTwo.playerId,
-            uid: existingPlayerTwo.playerUid,
-            points: existingPlayerTwo.points,
-          }
-        : { name: importedTeam.playerTwo, id: "", uid: "", points: 0 },
-      points: (existingPlayerOne?.points ?? 0) + (existingPlayerTwo?.points ?? 0),
+      tournamentResults: [],
+      players: [
+        existingPlayerOne
+          ? {
+              ...existingPlayerOne,
+              points:
+                teamPointsCountMethod === "sumOfPlayersPoints"
+                  ? getTotalPointsFromXBestResults(
+                      existingPlayerOne.tournamentResults,
+                      numberOfResultsCountedToPointsTotal
+                    )
+                  : 0,
+            }
+          : {
+              name: importedTeam.playerOne,
+              id: null,
+              uid: null,
+              tournamentResults: [],
+              points: 0,
+            },
+        existingPlayerTwo
+          ? {
+              ...existingPlayerTwo,
+              points:
+                teamPointsCountMethod === "sumOfPlayersPoints"
+                  ? getTotalPointsFromXBestResults(
+                      existingPlayerTwo.tournamentResults,
+                      numberOfResultsCountedToPointsTotal
+                    )
+                  : 0,
+            }
+          : {
+              name: importedTeam.playerTwo,
+              id: null,
+              uid: null,
+              tournamentResults: [],
+              points: 0,
+            },
+      ],
+      points:
+        teamPointsCountMethod === "sumOfPlayersPoints"
+          ? (existingPlayerOne
+              ? getTotalPointsFromXBestResults(
+                  existingPlayerOne.tournamentResults,
+                  numberOfResultsCountedToPointsTotal
+                )
+              : 0) +
+            (existingPlayerTwo
+              ? getTotalPointsFromXBestResults(
+                  existingPlayerTwo.tournamentResults,
+                  numberOfResultsCountedToPointsTotal
+                )
+              : 0)
+          : 0,
     });
   }
-  return _participatingTeams;
-};
-
-export type GroupStageSettings = {
-  powerpools: boolean;
-  powerpoolGroups: string;
-  powerpoolTeams: string;
-  groups: string;
-  groupDrawMethod: GroupDrawMethod;
+  return _tournamentTeams;
 };
 
 export type GroupStage = {
@@ -265,19 +374,49 @@ export type GroupStage = {
 };
 
 export type Group = {
-  teams: Array<ParticipatingTeam>;
+  teams: Array<TournamentDrawTeamWithPoints>;
 };
 
-const groupStageSettingsDefault: GroupStageSettings = {
-  powerpools: false,
-  powerpoolGroups: "0",
-  powerpoolTeams: "0",
-  groups: "0",
-  groupDrawMethod: tournamentDrawDefaults.groupDrawMethod,
+// TODO improve this type with never. There are 2 options - either we count player points
+// in which case team points is sum of the player points
+// or we count team points in which case players have no points
+export type TournamentDrawTeamWithPoints = Pick<
+  TournamentDrawTeamDTO,
+  "id" | "uid" | "name" | "tournamentResults"
+> & {
+  points: number;
+  players: Array<TournamentDrawPlayerDTO & { points: number }>;
 };
 
-type Tournament = {
-  id: string;
-  name: string;
-  tournamentDraws: Array<{ id: string; name: string }>;
+const sortTeamsByPoints = (
+  data: Array<TournamentDrawTeamDTO> | undefined,
+  teamPointsCountMethod: TeamPointsCountMethod,
+  numberOfResultsCountedToPointsTotal: number
+): Array<TournamentDrawTeamWithPoints> => {
+  console.log("augmenting teams from state with 'points' property and sorting the list of teams");
+
+  return teamPointsCountMethod === "sumOfTeamPoints"
+    ? data
+        ?.map<TournamentDrawTeamWithPoints>((team) => ({
+          ...team,
+          players: team.players.map((player) => ({ ...player, points: 0 })),
+          points: getTotalPointsFromXBestResults(team.tournamentResults, numberOfResultsCountedToPointsTotal),
+        }))
+        .sort((teamA, teamB) => teamB.points - teamA.points) ?? []
+    : data
+        ?.map<TournamentDrawTeamWithPoints>((team) => {
+          const players = team.players.map((player) => ({
+            ...player,
+            points: getTotalPointsFromXBestResults(
+              player.tournamentResults,
+              numberOfResultsCountedToPointsTotal
+            ),
+          }));
+          return {
+            ...team,
+            players,
+            points: players[0].points + players[1].points,
+          };
+        })
+        .sort((teamA, teamB) => teamB.points - teamA.points) ?? [];
 };

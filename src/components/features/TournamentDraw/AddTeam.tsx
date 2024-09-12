@@ -33,7 +33,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler }) => {
         placeholder="Player name"
       />
       <Button variant="default" onClick={addTeamHandler}>
-        Create team
+        Add team
       </Button>
     </div>
   );

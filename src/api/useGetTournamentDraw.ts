@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { TournamentDrawDTO } from "./apiTypes";
-import { useFetch } from "./useFetchData";
+import { useFetchLazy } from "./useFetch";
 
 export type UseGetTournamentDrawResult = {
   data?: TournamentDrawDTO;
@@ -9,7 +9,7 @@ export type UseGetTournamentDrawResult = {
 };
 
 export const useGetTournamentDraw = (id: string): UseGetTournamentDrawResult => {
-  const { fetch, data, loading, error } = useFetch<TournamentDrawDTO>();
+  const { fetch, data, loading, error } = useFetchLazy<TournamentDrawDTO>();
 
   useEffect(() => {
     fetch(`http:localhost:3001/tournament-draws/${id}`);

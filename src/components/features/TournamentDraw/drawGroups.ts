@@ -1,25 +1,27 @@
+import { TournamentDrawDTO } from "@/api/apiTypes";
 import { snakeDraw } from "../../../lib/snakeDraw";
-import { ParticipatingTeam } from "../types";
-import { GroupStageSettings, GroupStage, Group } from "./TournamentDraw";
+import { GroupStage, Group, TournamentDrawTeamWithPoints } from "./TournamentDraw";
 
 export const drawGroups = (
-  participatingTeams: ParticipatingTeam[],
-  tournamentDrawSettings: GroupStageSettings
+  teams: Array<TournamentDrawTeamWithPoints>,
+  tournamentDrawSettings: Pick<TournamentDrawDTO, "powerpools" | "powerpoolTeams" | "groups">
 ): GroupStage | undefined => {
   let powerpools: Array<Group> | undefined = undefined;
 
-  const _participatingTeams = [...participatingTeams].sort((a, b) => b.points - a.points);
+  const teamsCopy = [...teams].sort((a, b) => b.points - a.points);
 
+  // TODO Teams copy is modified here and then used to draw groups.
+  // Maybe this could be improved so the function is more clear ?
   if (tournamentDrawSettings.powerpools) {
     powerpools = drawPowerpools(
-      _participatingTeams,
-      Number(tournamentDrawSettings.powerpoolGroups),
-      Number(tournamentDrawSettings.powerpoolTeams)
+      teamsCopy,
+      tournamentDrawSettings.powerpools,
+      tournamentDrawSettings.powerpoolTeams
     );
   }
 
-  _participatingTeams.reverse();
-  const groups = snakeDraw<ParticipatingTeam>(_participatingTeams, Number(tournamentDrawSettings.groups));
+  teamsCopy.reverse();
+  const groups = snakeDraw<TournamentDrawTeamWithPoints>(teamsCopy, tournamentDrawSettings.groups);
 
   return {
     groups,
@@ -28,12 +30,12 @@ export const drawGroups = (
 };
 
 const drawPowerpools = (
-  participatingTeams: Array<ParticipatingTeam>,
+  teams: Array<TournamentDrawTeamWithPoints>,
   noPowerpoolGroups: number,
   noPowerpoolTeams: number
 ): GroupStage["powerpools"] => {
-  const powerpoolTeams = participatingTeams.splice(0, noPowerpoolTeams).reverse();
-  const powerpoolGroups = snakeDraw<ParticipatingTeam>(powerpoolTeams, noPowerpoolGroups);
+  const powerpoolTeams = teams.splice(0, noPowerpoolTeams).reverse();
+  const powerpoolGroups = snakeDraw<TournamentDrawTeamWithPoints>(powerpoolTeams, noPowerpoolGroups);
 
   return powerpoolGroups;
 };

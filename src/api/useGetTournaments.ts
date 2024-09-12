@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Tournament } from "@/api/apiTypes";
-import { useFetch } from "../../../api/useFetchData";
+import { TournamentDTO } from "@/api/apiTypes";
+import { useFetchLazy } from "./useFetch";
 
 export type UseGetTournamentsResult = {
-  data?: Array<Tournament>;
+  data?: Array<TournamentDTO>;
   loading: boolean;
   error: boolean;
 };
@@ -11,7 +11,7 @@ export type UseGetTournamentsResult = {
 export const useGetTournaments = (fetchUrl: string): UseGetTournamentsResult => {
   console.log(`useGetTournaments hook`);
 
-  const { fetch, data, loading, error } = useFetch<Array<Tournament>>();
+  const { fetch, data, loading, error } = useFetchLazy<Array<TournamentDTO>>();
 
   useEffect(() => {
     fetch(fetchUrl);

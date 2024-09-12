@@ -1,8 +1,11 @@
+import { RankedPlayerDTO, RankedTeamDTO } from "./api/apiTypes";
+
 export enum RankedEntity {
   Individual = "individual",
   Team = "team",
 }
 
+// use types from api ???
 export enum Category {
   Open = "open",
   Women = "women",
@@ -14,3 +17,11 @@ export enum Division {
   Contender = "contender",
   Advanced = "advanced",
 }
+
+export type RankedPlayer = RankedPlayerDTO & {
+  points: number;
+};
+
+export type RankedTeam = RankedTeamDTO & {
+  points: number;
+};

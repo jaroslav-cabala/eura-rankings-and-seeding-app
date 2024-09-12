@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { GroupStageSettings } from "./TournamentDraw";
+import { Dispatch } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -11,24 +10,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Category, Division } from "@/domain";
+import { Category } from "@/domain";
 import { capitalizeFirstChar } from "@/utils";
+import { TournamentDrawDTO } from "@/api/apiTypes";
+import { TournamentDrawReducerActionType, TournamentDrawReducerActionTypes } from "./tournamentDrawReducer";
 
-export const TournamentDrawSettings = ({
+type TournamentDrawSettingsProps = {
+  setTournamentDrawSettings: Dispatch<TournamentDrawReducerActionTypes>;
+  tournamentDrawSettings: Pick<
+    TournamentDrawDTO,
+    "name" | "powerpoolTeams" | "powerpools" | "groups" | "teamPointsCountMethod" | "category"
+  >;
+  drawGroupsHandler: () => void;
+};
+export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
   tournamentDrawSettings,
   setTournamentDrawSettings,
   drawGroupsHandler,
-}: {
-  setTournamentDrawSettings: Dispatch<SetStateAction<GroupStageSettings>>;
-  tournamentDrawSettings: GroupStageSettings;
-  drawGroupsHandler: () => void;
 }) => {
-  const [groupStageDrawSettings, setGroupStageDrawSettings] = useState<{
-    category: Category;
-    division: Division;
-    name: string;
-  }>({ category: Category.Open, division: Division.Pro, name: "" });
-
   return (
     <div id="tournament-draw-settings" className="mb-6">
       <div className="title pb-6 pt-2">Tournament draw settings</div>
@@ -36,21 +35,27 @@ export const TournamentDrawSettings = ({
         <Input
           className="w-80"
           placeholder="Division name"
-          value={groupStageDrawSettings.name}
+          value={tournamentDrawSettings.name}
           onChange={(event) =>
-            setGroupStageDrawSettings({ ...groupStageDrawSettings, name: event.currentTarget.value })
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetName,
+              name: event.currentTarget.value,
+            })
           }
         />
         <Separator orientation="vertical" className="mx-4" />
         <label>Division:</label>
         <Select
-          value={groupStageDrawSettings.category}
-          onValueChange={(value) =>
-            setGroupStageDrawSettings({ ...groupStageDrawSettings, category: value as Category })
-          }
+          value={tournamentDrawSettings.category}
+          // onValueChange={(value) =>
+          //   setTournamentDrawSettings({
+          //     type: TournamentDrawReducerActionType.SetCategory,
+          //     category: value as Category,
+          //   })
+          // }
         >
           <SelectTrigger className="w-[120px]">
-            <SelectValue>{capitalizeFirstChar(groupStageDrawSettings.category)}</SelectValue>
+            <SelectValue>{capitalizeFirstChar(tournamentDrawSettings.category)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -62,14 +67,14 @@ export const TournamentDrawSettings = ({
           </SelectContent>
         </Select>
         <Separator orientation="vertical" className="mx-1" />
-        <Select
-          value={groupStageDrawSettings.division}
+        {/* <Select
+          value={tournamentDrawSettings.division}
           onValueChange={(value) =>
-            setGroupStageDrawSettings({ ...groupStageDrawSettings, division: value as Division })
+            setTournamentDrawSettings({ ...tournamentDrawSettings, division: value as Division })
           }
         >
           <SelectTrigger className="w-[120px]">
-            <SelectValue>{capitalizeFirstChar(groupStageDrawSettings.division)}</SelectValue>
+            <SelectValue>{capitalizeFirstChar(tournamentDrawSettings.division)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -77,7 +82,7 @@ export const TournamentDrawSettings = ({
               <SelectItem value={Division.Contender}>{capitalizeFirstChar(Division.Contender)}</SelectItem>
             </SelectGroup>
           </SelectContent>
-        </Select>
+        </Select> */}
       </div>
       <div className="flex items-center">
         <label htmlFor="powerpool-teams">Powerpool teams:</label>
@@ -88,10 +93,10 @@ export const TournamentDrawSettings = ({
           min={1}
           value={tournamentDrawSettings.powerpoolTeams}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setTournamentDrawSettings((prevVal) => ({
-              ...prevVal,
-              powerpoolTeams: event.target.value,
-            }));
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetPowerpoolTeamsCount,
+              powerpoolTeamsCount: event.target.value,
+            });
           }}
         />
         <Separator orientation="vertical" className="mx-2" />
@@ -101,12 +106,12 @@ export const TournamentDrawSettings = ({
           className="max-w-[68px]"
           type="number"
           min={1}
-          value={tournamentDrawSettings.powerpoolGroups}
+          value={tournamentDrawSettings.powerpools}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setTournamentDrawSettings((prevVal) => ({
-              ...prevVal,
-              powerpoolGroups: event.target.value,
-            }));
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetPowerpoolGroupsCount,
+              powerpoolGroupsCount: event.target.value,
+            });
           }}
         />
         <Separator orientation="vertical" className="mx-2" />
@@ -118,10 +123,10 @@ export const TournamentDrawSettings = ({
           min={1}
           value={tournamentDrawSettings.groups}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setTournamentDrawSettings((prevVal) => ({
-              ...prevVal,
-              groups: event.target.value,
-            }));
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetGroupsCount,
+              groupsCount: event.target.value,
+            });
           }}
         />
         <Separator orientation="vertical" className="mx-4" />

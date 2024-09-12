@@ -35,8 +35,8 @@ export const TeamRankings = () => {
     rank: index + 1,
     team: {
       name: team.name,
-      playerOneName: team.playerOne.name,
-      playerTwoName: team.playerTwo.name,
+      playerOneName: team.players[0].name,
+      playerTwoName: team.players[1].name,
     },
     points: team.points,
     tournamentsPlayed: team.tournamentResults.length,
