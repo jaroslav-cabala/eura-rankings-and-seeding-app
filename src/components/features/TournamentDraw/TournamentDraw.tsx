@@ -156,7 +156,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
   return (
     <section id="tournament-draw">
       <div id="tournament-draws">
-        <p className="title pb-6 pt-2 text-white">Tournaments</p>
+        <p className="title pb-6 pt-2 text-center text-white">Tournaments</p>
         <Button variant="outline" className="w-full mb-2 py-1.5 px-3" onClick={createNewTournament}>
           <SquarePlus className="mr-2" /> Create new
         </Button>
@@ -189,7 +189,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
                 <Loader2 className="h-4 w-4 animate-spin mr-2" /> Save
               </>
             ) : (
-              <>Save</>
+              "Save"
             )}
           </Button>
           <div className="import-teams mb-2">
@@ -207,6 +207,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
             addTeamHandler={function (): void {
               throw new Error("Function not implemented.");
             }}
+            category={tournamentDraw.category}
           />
           <div>
             <p className="title py-4">Teams ({tournamentDraw.teams.length})</p>

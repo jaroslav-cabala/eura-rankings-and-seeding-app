@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Category, Division, RankedTeam } from "../domain";
 import { useFetchLazy } from "./useFetch";
 import { RankedTeamDTO } from "./apiTypes";
-import { TimePeriod } from "@/utils";
 import { createQueryString } from "./createQueryStringsContainingFilters";
 import { tournamentDrawDefaults } from "@/config";
 import { sortTeamsByPoints } from "@/lib/sortTeamsByPoints";
@@ -16,7 +15,8 @@ export type GetRankedTeamsResult = {
 type UseGetRankedTeamsProps = {
   category: Category;
   division: Division;
-  seasons: TimePeriod;
+  fromSeason: string;
+  toSeason: string;
   numberOfResultsCountedToPointsTotal: number;
 };
 
@@ -24,17 +24,15 @@ export const useGetRankedTeams = ({
   category,
   division,
   numberOfResultsCountedToPointsTotal,
-  seasons,
+  fromSeason,
+  toSeason,
 }: UseGetRankedTeamsProps): GetRankedTeamsResult => {
-  console.log(`useGetRankedTeams hook, category=${category},division=${division},
-    numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal},
-    seasons={from=${seasons.from},to=${seasons.to}}`);
   const { fetch, data, loading, error } = useFetchLazy<Array<RankedTeamDTO>>();
 
   useEffect(() => {
-    const queryString = createQueryString(division, seasons);
+    const queryString = createQueryString(division, { from: fromSeason, to: toSeason });
     fetch(`http:localhost:3001/rankings/${category}/teams?${queryString}`);
-  }, [category, division, seasons, fetch]);
+  }, [category, division, fetch, fromSeason, toSeason]);
 
   return {
     data: sortTeamsByPoints(data, numberOfResultsCountedToPointsTotal),

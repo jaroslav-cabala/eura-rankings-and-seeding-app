@@ -9,7 +9,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useGetRankedPlayers } from "@/api/useGetRankedPlayers";
-import { DataTable } from "../../ui/DataTable";
+import { DataTable } from "../../ui/dataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
 import { SearchInput } from "./DataTable/SearchInput";

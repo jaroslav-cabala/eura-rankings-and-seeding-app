@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { DataTable } from "../../ui/DataTable";
+import { DataTable } from "../../ui/dataTable";
 import { RankingsFilter } from "./RankingsFilter";
 import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
 import React, { FC } from "react";
@@ -28,7 +28,8 @@ export const TeamRankings = () => {
     category: rankingsFilterParams.category,
     division: rankingsFilterParams.division,
     numberOfResultsCountedToPointsTotal: rankingsFilterParams.numberOfResultsCountedToPointsTotal,
-    seasons: rankingsFilterParams.seasons,
+    fromSeason: rankingsFilterParams.seasons.from,
+    toSeason: rankingsFilterParams.seasons.to,
   });
 
   const tableData: Array<TeamRankingsTableDataRow> = teams.map((team, index) => ({

@@ -46,7 +46,7 @@
 }
 
 #group-stage-draw #tournament-teams li {
-  background-color: rgb(245 248 252);
+  background-color: #f1f5f9;
   padding: 0.375rem 0.75rem;
   border-radius: 6px;
   min-width: 420px;
@@ -60,9 +60,14 @@
   margin-bottom: 0.5rem;
 }
 
-#group-stage-draw #tournament-teams #add-team input {
+#add-team input {
   margin-bottom: 0.5rem;
   max-width: 420px;
+}
+
+.select-team-popover-content {
+  width: var(--radix-popover-trigger-width);
+  max-height: var(--radix-popover-content-available-height);
 }
 
 #group-stage-draw #tournament-teams .import-teams label {
@@ -73,8 +78,6 @@
   padding-bottom: 0.5rem;
   padding-left: 1rem;
   padding-right: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
   font-weight: 500;
   background-color: #1ef013;
   color: hsl(var(--destructive-foreground));
@@ -98,37 +101,35 @@
   flex-wrap: wrap;
 }
 
+div.group,
+div.powerpool {
+  border-radius: 6px;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: #f1f5f9;
+  min-width: 250px;
+}
+
 .groups p {
-  margin: 0 0 0 0;
-  padding: 0 0.5rem 0.5rem 0.5rem;
-  text-align: center;
+  margin-bottom: 1.25rem;
+  padding: 0 0.75rem;
 }
 
 .groups .teamname {
-  padding: 0.375rem 0.75rem;
+  padding: 0.25rem 0.75rem;
   font-weight: 500;
   border-radius: 6px;
-  background-color: white;
 }
 
 .groups .teamname:not(:last-child) {
   margin-bottom: 0.5rem;
 }
 
-div.group,
-div.powerpool {
-  border-radius: 6px;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  background-color: rgb(245 248 252);
-  min-width: 250px;
-}
-
 .team-name {
   font-weight: 500;
 }
 
-.team-players {
+.lowlighted-text {
   font-size: 0.83rem;
   color: grey;
 }

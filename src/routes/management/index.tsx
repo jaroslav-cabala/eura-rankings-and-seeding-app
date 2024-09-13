@@ -2,7 +2,7 @@ import { FC } from "react";
 import { TournamentDTO, TournamentDivisionDTO } from "@/api/apiTypes";
 import { useFetchLazy } from "@/api/useFetch";
 import { createFileRoute } from "@tanstack/react-router";
-import { DataTable } from "@/components/ui/DataTable";
+import { DataTable } from "@/components/ui/dataTable";
 import {
   Column,
   ColumnDef,

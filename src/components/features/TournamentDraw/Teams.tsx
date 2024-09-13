@@ -20,7 +20,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
         <li key={team.id ?? `${team.players[0].name}_${team.players[1].name}`}>
           <div id="team-info">
             <div className="team-name">{`${team.name} (${team.points} points)`}</div>
-            <div className="team-players">
+            <div className="lowlighted-text">
               {teamPointsCountMethod === "sumOfPlayersPoints"
                 ? `${team.players[0].name} (${team.players[0].points}), ${team.players[1].name} (${team.players[1].points})`
                 : `${team.players[0].name}, ${team.players[1].name}`}
