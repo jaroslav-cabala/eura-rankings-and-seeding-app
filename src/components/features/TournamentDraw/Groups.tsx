@@ -23,7 +23,7 @@ export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpoo
             {group.teams.map((team) => (
               <li className="teamname" key={team.id ?? `${team.players[0].name}_${team.players[1].name}`}>
                 <span>{`${team.name}`}&nbsp;&nbsp;</span>
-                <span className="lowlighted-text">{`${team.points} points`}</span>
+                <span className="lowlighted-text">{`(${team.points} points)`}</span>
               </li>
             ))}
           </ol>

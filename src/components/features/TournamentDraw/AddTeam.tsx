@@ -2,12 +2,13 @@ import React, { FC, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
-import { TournamentDrawTeamDTO } from "@/api/apiTypes";
+import { TournamentDrawPlayerDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
 import { useGetRankedTeams } from "@/api/useGetRankedTeams";
 import { Category, Division, RankedTeam } from "@/domain";
+import { fetchRankedPlayer } from "./fetchRankedPlayers";
 
 type AddTeamProps = {
-  addTeamHandler: () => void;
+  addTeamHandler: (team: TournamentDrawTeamDTO) => void;
   category: Category;
 };
 export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category }) => {
@@ -18,6 +19,8 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category }) => {
     players: [],
     tournamentResults: [],
   });
+
+  const isTeamValid = team.id && team.uid && team.name && team.tournamentResults && team.players;
 
   const [selectTeamPopoverOpen, setSelectTeamPopoverOpen] = useState<boolean>(false);
   const selectTeamInputRef = useRef(null);
@@ -52,14 +55,24 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category }) => {
     }
   };
 
-  const onSelectTeamFromPopover = (selectedTeam: RankedTeam): void => {
-    setTeam({
-      id: selectedTeam.id,
-      uid: selectedTeam.uid,
-      name: selectedTeam.name,
-      players: selectedTeam.players.map((player) => ({ ...player, tournamentResults: [] })),
-      tournamentResults: selectedTeam.tournamentResults,
-    });
+  const onSelectTeamFromPopover = (selectedTeam: TournamentDrawTeamDTO): void => {
+    setTeam(selectedTeam);
+    setSelectTeamPopoverOpen(false);
+  };
+
+  const onAddTeamButtonClick = (): void => {
+    if (isTeamValid) {
+      addTeamHandler(team);
+      setTeam({
+        id: null,
+        uid: null,
+        name: "",
+        players: [],
+        tournamentResults: [],
+      });
+    } else {
+      alert("invalid Add team form!");
+    }
   };
 
   return (
@@ -90,20 +103,20 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category }) => {
         </PopoverContent>
       </Popover>
       <Input
-        value={team.players[0]?.name}
+        value={team.players[0]?.name ?? ""}
         // onChange={(event) =>
         //   setTeam({ ...team, players: { ...team.playerOne, name: event.currentTarget.value } } as Team)
         // }
         placeholder="Player name"
       />
       <Input
-        value={team.players[1]?.name}
+        value={team.players[1]?.name ?? ""}
         // onChange={(event) =>
         //   setTeam({ ...team, playerTwo: { ...team?.playerTwo, name: event.currentTarget.value } } as Team)
         // }
         placeholder="Player name"
       />
-      <Button variant="default" onClick={addTeamHandler}>
+      <Button variant="default" onClick={onAddTeamButtonClick}>
         Add team
       </Button>
     </div>
@@ -113,7 +126,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category }) => {
 type PopoverContentRankedTeamProps = {
   teamNameInputValue: string;
   category: Category;
-  selectTeamFromPopoverHandler: (selectedTeam: RankedTeam) => void;
+  selectTeamFromPopoverHandler: (selectedTeam: TournamentDrawTeamDTO) => void;
 };
 
 const PopoverContentRankedTeam: React.FC<PopoverContentRankedTeamProps> = ({
@@ -132,6 +145,21 @@ const PopoverContentRankedTeam: React.FC<PopoverContentRankedTeamProps> = ({
     fromSeason: "2023",
     toSeason: "2024",
   });
+
+  const onTeamSelected = async (team: RankedTeam) => {
+    const teamPlayers = await Promise.all(
+      team.players.map((player) => fetchRankedPlayer(player.id, category))
+    );
+
+    const playersWithResults: Array<TournamentDrawPlayerDTO> = team.players.map((player) => ({
+      ...player,
+      tournamentResults: teamPlayers.find((tp) => tp?.id === player.id)?.tournamentResults ?? [],
+    }));
+
+    const selectedTeam: TournamentDrawTeamDTO = { ...team, players: playersWithResults };
+
+    selectTeamFromPopoverHandler(selectedTeam);
+  };
 
   if (error) {
     return "error while searching for teams...";
@@ -155,12 +183,12 @@ const PopoverContentRankedTeam: React.FC<PopoverContentRankedTeamProps> = ({
             .map((team) => (
               <li
                 key={team.id}
-                onClick={() => selectTeamFromPopoverHandler(team)}
+                onClick={() => onTeamSelected(team)}
                 className="h-[60px] p-2 flex items-center hover:cursor-pointer hover:bg-[#f1f5f9]"
               >
                 <div>
-                  <div className="team-name">{`${team.name}`}</div>
-                  <div className="team-players">
+                  <div className="font-medium">{`${team.name}`}</div>
+                  <div className="lowlighted-text">
                     {team.players[0]?.name}, {team.players[1]?.name}
                   </div>
                 </div>

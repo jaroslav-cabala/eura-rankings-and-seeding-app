@@ -5,8 +5,8 @@ import "./TournamentDraw.css";
 import { TournamentDrawSettings } from "./TournamentDrawSettings";
 import { Groups } from "./Groups";
 import { drawGroups } from "./drawGroups";
-import { fetchTeams } from "./fetchTeams";
-import { fetchPlayers } from "./fetchPlayers";
+import { fetchRankedTeams } from "./fetchRankedTeams";
+import { fetchAllRankedPlayers } from "./fetchRankedPlayers";
 import { Button } from "@/components/ui/button";
 import { AddTeam } from "./AddTeam";
 import {
@@ -82,21 +82,12 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
   // const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const { fetch, data: saveResponse, loading: saveInProgress, error: saveError } = useFetchLazy<boolean>();
 
-  const drawGroupsHandler = (): void => {
-    const drawnGroups = drawGroups(teamsWithPoints, {
-      groups: tournamentDraw.groups,
-      powerpools: tournamentDraw.powerpools,
-      powerpoolTeams: tournamentDraw.powerpoolTeams,
-    });
-    setGroupStage(drawnGroups);
-  };
-
   const importTeamsFromFwango = async (e: React.ChangeEvent<HTMLInputElement>) => {
     alert("importing same file again, yay!");
     const importedTeamsFile = e.target.files?.[0];
     // setChosenFileName(importedTeamsFile?.name ?? "");
-    const rankedTeams = await fetchTeams();
-    const rankedPlayers = await fetchPlayers();
+    const rankedTeams = await fetchRankedTeams(tournamentDraw.category);
+    const rankedPlayers = await fetchAllRankedPlayers(tournamentDraw.category);
     if (importedTeamsFile) {
       // solve case where number of substring split by coma is not divisible by 3 -
       // team name or player's name is missing for some reason
@@ -111,7 +102,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
           playerTwo: importedTeam[2].trim(),
         });
       }
-      const _participatingTeams: Array<TournamentDrawTeamWithPoints> = createTournamentTeamsFromImportedData(
+      const teams: Array<TournamentDrawTeamWithPoints> = createTournamentTeamsFromImportedData(
         importedTeams,
         rankedTeams,
         rankedPlayers,
@@ -119,10 +110,23 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
         tournamentDraw.teamPointsCountMethod
       );
 
-      dispatch({ type: TournamentDrawReducerActionType.SetTeams, teams: _participatingTeams });
+      dispatch({ type: TournamentDrawReducerActionType.SetTeams, teams: teams });
     } else {
       console.log("file not specified, cannot import teams");
     }
+  };
+
+  const addTeam = (team: TournamentDrawTeamDTO): void => {
+    dispatch({ type: TournamentDrawReducerActionType.AddTeam, team });
+  };
+
+  const drawGroupsHandler = (): void => {
+    const drawnGroups = drawGroups(teamsWithPoints, {
+      groups: tournamentDraw.groups,
+      powerpools: tournamentDraw.powerpools,
+      powerpoolTeams: tournamentDraw.powerpoolTeams,
+    });
+    setGroupStage(drawnGroups);
   };
 
   const resetTournament = (): void => {
@@ -203,12 +207,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
             <label htmlFor="import-teams">Import teams from Fwango</label>
             {/* <span>{chosenFileName}</span> */}
           </div>
-          <AddTeam
-            addTeamHandler={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-            category={tournamentDraw.category}
-          />
+          <AddTeam addTeamHandler={addTeam} category={tournamentDraw.category} />
           <div>
             <p className="title py-4">Teams ({tournamentDraw.teams.length})</p>
             <Teams
