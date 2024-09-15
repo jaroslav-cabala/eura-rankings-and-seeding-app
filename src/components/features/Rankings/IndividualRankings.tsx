@@ -28,7 +28,8 @@ export const IndividualRankings = () => {
     category: rankingsFilterParams.category,
     division: rankingsFilterParams.division,
     numberOfResultsCountedToPointsTotal: rankingsFilterParams.numberOfResultsCountedToPointsTotal,
-    seasons: rankingsFilterParams.seasons,
+    fromSeason: rankingsFilterParams.seasons.from,
+    toSeason: rankingsFilterParams.seasons.to,
   });
 
   const tableData: Array<IndividualRankingsTableDataRow> = players.map((player, index) => ({

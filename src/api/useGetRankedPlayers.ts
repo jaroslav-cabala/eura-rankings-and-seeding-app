@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { TimePeriod } from "@/utils";
 import { RankedPlayerDTO } from "./apiTypes";
 import { Category, Division, RankedPlayer } from "../domain";
 import { useFetchLazy } from "./useFetch";
@@ -16,26 +15,27 @@ export type GetRankedPlayersResult = {
 type UseGetRankedPlayersProps = {
   category: Category;
   division: Division;
-  seasons: TimePeriod;
+  fromSeason?: string;
+  toSeason?: string;
   numberOfResultsCountedToPointsTotal?: number;
 };
 
+// TODO this should return result of type RankedPlayerDTO
 export const useGetRankedPlayers = ({
   category,
   division,
   numberOfResultsCountedToPointsTotal,
-  seasons,
+  fromSeason,
+  toSeason,
 }: UseGetRankedPlayersProps): GetRankedPlayersResult => {
-  console.log(`useGetRankedPlayers hook, category=${category},division=${division},
-    numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal},
-    seasons={from=${seasons.from},to=${seasons.to}}`);
-
   const { fetch, data, loading, error } = useFetchLazy<Array<RankedPlayerDTO>>();
 
   useEffect(() => {
-    const queryString = createQueryString(division, seasons);
+    const seasonsArgument = fromSeason && toSeason ? { from: fromSeason, to: toSeason } : undefined;
+    const queryString = createQueryString(division, seasonsArgument);
+
     fetch(`http:localhost:3001/rankings/${category}/players?${queryString}`);
-  }, [category, division, seasons, fetch]);
+  }, [category, division, fromSeason, toSeason, fetch]);
 
   return {
     data: sortPlayersByPoints(

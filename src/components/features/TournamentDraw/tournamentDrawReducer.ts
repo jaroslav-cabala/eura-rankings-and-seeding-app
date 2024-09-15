@@ -1,4 +1,5 @@
 import { TeamPointsCountMethod, TournamentDrawDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
+import { Category } from "@/domain";
 
 export enum TournamentDrawReducerActionType {
   SetPowerpoolTeamsCount = "SetPowerpoolTeamsCount",
@@ -6,6 +7,7 @@ export enum TournamentDrawReducerActionType {
   SetGroupsCount = "SetGroupsCount",
   SetTeamPointsCountMethod = "SetTeamPointsCountMethod",
   SetName = "SetName",
+  SetCategory = "SetCategory",
   AddTeam = "AddTeam",
   RemoveTeam = "RemoveTeam",
   SetTeams = "SetTems",
@@ -37,6 +39,11 @@ type SetNameAction = {
   name: string;
 };
 
+type SetCategory = {
+  type: TournamentDrawReducerActionType.SetCategory;
+  category: Category;
+};
+
 type AddTeamAction = {
   type: TournamentDrawReducerActionType.AddTeam;
   team: TournamentDrawTeamDTO;
@@ -63,6 +70,7 @@ export type TournamentDrawReducerActionTypes =
   | SetGroupsCountAction
   | SetTeamPointsCountMethodAction
   | SetNameAction
+  | SetCategory
   | AddTeamAction
   | RemoveTeamAction
   | SetTeamsAction
@@ -102,6 +110,12 @@ export const tournamentDrawReducer = (
       return {
         ...tournamentDraw,
         name: action.name,
+      };
+    }
+    case TournamentDrawReducerActionType.SetCategory: {
+      return {
+        ...tournamentDraw,
+        category: action.category,
       };
     }
     case TournamentDrawReducerActionType.AddTeam: {

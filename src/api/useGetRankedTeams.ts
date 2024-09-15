@@ -15,8 +15,8 @@ export type GetRankedTeamsResult = {
 type UseGetRankedTeamsProps = {
   category: Category;
   division: Division;
-  fromSeason: string;
-  toSeason: string;
+  fromSeason?: string;
+  toSeason?: string;
   numberOfResultsCountedToPointsTotal: number;
 };
 
@@ -30,7 +30,9 @@ export const useGetRankedTeams = ({
   const { fetch, data, loading, error } = useFetchLazy<Array<RankedTeamDTO>>();
 
   useEffect(() => {
-    const queryString = createQueryString(division, { from: fromSeason, to: toSeason });
+    const seasonsArgument = fromSeason && toSeason ? { from: fromSeason, to: toSeason } : undefined;
+    const queryString = createQueryString(division, seasonsArgument);
+
     fetch(`http:localhost:3001/rankings/${category}/teams?${queryString}`);
   }, [category, division, fetch, fromSeason, toSeason]);
 

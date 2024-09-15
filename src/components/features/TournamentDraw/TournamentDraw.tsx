@@ -23,6 +23,7 @@ import { tournamentDrawReducer, TournamentDrawReducerActionType } from "./tourna
 import { Teams } from "./Teams";
 import { getTotalPointsFromXBestResults } from "@/lib/getTotalPointsFromXBestResults";
 import { useFetchLazy } from "@/api/useFetch";
+import { Division } from "@/domain";
 
 export const TournamentDraw = () => {
   const params = useParams({ from: "/tournament-draws/$tournamentDrawId" });
@@ -116,8 +117,30 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
     }
   };
 
-  const addTeam = (team: TournamentDrawTeamDTO): void => {
-    dispatch({ type: TournamentDrawReducerActionType.AddTeam, team });
+  const addTeam = (newTeam: TournamentDrawTeamDTO): void => {
+    const { checkResult: isNewTeamAlreadyInTheTournament, reason } =
+      checkIfTeamOrPlayerIsAlreadyInTheTournament(newTeam, tournamentDraw.teams);
+
+    if (isNewTeamAlreadyInTheTournament === false) {
+      dispatch({ type: TournamentDrawReducerActionType.AddTeam, team: newTeam });
+    } else {
+      switch (reason) {
+        case "existingTeam":
+          alert(`Team '${newTeam.name}' is already in the tournament!`);
+          break;
+        case "existingPlayerOne":
+          alert(`Player '${newTeam.players[0].name}' is already in the tournament!`);
+          break;
+        case "existingPlayerTwo":
+          alert(`Team '${newTeam.players[1].name}' is already in the tournament!`);
+          break;
+        case "bothPlayersExisting":
+          alert(
+            `Both players '${newTeam.players[0].name}' and '${newTeam.players[1].name}' are already in the tournament!`
+          );
+          break;
+      }
+    }
   };
 
   const drawGroupsHandler = (): void => {
@@ -207,7 +230,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
             <label htmlFor="import-teams">Import teams from Fwango</label>
             {/* <span>{chosenFileName}</span> */}
           </div>
-          <AddTeam addTeamHandler={addTeam} category={tournamentDraw.category} />
+          <AddTeam addTeamHandler={addTeam} category={tournamentDraw.category} division={Division.Pro} />
           <div>
             <p className="title py-4">Teams ({tournamentDraw.teams.length})</p>
             <Teams
@@ -228,6 +251,67 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
       </div>
     </section>
   );
+};
+
+type CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason =
+  | "existingTeam"
+  | "existingPlayerOne"
+  | "existingPlayerTwo"
+  | "bothPlayersExisting";
+
+type CheckIfTeamOrPlayerIsAlreadyInTheTournamentResult = {
+  checkResult: boolean;
+  reason: CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason | null;
+};
+
+const checkIfTeamOrPlayerIsAlreadyInTheTournament = (
+  newTeam: TournamentDrawTeamDTO,
+  existingTeams: Array<TournamentDrawTeamDTO>
+): CheckIfTeamOrPlayerIsAlreadyInTheTournamentResult => {
+  let reason: CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason | null = null;
+
+  const newTeamPlayerIds = newTeam.players.map((p) => p.id);
+  const newTeamPlayerNames = newTeam.players.map((p) => p.name);
+
+  const checkResult = !!existingTeams.find((existingTeam) => {
+    if (existingTeam.id === newTeam.id && existingTeam.name === newTeam.name) {
+      reason = "existingTeam";
+      return true;
+    }
+
+    let IsPlayerOneTheSame = false;
+    let isPlayerTwoTheSame = false;
+
+    IsPlayerOneTheSame =
+      newTeamPlayerIds.includes(existingTeam.players[0].id) &&
+      newTeamPlayerNames.includes(existingTeam.players[0].name);
+
+    isPlayerTwoTheSame =
+      newTeamPlayerIds.includes(existingTeam.players[0].id) &&
+      newTeamPlayerNames.includes(existingTeam.players[0].name);
+
+    if (IsPlayerOneTheSame && !isPlayerTwoTheSame) {
+      reason = "existingPlayerOne";
+      return true;
+    }
+
+    if (isPlayerTwoTheSame && !IsPlayerOneTheSame) {
+      reason = "existingPlayerTwo";
+      return true;
+    }
+
+    if (isPlayerTwoTheSame && isPlayerTwoTheSame) {
+      reason = "bothPlayersExisting";
+      return true;
+    }
+
+    return false;
+  });
+
+  return {
+    checkResult,
+    reason,
+  };
 };
 
 const createTournamentTeamsFromImportedData = (

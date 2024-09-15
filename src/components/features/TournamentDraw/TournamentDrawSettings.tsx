@@ -47,12 +47,12 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
         <label>Division:</label>
         <Select
           value={tournamentDrawSettings.category}
-          // onValueChange={(value) =>
-          //   setTournamentDrawSettings({
-          //     type: TournamentDrawReducerActionType.SetCategory,
-          //     category: value as Category,
-          //   })
-          // }
+          onValueChange={(value) =>
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetCategory,
+              category: value as Category,
+            })
+          }
         >
           <SelectTrigger className="w-[120px]">
             <SelectValue>{capitalizeFirstChar(tournamentDrawSettings.category)}</SelectValue>
