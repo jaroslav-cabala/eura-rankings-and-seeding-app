@@ -7,33 +7,25 @@ import { useGetRankedTeams } from "@/api/useGetRankedTeams";
 import { Category, Division, RankedPlayer, RankedTeam } from "@/domain";
 import { fetchRankedPlayer } from "./fetchRankedPlayers";
 import { useGetRankedPlayers } from "@/api/useGetRankedPlayers";
+import { CircleAlert } from "lucide-react";
 
 type AddTeamProps = {
-  addTeamHandler: (team: TournamentDrawTeamDTO) => void;
+  addTeamHandler: (team: TournamentDrawTeamDTO) => boolean;
   category: Category;
   division: Division;
 };
 
 export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }) => {
-  const [team, setTeam] = useState<
-    Pick<TournamentDrawTeamDTO, "id" | "name" | "tournamentResults" | "uid"> & {
-      players: Record<"playerOne" | "playerTwo", TournamentDrawPlayerDTO>;
-    }
-  >({
+  const [teamToAdd, setTeamToAdd] = useState<TeamToAdd>({
     id: null,
     uid: null,
     name: "",
     tournamentResults: [],
-    players: {
-      playerOne: { id: null, uid: null, name: "", tournamentResults: [] },
-      playerTwo: { id: null, uid: null, name: "", tournamentResults: [] },
-    },
+    playerOne: { id: null, uid: null, name: "", tournamentResults: [] },
+    playerTwo: { id: null, uid: null, name: "", tournamentResults: [] },
   });
 
-  //TODO figure out add team validation(especially case when a non existing new team or new players are added)
-  // and they have no id or uid
-  // const isTeamValid = team.id && team.uid && team.name && team.tournamentResults && team.players;
-  const isTeamValid = team.players.playerOne.name && team.players.playerTwo.name;
+  const [formSubmitAttempted, setFormSubmitAttempted] = useState(false);
 
   const [selectTeamPopoverOpen, setSelectTeamPopoverOpen] = useState<boolean>(false);
   const selectTeamInputRef = useRef(null);
@@ -50,10 +42,11 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
       if (currentTeamNameValue.length > 1) {
         setSelectTeamPopoverOpen(true);
       } else {
-        setSelectTeamPopoverOpen(false); // close popover when the length of the value is less than 2 chars
+        // close popover when the length of the value is less than 2 chars
+        setSelectTeamPopoverOpen(false);
       }
 
-      setTeam({ ...team, name: currentTeamNameValue });
+      setTeamToAdd({ ...teamToAdd, name: currentTeamNameValue });
     }
   };
 
@@ -72,14 +65,13 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
     }
   };
 
-  const onSelectTeamFromPopover = (selectedTeam: TournamentDrawTeamDTO | null): void => {
+  const onSelectTeamFromPopover = (selectedTeam: TeamToAdd | null): void => {
     // if a team is selected from the popover, update the state
     // if selectedTeam is null, it means 'create new team <value>' was clicked and state does not
     // need to be updated because team name is already in the state
     if (selectedTeam) {
-      setTeam({
+      setTeamToAdd({
         ...selectedTeam,
-        players: { playerOne: selectedTeam.players[0], playerTwo: selectedTeam.players[1] },
       });
     }
     setSelectTeamPopoverOpen(false);
@@ -97,26 +89,24 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
         ? setSelectPlayerOnePopoverOpen(true)
         : setSelectPlayerTwoPopoverOpen(true);
     } else {
+      // close popover when the length of the value is less than 2 chars
       playerInputId === "playerOne"
         ? setSelectPlayerOnePopoverOpen(false)
-        : setSelectPlayerTwoPopoverOpen(false); // close popover when the length of the value is less than 2 chars
+        : setSelectPlayerTwoPopoverOpen(false);
     }
     // update state only when the input value is not an empty string or whitespace chars
     if (!currentPlayerNameValue || currentPlayerNameValue.trim()) {
-      const newPlayersProp: Record<"playerOne" | "playerTwo", TournamentDrawPlayerDTO> = {
-        ...team.players,
-      };
-
       if (playerInputId === "playerOne") {
-        newPlayersProp.playerOne = { ...team.players.playerOne, name: currentPlayerNameValue };
+        setTeamToAdd({
+          ...teamToAdd,
+          playerOne: { ...teamToAdd.playerOne, name: currentPlayerNameValue },
+        });
       } else {
-        newPlayersProp.playerTwo = { ...team.players.playerTwo, name: currentPlayerNameValue };
+        setTeamToAdd({
+          ...teamToAdd,
+          playerTwo: { ...teamToAdd.playerTwo, name: currentPlayerNameValue },
+        });
       }
-
-      setTeam({
-        ...team,
-        players: newPlayersProp,
-      });
     }
   };
 
@@ -153,20 +143,17 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
     // if selectedPlayer is null, it means 'add new player <value>' was clicked and state does not
     // need to be updated because player name is already in the state
     if (selectedPlayer) {
-      const newPlayersProp: Record<"playerOne" | "playerTwo", TournamentDrawPlayerDTO> = {
-        ...team.players,
-      };
-
       if (playerInputId === "playerOne") {
-        newPlayersProp.playerOne = selectedPlayer;
+        setTeamToAdd({
+          ...teamToAdd,
+          playerOne: selectedPlayer,
+        });
       } else {
-        newPlayersProp.playerTwo = selectedPlayer;
+        setTeamToAdd({
+          ...teamToAdd,
+          playerTwo: selectedPlayer,
+        });
       }
-
-      setTeam({
-        ...team,
-        players: newPlayersProp,
-      });
     }
 
     playerInputId === "playerOne"
@@ -174,112 +161,143 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
       : setSelectPlayerTwoPopoverOpen(false);
   };
 
-  const onAddTeamButtonClick = (): void => {
-    if (isTeamValid) {
-      addTeamHandler({ ...team, players: Object.values(team.players).map((player) => player) });
-      setTeam({
-        id: null,
-        uid: null,
-        name: "",
-        players: {
+  const onAddTeamFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    setFormSubmitAttempted(true);
+
+    if (teamToAdd.name && teamToAdd.playerOne.name && teamToAdd.playerTwo.name) {
+      const isSuccessful = addTeamHandler({
+        id: teamToAdd.id,
+        uid: teamToAdd.uid,
+        name: teamToAdd.name,
+        tournamentResults: teamToAdd.tournamentResults,
+        players: [teamToAdd.playerOne, teamToAdd.playerTwo],
+      });
+
+      if (isSuccessful) {
+        setTeamToAdd({
+          id: null,
+          uid: null,
+          name: "",
+          tournamentResults: [],
           playerOne: { id: null, uid: null, name: "", tournamentResults: [] },
           playerTwo: { id: null, uid: null, name: "", tournamentResults: [] },
-        },
-        tournamentResults: [],
-      });
-    } else {
-      alert("invalid Add team form!");
+        });
+      }
+
+      setFormSubmitAttempted(false);
     }
   };
 
+  const addTeamFormValidationMessage = !teamToAdd.name
+    ? !teamToAdd.playerOne?.name || !teamToAdd.playerTwo?.name
+      ? "Fill in team name and player names"
+      : "A team name is required"
+    : !teamToAdd.playerOne?.name || !teamToAdd.playerTwo?.name
+      ? "Player names are required"
+      : undefined;
+
   return (
-    <div id="add-team" className="mb-2">
-      <Popover open={selectTeamPopoverOpen}>
-        <PopoverAnchor asChild>
-          <Input
-            value={team.name}
-            onChange={selectTeamInputOnChange}
-            onFocus={selectTeamInputOnFocus}
-            placeholder="Find a team or add a new one..."
-            ref={selectTeamInputRef}
-          />
-        </PopoverAnchor>
-        <PopoverContent
-          className="p-2 select-team-popover-content"
-          onEscapeKeyDown={(e) => hideSelectTeamPopover(e)}
-          onPointerDownOutside={(e) => hideSelectTeamPopover(e)}
-          onFocusOutside={(e) => hideSelectTeamPopover(e)}
-          onInteractOutside={(e) => hideSelectTeamPopover(e)}
-          onOpenAutoFocus={(e) => e.preventDefault()}
-        >
-          <PopoverContentRankedTeams
-            category={category}
-            division={division}
-            teamNameInputValue={team.name}
-            selectTeamFromPopoverHandler={onSelectTeamFromPopover}
-          />
-        </PopoverContent>
-      </Popover>
-      <Popover open={selectPlayerOnePopoverOpen}>
-        <PopoverAnchor asChild>
-          <Input
-            value={team.players.playerOne.name}
-            onChange={(e) => selectPlayerInputOnChange("playerOne", e)}
-            onFocus={(e) => selectPlayerInputOnFocus("playerOne", e)}
-            placeholder="Find a player or add a new one..."
-            ref={selectPlayerOneInputRef}
-          />
-        </PopoverAnchor>
-        <PopoverContent
-          className="p-2 select-team-popover-content"
-          onEscapeKeyDown={(e) => hideSelectPlayerPopover("playerOne", e)}
-          onPointerDownOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
-          onFocusOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
-          onInteractOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
-          onOpenAutoFocus={(e) => e.preventDefault()}
-        >
-          <PopoverContentRankedPlayers
-            playerInputId="playerOne"
-            category={category}
-            division={division}
-            playerNameInputValue={team.players.playerOne.name}
-            selectPlayerFromPopoverHandler={onSelectPlayerFromPopover}
-          />
-        </PopoverContent>
-      </Popover>
-      <Popover open={selectPlayerTwoPopoverOpen}>
-        <PopoverAnchor asChild>
-          <Input
-            value={team.players.playerTwo.name}
-            onChange={(e) => selectPlayerInputOnChange("playerTwo", e)}
-            onFocus={(e) => selectPlayerInputOnFocus("playerTwo", e)}
-            placeholder="Find a player or add a new one..."
-            ref={selectPlayerTwoInputRef}
-          />
-        </PopoverAnchor>
-        <PopoverContent
-          className="p-2 select-team-popover-content"
-          onEscapeKeyDown={(e) => hideSelectPlayerPopover("playerTwo", e)}
-          onPointerDownOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}
-          onFocusOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}
-          onInteractOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}
-          onOpenAutoFocus={(e) => e.preventDefault()}
-        >
-          <PopoverContentRankedPlayers
-            playerInputId="playerTwo"
-            category={category}
-            division={division}
-            playerNameInputValue={team.players.playerTwo.name}
-            selectPlayerFromPopoverHandler={onSelectPlayerFromPopover}
-          />
-        </PopoverContent>
-      </Popover>
-      <Button variant="default" onClick={onAddTeamButtonClick}>
-        Add team
-      </Button>
-      <Button variant="default" onClick={() => console.dir(team)}>
-        Dump team state
-      </Button>
+    <div id="add-team" className="mb-6 mt-6">
+      <form onSubmit={(e) => onAddTeamFormSubmit(e)}>
+        <Popover open={selectTeamPopoverOpen}>
+          <PopoverAnchor asChild>
+            <Input
+              value={teamToAdd.name}
+              onChange={selectTeamInputOnChange}
+              onFocus={selectTeamInputOnFocus}
+              placeholder="Find a team or add a new one..."
+              ref={selectTeamInputRef}
+              aria-required
+              aria-invalid={formSubmitAttempted && !teamToAdd.name}
+            />
+          </PopoverAnchor>
+          <PopoverContent
+            className="p-2 select-team-popover-content"
+            onEscapeKeyDown={(e) => hideSelectTeamPopover(e)}
+            onPointerDownOutside={(e) => hideSelectTeamPopover(e)}
+            onFocusOutside={(e) => hideSelectTeamPopover(e)}
+            onInteractOutside={(e) => hideSelectTeamPopover(e)}
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
+            <PopoverContentRankedTeams
+              category={category}
+              division={division}
+              teamNameInputValue={teamToAdd.name}
+              selectTeamFromPopoverHandler={onSelectTeamFromPopover}
+            />
+          </PopoverContent>
+        </Popover>
+        <Popover open={selectPlayerOnePopoverOpen}>
+          <PopoverAnchor asChild>
+            <Input
+              value={teamToAdd.playerOne.name}
+              onChange={(e) => selectPlayerInputOnChange("playerOne", e)}
+              onFocus={(e) => selectPlayerInputOnFocus("playerOne", e)}
+              placeholder="Find a player or add a new one..."
+              ref={selectPlayerOneInputRef}
+              aria-required
+              aria-invalid={formSubmitAttempted && !teamToAdd.playerOne.name}
+            />
+          </PopoverAnchor>
+          <PopoverContent
+            className="p-2 select-team-popover-content"
+            onEscapeKeyDown={(e) => hideSelectPlayerPopover("playerOne", e)}
+            onPointerDownOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
+            onFocusOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
+            onInteractOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
+            <PopoverContentRankedPlayers
+              playerInputId="playerOne"
+              category={category}
+              division={division}
+              playerNameInputValue={teamToAdd.playerOne.name}
+              selectPlayerFromPopoverHandler={onSelectPlayerFromPopover}
+            />
+          </PopoverContent>
+        </Popover>
+        <Popover open={selectPlayerTwoPopoverOpen}>
+          <PopoverAnchor asChild>
+            <Input
+              value={teamToAdd.playerTwo.name}
+              onChange={(e) => selectPlayerInputOnChange("playerTwo", e)}
+              onFocus={(e) => selectPlayerInputOnFocus("playerTwo", e)}
+              placeholder="Find a player or add a new one..."
+              ref={selectPlayerTwoInputRef}
+              aria-required
+              aria-invalid={formSubmitAttempted && !teamToAdd.playerTwo.name}
+            />
+          </PopoverAnchor>
+          <PopoverContent
+            className="p-2 select-team-popover-content"
+            onEscapeKeyDown={(e) => hideSelectPlayerPopover("playerTwo", e)}
+            onPointerDownOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}
+            onFocusOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}
+            onInteractOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
+            <PopoverContentRankedPlayers
+              playerInputId="playerTwo"
+              category={category}
+              division={division}
+              playerNameInputValue={teamToAdd.playerTwo.name}
+              selectPlayerFromPopoverHandler={onSelectPlayerFromPopover}
+            />
+          </PopoverContent>
+        </Popover>
+        <div className="flex items-center justify-between">
+          <Button variant="default" type="submit">
+            Add team
+          </Button>
+          {formSubmitAttempted && addTeamFormValidationMessage && (
+            <p role="alert" className="flex items-center justify-center text-red-500">
+              <CircleAlert className="w-6 mr-2" />
+              {addTeamFormValidationMessage}
+            </p>
+          )}
+        </div>
+      </form>
     </div>
   );
 };
@@ -288,7 +306,7 @@ type PopoverContentRankedTeamsProps = {
   teamNameInputValue: string;
   category: Category;
   division: Division;
-  selectTeamFromPopoverHandler: (selectedTeam: TournamentDrawTeamDTO | null) => void;
+  selectTeamFromPopoverHandler: (selectedTeam: TeamToAdd | null) => void;
 };
 
 const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
@@ -317,7 +335,11 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
       tournamentResults: teamPlayers.find((tp) => tp?.id === player.id)?.tournamentResults ?? [],
     }));
 
-    const selectedTeam: TournamentDrawTeamDTO = { ...team, players: playersWithResults };
+    const selectedTeam: TeamToAdd = {
+      ...team,
+      playerOne: playersWithResults[0],
+      playerTwo: playersWithResults[1],
+    };
 
     selectTeamFromPopoverHandler(selectedTeam);
   };
@@ -438,4 +460,9 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
       )}
     </>
   );
+};
+
+type TeamToAdd = Pick<TournamentDrawTeamDTO, "id" | "name" | "tournamentResults" | "uid"> & {
+  playerOne: TournamentDrawPlayerDTO;
+  playerTwo: TournamentDrawPlayerDTO;
 };

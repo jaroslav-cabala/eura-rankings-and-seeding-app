@@ -54,7 +54,7 @@ function TournamentDrawsComponent() {
       <p className="text-2xl font-semibold content-center px-6">Or</p>
       <div className="flex flex-col justify-center items-center">
         <Input placeholder="Tournament draw name..." className="w-[280px] h-12" />
-        <Button className="mt-6 h-12 px-10 w-fit">
+        <Button className="mt-6 px-10 w-fit">
           <Plus className="h-8 w-8 pr-2" />
           <span>Create new</span>
         </Button>

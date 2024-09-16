@@ -1,5 +1,5 @@
 import { FC, useReducer, useState } from "react";
-import { Loader2, SquarePlus } from "lucide-react";
+import { Import, Loader2, RotateCcw, Save, SquarePlus } from "lucide-react";
 import { useParams } from "@tanstack/react-router";
 import "./TournamentDraw.css";
 import { TournamentDrawSettings } from "./TournamentDrawSettings";
@@ -24,6 +24,7 @@ import { Teams } from "./Teams";
 import { getTotalPointsFromXBestResults } from "@/lib/getTotalPointsFromXBestResults";
 import { useFetchLazy } from "@/api/useFetch";
 import { Division } from "@/domain";
+import { useToast } from "@/components/ui/hooks/use-toast";
 
 export const TournamentDraw = () => {
   const params = useParams({ from: "/tournament-draws/$tournamentDrawId" });
@@ -82,6 +83,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
   const [groupStage, setGroupStage] = useState<GroupStage | undefined>(undefined);
   // const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const { fetch, data: saveResponse, loading: saveInProgress, error: saveError } = useFetchLazy<boolean>();
+  const { toast } = useToast();
 
   const importTeamsFromFwango = async (e: React.ChangeEvent<HTMLInputElement>) => {
     alert("importing same file again, yay!");
@@ -117,29 +119,36 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
     }
   };
 
-  const addTeam = (newTeam: TournamentDrawTeamDTO): void => {
+  // Handles adding of a team into the tournament. Returns true if the operation was successful,
+  // false otherwise.
+  const addTeam = (newTeam: TournamentDrawTeamDTO): boolean => {
     const { checkResult: isNewTeamAlreadyInTheTournament, reason } =
       checkIfTeamOrPlayerIsAlreadyInTheTournament(newTeam, tournamentDraw.teams);
 
     if (isNewTeamAlreadyInTheTournament === false) {
       dispatch({ type: TournamentDrawReducerActionType.AddTeam, team: newTeam });
+      return true;
     } else {
+      let toastMessage = "";
       switch (reason) {
         case "existingTeam":
-          alert(`Team '${newTeam.name}' is already in the tournament!`);
+          toastMessage = `Team '${newTeam.name}' is already in the tournament!`;
           break;
         case "existingPlayerOne":
-          alert(`Player '${newTeam.players[0].name}' is already in the tournament!`);
+          toastMessage = `Player '${newTeam.players[0].name}' is already in the tournament!`;
           break;
         case "existingPlayerTwo":
-          alert(`Team '${newTeam.players[1].name}' is already in the tournament!`);
+          toastMessage = `Team '${newTeam.players[1].name}' is already in the tournament!`;
           break;
         case "bothPlayersExisting":
-          alert(
-            `Both players '${newTeam.players[0].name}' and '${newTeam.players[1].name}' are already in the tournament!`
-          );
+          toastMessage = `Both players '${newTeam.players[0].name}' and '${newTeam.players[1].name}' are already in the tournament!`;
           break;
       }
+
+      toast({
+        description: toastMessage,
+      });
+      return false;
     }
   };
 
@@ -185,7 +194,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
       <div id="tournament-draws">
         <p className="title pb-6 pt-2 text-center text-white">Tournaments</p>
         <Button variant="outline" className="w-full mb-2 py-1.5 px-3" onClick={createNewTournament}>
-          <SquarePlus className="mr-2" /> Create new
+          <SquarePlus className="w-6 mr-2" /> Create new
         </Button>
         {tournamentDraws?.map((t) => (
           <div key={t.id} id="tournament-draw-item">
@@ -202,6 +211,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
               resetTournament();
             }}
           >
+            <RotateCcw className="w-6 mr-2" />
             Reset
           </Button>
           <Button
@@ -213,13 +223,18 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
           >
             {saveInProgress ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin mr-2" /> Save
+                <Loader2 className="w-6 animate-spin mr-2" /> Save
               </>
             ) : (
-              "Save"
+              <>
+                <Save className="w-6 mr-2" />
+                Save
+              </>
             )}
           </Button>
-          <div className="import-teams mb-2">
+          <AddTeam addTeamHandler={addTeam} category={tournamentDraw.category} division={Division.Pro} />
+          <div className="flex justify-between items-center">
+            <p className="title py-4">Teams ({tournamentDraw.teams.length})</p>
             <input
               id="import-teams"
               type="file"
@@ -227,18 +242,18 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
               onChange={(e) => importTeamsFromFwango(e)}
               hidden
             />
-            <label htmlFor="import-teams">Import teams from Fwango</label>
-            {/* <span>{chosenFileName}</span> */}
+            <Button asChild>
+              <label htmlFor="import-teams" className="cursor-pointer">
+                <Import className="w-6 mr-2" />
+                Import teams from Fwango
+              </label>
+            </Button>
           </div>
-          <AddTeam addTeamHandler={addTeam} category={tournamentDraw.category} division={Division.Pro} />
-          <div>
-            <p className="title py-4">Teams ({tournamentDraw.teams.length})</p>
-            <Teams
-              removeTeam={dispatch}
-              teams={teamsWithPoints}
-              teamPointsCountMethod={tournamentDraw.teamPointsCountMethod}
-            />
-          </div>
+          <Teams
+            removeTeam={dispatch}
+            teams={teamsWithPoints}
+            teamPointsCountMethod={tournamentDraw.teamPointsCountMethod}
+          />
         </div>
         <div className="group-draw">
           <TournamentDrawSettings

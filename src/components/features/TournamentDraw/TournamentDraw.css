@@ -70,28 +70,9 @@
   /* max-height: var(--radix-popover-content-available-height); */
 }
 
-#group-stage-draw #tournament-teams .import-teams label {
-  display: inline-block;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  font-weight: 500;
-  background-color: #1ef013;
-  color: hsl(var(--destructive-foreground));
-  --tw-ring-offset-color: hsl(var(--background));
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
 .group-draw {
   flex: 3 0;
   padding: 0.5rem;
-}
-
-#group-stage-draw-settings {
 }
 
 .groups {
@@ -125,7 +106,7 @@ label {
 }
 
 .title {
-  font-size: larger;
+  font-size: large;
   font-weight: bold;
 }
 
