@@ -8,6 +8,7 @@ import { Category, Division, RankedPlayer, RankedTeam } from "@/domain";
 import { fetchRankedPlayer } from "./fetchRankedPlayers";
 import { useGetRankedPlayers } from "@/api/useGetRankedPlayers";
 import { CircleAlert } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type AddTeamProps = {
   addTeamHandler: (team: TournamentDrawTeamDTO) => boolean;
@@ -357,32 +358,34 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
       {loading ? (
         "loading...."
       ) : (
-        <ol>
-          <li
-            key="createNewTeam"
-            className="h-[60px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[#f1f5f9]"
-            onClick={onCreateNewTeam}
-          >
-            Create new team&nbsp;<span className="font-bold">"{teamNameInputValue}"</span>
-          </li>
-          <hr />
-          {rankedTeams
-            .filter((team) => team.name.includes(teamNameInputValue))
-            .map((team) => (
-              <li
-                key={team.id}
-                onClick={() => onTeamSelected(team)}
-                className="h-[60px] p-2 flex items-center hover:cursor-pointer hover:bg-[#f1f5f9]"
-              >
-                <div>
-                  <div className="font-medium">{`${team.name}`}</div>
-                  <div className="lowlighted-text">
-                    {team.players[0]?.name}, {team.players[1]?.name}
+        <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-96 w-auto">
+          <ol>
+            <li
+              key="createNewTeam"
+              className="h-[50px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+              onClick={onCreateNewTeam}
+            >
+              Create new team&nbsp;<span className="font-bold">"{teamNameInputValue}"</span>
+            </li>
+            <hr />
+            {rankedTeams
+              .filter((team) => team.name.includes(teamNameInputValue))
+              .map((team) => (
+                <li
+                  key={team.id}
+                  onClick={() => onTeamSelected(team)}
+                  className="h-[50px] p-2 flex items-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+                >
+                  <div>
+                    <div className="font-medium">{`${team.name}`}</div>
+                    <div className="lowlighted-text">
+                      {team.players[0]?.name}, {team.players[1]?.name}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-        </ol>
+                </li>
+              ))}
+          </ol>
+        </ScrollArea>
       )}
     </>
   );
@@ -434,29 +437,31 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
       {loading ? (
         "loading...."
       ) : (
-        <ol>
-          <li
-            key="addNewPlayer"
-            className="h-[40px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[#f1f5f9]"
-            onClick={onAddNewPlayer}
-          >
-            Add new player&nbsp;<span className="font-bold">"{playerNameInputValue}"</span>
-          </li>
-          <hr />
-          {rankedPlayers
-            .filter((player) => player.name.includes(playerNameInputValue))
-            .map((player) => (
-              <li
-                key={player.id}
-                onClick={() => onPlayerSelected(player)}
-                className="h-[40px] p-2 flex items-center hover:cursor-pointer hover:bg-[#f1f5f9]"
-              >
-                <div>
-                  <div className="font-medium">{`${player.name}`}</div>
-                </div>
-              </li>
-            ))}
-        </ol>
+        <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-96 w-auto">
+          <ol>
+            <li
+              key="addNewPlayer"
+              className="h-[40px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+              onClick={onAddNewPlayer}
+            >
+              Add new player&nbsp;<span className="font-bold">"{playerNameInputValue}"</span>
+            </li>
+            <hr />
+            {rankedPlayers
+              .filter((player) => player.name.includes(playerNameInputValue))
+              .map((player) => (
+                <li
+                  key={player.id}
+                  onClick={() => onPlayerSelected(player)}
+                  className="h-[40px] p-2 flex items-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+                >
+                  <div>
+                    <div className="font-medium">{`${player.name}`}</div>
+                  </div>
+                </li>
+              ))}
+          </ol>
+        </ScrollArea>
       )}
     </>
   );

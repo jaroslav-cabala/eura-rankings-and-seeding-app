@@ -86,11 +86,10 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
   const { toast } = useToast();
 
   const importTeamsFromFwango = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    alert("importing same file again, yay!");
     const importedTeamsFile = e.target.files?.[0];
-    // setChosenFileName(importedTeamsFile?.name ?? "");
     const rankedTeams = await fetchRankedTeams(tournamentDraw.category);
     const rankedPlayers = await fetchAllRankedPlayers(tournamentDraw.category);
+
     if (importedTeamsFile) {
       // solve case where number of substring split by coma is not divisible by 3 -
       // team name or player's name is missing for some reason
@@ -129,25 +128,47 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
       dispatch({ type: TournamentDrawReducerActionType.AddTeam, team: newTeam });
       return true;
     } else {
-      let toastMessage = "";
+      let toastMessage = undefined;
       switch (reason) {
         case "existingTeam":
-          toastMessage = `Team '${newTeam.name}' is already in the tournament!`;
-          break;
-        case "existingPlayerOne":
-          toastMessage = `Player '${newTeam.players[0].name}' is already in the tournament!`;
-          break;
-        case "existingPlayerTwo":
-          toastMessage = `Team '${newTeam.players[1].name}' is already in the tournament!`;
+          toastMessage = (
+            <>
+              Team&nbsp;<span className="font-medium">'{newTeam.name}'</span>&nbsp;is already in the
+              tournament!
+            </>
+          );
           break;
         case "bothPlayersExisting":
-          toastMessage = `Both players '${newTeam.players[0].name}' and '${newTeam.players[1].name}' are already in the tournament!`;
+          toastMessage = (
+            <>
+              Both players&nbsp;<span className="font-medium">'{newTeam.players[0].name}'</span>
+              &nbsp;and&nbsp;
+              <span>'{newTeam.players[1].name}'</span>&nbsp;are already in the tournament!
+            </>
+          );
+          break;
+        case "existingPlayerOne":
+          toastMessage = (
+            <>
+              Player&nbsp;<span className="font-medium">'{newTeam.players[0].name}'</span>&nbsp;is already in
+              the tournament!
+            </>
+          );
+          break;
+        case "existingPlayerTwo":
+          toastMessage = (
+            <>
+              Player&nbsp;<span className="font-medium">'{newTeam.players[1].name}'</span>&nbsp;is already in
+              the tournament!
+            </>
+          );
           break;
       }
 
       toast({
         description: toastMessage,
       });
+
       return false;
     }
   };
@@ -162,7 +183,6 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
   };
 
   const resetTournament = (): void => {
-    // setChosenFileName("No file chosen");
     dispatch({ type: TournamentDrawReducerActionType.Reset });
     setGroupStage(undefined);
   };
@@ -189,6 +209,20 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
     tournamentDraw.numberOfResultsCountedToPointsTotal
   );
 
+  const tournamentDrawsSortedByModifiedDateDescending = [...tournamentDraws].sort(
+    (a, b) => b.modified - a.modified
+  );
+
+  const tournamentDrawSettings = {
+    category: tournamentDraw.category,
+    groups: tournamentDraw.groups,
+    name: tournamentDraw.name,
+    powerpools: tournamentDraw.powerpools,
+    powerpoolTeams: tournamentDraw.powerpoolTeams,
+    teamCount: tournamentDraw.teams.length,
+    teamPointsCountMethod: tournamentDraw.teamPointsCountMethod,
+  };
+
   return (
     <section id="tournament-draw">
       <div id="tournament-draws">
@@ -196,7 +230,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
         <Button variant="outline" className="w-full mb-2 py-1.5 px-3" onClick={createNewTournament}>
           <SquarePlus className="w-6 mr-2" /> Create new
         </Button>
-        {tournamentDraws?.map((t) => (
+        {tournamentDrawsSortedByModifiedDateDescending?.map((t) => (
           <div key={t.id} id="tournament-draw-item">
             <div id="tournament-draw-name">{t.name}</div>
           </div>
@@ -239,11 +273,12 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
               id="import-teams"
               type="file"
               accept=".csv"
+              onClick={(e) => (e.currentTarget.value = "")}
               onChange={(e) => importTeamsFromFwango(e)}
               hidden
             />
             <Button asChild>
-              <label htmlFor="import-teams" className="cursor-pointer">
+              <label htmlFor="import-teams" className="cursor-pointer mr-0">
                 <Import className="w-6 mr-2" />
                 Import teams from Fwango
               </label>
@@ -257,10 +292,11 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
         </div>
         <div className="group-draw">
           <TournamentDrawSettings
-            tournamentDrawSettings={tournamentDraw}
+            tournamentDrawSettings={tournamentDrawSettings}
             setTournamentDrawSettings={dispatch}
             drawGroupsHandler={drawGroupsHandler}
           />
+          {/* {groupStage ? <Groups groups={groupStage.groups} powerpools={groupStage.powerpools} /> : "groups"} */}
           <Groups groups={groupStage?.groups} powerpools={groupStage?.powerpools} />
         </div>
       </div>
@@ -302,8 +338,8 @@ const checkIfTeamOrPlayerIsAlreadyInTheTournament = (
       newTeamPlayerNames.includes(existingTeam.players[0].name);
 
     isPlayerTwoTheSame =
-      newTeamPlayerIds.includes(existingTeam.players[0].id) &&
-      newTeamPlayerNames.includes(existingTeam.players[0].name);
+      newTeamPlayerIds.includes(existingTeam.players[1].id) &&
+      newTeamPlayerNames.includes(existingTeam.players[1].name);
 
     if (IsPlayerOneTheSame && !isPlayerTwoTheSame) {
       reason = "existingPlayerOne";

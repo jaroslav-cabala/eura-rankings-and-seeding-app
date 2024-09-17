@@ -64,6 +64,7 @@ export type TournamentDivisionDTO = {
 };
 
 export type TournamentDrawDTO = {
+  modified: number;
   id: string;
   name: string;
   divisions: Array<Division>;

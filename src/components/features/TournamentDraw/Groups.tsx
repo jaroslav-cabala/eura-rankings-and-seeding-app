@@ -5,11 +5,14 @@ export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpoo
     <div className="groups">
       {powerpools?.map((powerpool, index) => (
         <div className="powerpool" key={`powerpool${index}`}>
-          <p className="title">Powerpool {getGroupLetter(index)}</p>
+          <p className="title mb-5 px-3">Powerpool {getGroupLetter(index)}</p>
           <ol>
             {powerpool.teams.map((team) => (
-              <li className="teamname" key={team.id ?? `${team.players[0].name}_${team.players[1].name}`}>
-                <span>{`${team.name} `}</span>
+              <li
+                className="py-1 px-3 mb-2 last:mb-0"
+                key={team.id ?? `${team.players[0].name}_${team.players[1].name}`}
+              >
+                <span className="font-medium">{`${team.name} `}</span>
                 <span className="lowlighted-text">{`${team.points} points`}</span>
               </li>
             ))}

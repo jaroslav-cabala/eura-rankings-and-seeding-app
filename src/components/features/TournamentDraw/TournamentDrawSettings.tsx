@@ -20,7 +20,7 @@ type TournamentDrawSettingsProps = {
   tournamentDrawSettings: Pick<
     TournamentDrawDTO,
     "name" | "powerpoolTeams" | "powerpools" | "groups" | "teamPointsCountMethod" | "category"
-  >;
+  > & { teamCount: number };
   drawGroupsHandler: () => void;
 };
 export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
@@ -90,7 +90,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
           id="powerpool-teams"
           className="max-w-[68px]"
           type="number"
-          min={1}
+          min={0}
           value={tournamentDrawSettings.powerpoolTeams}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setTournamentDrawSettings({
@@ -105,7 +105,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
           id="powerpool-groups"
           className="max-w-[68px]"
           type="number"
-          min={1}
+          min={0}
           value={tournamentDrawSettings.powerpools}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setTournamentDrawSettings({
@@ -121,6 +121,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
           className="max-w-[68px]"
           type="number"
           min={1}
+          max={tournamentDrawSettings.teamCount}
           value={tournamentDrawSettings.groups}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setTournamentDrawSettings({
