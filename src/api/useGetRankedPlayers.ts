@@ -32,7 +32,7 @@ export const useGetRankedPlayers = ({
 
   useEffect(() => {
     const seasonsArgument = fromSeason && toSeason ? { from: fromSeason, to: toSeason } : undefined;
-    const queryString = createQueryString(division, seasonsArgument);
+    const queryString = createQueryString([division], seasonsArgument);
 
     fetch(`http:localhost:3001/rankings/${category}/players?${queryString}`);
   }, [category, division, fromSeason, toSeason, fetch]);

@@ -2,7 +2,6 @@ import { Category, Division } from "@/domain";
 import { TimePeriod, getCurrentYear } from "@/utils";
 
 export type RankingsFilterOptions = {
-  // rankedEntity: RankedEntity;
   category: Category;
   division: Division;
   seasons: TimePeriod;
@@ -11,7 +10,6 @@ export type RankingsFilterOptions = {
 };
 
 export const defaultRankingsFilterState: RankingsFilterOptions = {
-  // rankedEntity: RankedEntity.Individual,
   category: Category.Open,
   division: Division.Pro,
   seasons: {
