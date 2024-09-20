@@ -215,6 +215,7 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
 
   const tournamentDrawSettings = {
     category: tournamentDraw.category,
+    divisions: tournamentDraw.divisions,
     groups: tournamentDraw.groups,
     name: tournamentDraw.name,
     powerpools: tournamentDraw.powerpools,
@@ -238,34 +239,36 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
       </div>
       <div id="group-stage-draw">
         <div id="tournament-teams">
-          <Button
-            variant="destructive"
-            className="mb-2"
-            onClick={() => {
-              resetTournament();
-            }}
-          >
-            <RotateCcw className="w-6 mr-2" />
-            Reset
-          </Button>
-          <Button
-            className="mb-2 ml-2"
-            onClick={() => {
-              saveTournamentDraw();
-            }}
-            disabled={saveInProgress}
-          >
-            {saveInProgress ? (
-              <>
-                <Loader2 className="w-6 animate-spin mr-2" /> Save
-              </>
-            ) : (
-              <>
-                <Save className="w-6 mr-2" />
-                Save
-              </>
-            )}
-          </Button>
+          <div className="mb-6">
+            <Button
+              variant="destructive"
+              className="mr-2"
+              onClick={() => {
+                resetTournament();
+              }}
+            >
+              <RotateCcw className="w-6 mr-2" />
+              Reset
+            </Button>
+            <Button
+              className=""
+              onClick={() => {
+                saveTournamentDraw();
+              }}
+              disabled={saveInProgress}
+            >
+              {saveInProgress ? (
+                <>
+                  <Loader2 className="w-6 animate-spin mr-2" /> Save
+                </>
+              ) : (
+                <>
+                  <Save className="w-6 mr-2" />
+                  Save
+                </>
+              )}
+            </Button>
+          </div>
           <AddTeam addTeamHandler={addTeam} category={tournamentDraw.category} division={Division.Pro} />
           <div className="flex justify-between items-center">
             <p className="title py-4">Teams ({tournamentDraw.teams.length})</p>
@@ -296,13 +299,26 @@ const TournamentDrawComponent: FC<TournamentDrawComponentProps> = ({
             setTournamentDrawSettings={dispatch}
             drawGroupsHandler={drawGroupsHandler}
           />
-          {/* {groupStage ? <Groups groups={groupStage.groups} powerpools={groupStage.powerpools} /> : "groups"} */}
-          <Groups groups={groupStage?.groups} powerpools={groupStage?.powerpools} />
+          {groupStage ? (
+            <Groups groups={groupStage.groups} powerpools={groupStage.powerpools} />
+          ) : (
+            GroupsPlaceholder
+          )}
         </div>
       </div>
     </section>
   );
 };
+
+const GroupsPlaceholder = (
+  <div className="flex gap-4 w-[600px]">
+    {Array(4)
+      .fill(0)
+      .map((_, index) => (
+        <div key={index} className="h-64 w-[300px] bg-[hsl(var(--accent))] rounded-sm" />
+      ))}
+  </div>
+);
 
 type CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason =
   | "existingTeam"

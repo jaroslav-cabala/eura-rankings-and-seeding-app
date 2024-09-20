@@ -199,7 +199,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
       : undefined;
 
   return (
-    <div id="add-team" className="mb-6 mt-6">
+    <div id="add-team" className="mb-6">
       <form onSubmit={(e) => onAddTeamFormSubmit(e)}>
         <Popover open={selectTeamPopoverOpen}>
           <PopoverAnchor asChild>
@@ -362,7 +362,7 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
           <ol>
             <li
               key="createNewTeam"
-              className="h-[50px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+              className="h-[50px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
               onClick={onCreateNewTeam}
             >
               Create new team&nbsp;<span className="font-bold">"{teamNameInputValue}"</span>
@@ -374,7 +374,7 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
                 <li
                   key={team.id}
                   onClick={() => onTeamSelected(team)}
-                  className="h-[50px] p-2 flex items-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+                  className="h-[50px] p-2 flex items-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
                 >
                   <div>
                     <div className="font-medium">{`${team.name}`}</div>
@@ -441,7 +441,7 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
           <ol>
             <li
               key="addNewPlayer"
-              className="h-[40px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+              className="h-[40px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
               onClick={onAddNewPlayer}
             >
               Add new player&nbsp;<span className="font-bold">"{playerNameInputValue}"</span>
@@ -453,7 +453,7 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
                 <li
                   key={player.id}
                   onClick={() => onPlayerSelected(player)}
-                  className="h-[40px] p-2 flex items-center hover:cursor-pointer hover:bg-[#f1f5f9]"
+                  className="h-[40px] p-2 flex items-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
                 >
                   <div>
                     <div className="font-medium">{`${player.name}`}</div>

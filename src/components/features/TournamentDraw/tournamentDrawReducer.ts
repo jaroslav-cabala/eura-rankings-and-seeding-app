@@ -1,5 +1,5 @@
 import { TeamPointsCountMethod, TournamentDrawDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
-import { Category } from "@/domain";
+import { Category, Division } from "@/domain";
 
 export enum TournamentDrawReducerActionType {
   SetPowerpoolTeamsCount = "SetPowerpoolTeamsCount",
@@ -8,6 +8,7 @@ export enum TournamentDrawReducerActionType {
   SetTeamPointsCountMethod = "SetTeamPointsCountMethod",
   SetName = "SetName",
   SetCategory = "SetCategory",
+  SetDivisions = "SetDivisions",
   AddTeam = "AddTeam",
   RemoveTeam = "RemoveTeam",
   SetTeams = "SetTems",
@@ -44,6 +45,11 @@ type SetCategory = {
   category: Category;
 };
 
+type SetDivisions = {
+  type: TournamentDrawReducerActionType.SetDivisions;
+  divisions: Array<Division>;
+};
+
 type AddTeamAction = {
   type: TournamentDrawReducerActionType.AddTeam;
   team: TournamentDrawTeamDTO;
@@ -71,6 +77,7 @@ export type TournamentDrawReducerActionTypes =
   | SetTeamPointsCountMethodAction
   | SetNameAction
   | SetCategory
+  | SetDivisions
   | AddTeamAction
   | RemoveTeamAction
   | SetTeamsAction
@@ -118,6 +125,12 @@ export const tournamentDrawReducer = (
         category: action.category,
       };
     }
+    case TournamentDrawReducerActionType.SetDivisions: {
+      return {
+        ...tournamentDraw,
+        divisions: action.divisions,
+      };
+    }
     case TournamentDrawReducerActionType.AddTeam: {
       return {
         ...tournamentDraw,
@@ -149,3 +162,11 @@ export const tournamentDrawReducer = (
     }
   }
 };
+
+// When category changes, teams previously added to the tournament might be invalid, e.g men teams are invalid
+// in the women category. This function removes all invalid teams.
+// const RemoveInvalidTeamsOnCategoryChange (category: Category, teams: Array<TournamentDrawTeamDTO>): Array<TournamentDrawTeamDTO> => {
+//   if (category === Category.Women) {
+//     return teams.filter(team => team.)
+//   }
+// }

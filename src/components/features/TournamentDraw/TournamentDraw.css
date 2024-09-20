@@ -46,7 +46,7 @@
 }
 
 #group-stage-draw #tournament-teams li {
-  background-color: #f1f5f9;
+  background-color: hsl(var(--accent));
   padding: 0.375rem 0.75rem;
   border-radius: 6px;
   min-width: 420px;
@@ -87,7 +87,7 @@ div.powerpool {
   border-radius: 6px;
   margin: 0.5rem 0;
   padding: 0.5rem;
-  background-color: #f1f5f9;
+  background-color: hsl(var(--accent));
   min-width: 250px;
 }
 
@@ -101,7 +101,7 @@ div.powerpool {
 }
 
 label {
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   font-weight: 500;
 }
 

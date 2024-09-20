@@ -3,7 +3,7 @@ import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div className="p-4 flex gap-3 text-xl justify-center h-14">
+      <div className="p-4 flex gap-3 text-xl justify-center h-14 bg-[hsl(var(--accent))]">
         <Link to="/rankings" className="[&.active]:font-bold">
           Rankings
         </Link>{" "}

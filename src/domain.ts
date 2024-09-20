@@ -15,7 +15,6 @@ export enum Category {
 export enum Division {
   Pro = "pro",
   Contender = "contender",
-  Advanced = "advanced",
 }
 
 export type RankedPlayer = RankedPlayerDTO & {

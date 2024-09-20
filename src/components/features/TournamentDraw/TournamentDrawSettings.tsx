@@ -10,16 +10,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Category } from "@/domain";
+import { Category, Division } from "@/domain";
 import { capitalizeFirstChar } from "@/utils";
 import { TournamentDrawDTO } from "@/api/apiTypes";
 import { TournamentDrawReducerActionType, TournamentDrawReducerActionTypes } from "./tournamentDrawReducer";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 type TournamentDrawSettingsProps = {
   setTournamentDrawSettings: Dispatch<TournamentDrawReducerActionTypes>;
   tournamentDrawSettings: Pick<
     TournamentDrawDTO,
-    "name" | "powerpoolTeams" | "powerpools" | "groups" | "teamPointsCountMethod" | "category"
+    "name" | "powerpoolTeams" | "powerpools" | "groups" | "teamPointsCountMethod" | "category" | "divisions"
   > & { teamCount: number };
   drawGroupsHandler: () => void;
 };
@@ -31,10 +32,11 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
   return (
     <div id="tournament-draw-settings" className="mb-6">
       <div className="title pb-6 pt-2">Tournament draw settings</div>
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-6">
+        <label htmlFor="tournamentDrawName">Name:</label>
         <Input
+          id="tournamentDrawName"
           className="w-80"
-          placeholder="Division name"
           value={tournamentDrawSettings.name}
           onChange={(event) =>
             setTournamentDrawSettings({
@@ -43,8 +45,9 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
             })
           }
         />
-        <Separator orientation="vertical" className="mx-4" />
-        <label>Division:</label>
+      </div>
+      <div className="flex items-center mb-6">
+        <label htmlFor="selectCategory">Category:</label>
         <Select
           value={tournamentDrawSettings.category}
           onValueChange={(value) =>
@@ -54,37 +57,40 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
             })
           }
         >
-          <SelectTrigger className="w-[120px]">
+          <SelectTrigger id="selectCategory" className="w-[130px]">
             <SelectValue>{capitalizeFirstChar(tournamentDrawSettings.category)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {/* TODO: create a config object with all possible filter values and then create the select options dynamically */}
-              <SelectItem value={Category.Open}>{capitalizeFirstChar(Category.Open)}</SelectItem>
-              <SelectItem value={Category.Women}>{capitalizeFirstChar(Category.Women)}</SelectItem>
-              <SelectItem value={Category.Mixed}>{capitalizeFirstChar(Category.Mixed)}</SelectItem>
+              {Object.entries(Category).map(([, category]) => (
+                <SelectItem key={category} value={category}>
+                  {capitalizeFirstChar(category)}
+                </SelectItem>
+              ))}
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Separator orientation="vertical" className="mx-1" />
-        {/* <Select
-          value={tournamentDrawSettings.division}
+        <Separator orientation="vertical" className="mx-3" />
+        <label htmlFor="selectCategory">Divisions:</label>
+        <ToggleGroup
+          value={[...tournamentDrawSettings.divisions]}
           onValueChange={(value) =>
-            setTournamentDrawSettings({ ...tournamentDrawSettings, division: value as Division })
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetDivisions,
+              divisions: value as Array<Division>,
+            })
           }
+          type="multiple"
+          variant="outline"
         >
-          <SelectTrigger className="w-[120px]">
-            <SelectValue>{capitalizeFirstChar(tournamentDrawSettings.division)}</SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value={Division.Pro}>{capitalizeFirstChar(Division.Pro)}</SelectItem>
-              <SelectItem value={Division.Contender}>{capitalizeFirstChar(Division.Contender)}</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select> */}
+          {Object.entries(Division).map(([, division]) => (
+            <ToggleGroupItem key={division} value={division}>
+              {division}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center mb-6">
         <label htmlFor="powerpool-teams">Powerpool teams:</label>
         <Input
           id="powerpool-teams"
@@ -92,14 +98,14 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
           type="number"
           min={0}
           value={tournamentDrawSettings.powerpoolTeams}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setTournamentDrawSettings({
               type: TournamentDrawReducerActionType.SetPowerpoolTeamsCount,
               powerpoolTeamsCount: event.target.value,
-            });
-          }}
+            })
+          }
         />
-        <Separator orientation="vertical" className="mx-2" />
+        <Separator orientation="vertical" className="mx-3" />
         <label htmlFor="powerpool-groups">Powerpool groups:</label>
         <Input
           id="powerpool-groups"
@@ -107,14 +113,14 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
           type="number"
           min={0}
           value={tournamentDrawSettings.powerpools}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setTournamentDrawSettings({
               type: TournamentDrawReducerActionType.SetPowerpoolGroupsCount,
               powerpoolGroupsCount: event.target.value,
-            });
-          }}
+            })
+          }
         />
-        <Separator orientation="vertical" className="mx-2" />
+        <Separator orientation="vertical" className="mx-3" />
         <label htmlFor="groups">Groups:</label>
         <Input
           id="groups"
@@ -123,14 +129,15 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
           min={1}
           max={tournamentDrawSettings.teamCount}
           value={tournamentDrawSettings.groups}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setTournamentDrawSettings({
               type: TournamentDrawReducerActionType.SetGroupsCount,
               groupsCount: event.target.value,
-            });
-          }}
+            })
+          }
         />
-        <Separator orientation="vertical" className="mx-4" />
+      </div>
+      <div>
         <Button
           variant="default"
           onClick={() => {
