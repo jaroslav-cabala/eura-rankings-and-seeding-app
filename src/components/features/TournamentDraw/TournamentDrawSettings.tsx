@@ -12,15 +12,23 @@ import {
 } from "@/components/ui/select";
 import { Category, Division } from "@/domain";
 import { capitalizeFirstChar } from "@/utils";
-import { TournamentDrawDTO } from "@/api/apiTypes";
+import { TeamPointsCountMethod, teamPointsCountMethods, TournamentDrawDTO } from "@/api/apiTypes";
 import { TournamentDrawReducerActionType, TournamentDrawReducerActionTypes } from "./tournamentDrawReducer";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 type TournamentDrawSettingsProps = {
   setTournamentDrawSettings: Dispatch<TournamentDrawReducerActionTypes>;
   tournamentDrawSettings: Pick<
     TournamentDrawDTO,
-    "name" | "powerpoolTeams" | "powerpools" | "groups" | "teamPointsCountMethod" | "category" | "divisions"
+    | "name"
+    | "powerpoolTeams"
+    | "powerpools"
+    | "groups"
+    | "teamPointsCountMethod"
+    | "numberOfBestResultsCountedToPointsTotal"
+    | "category"
+    | "divisions"
   > & { teamCount: number };
   drawGroupsHandler: () => void;
 };
@@ -71,7 +79,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
           </SelectContent>
         </Select>
         <Separator orientation="vertical" className="mx-3" />
-        <label htmlFor="selectCategory">Divisions:</label>
+        <label>Divisions:</label>
         <ToggleGroup
           value={[...tournamentDrawSettings.divisions]}
           onValueChange={(value) =>
@@ -89,6 +97,43 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
+      </div>
+      <div className="flex items-center mb-6">
+        <label>Calculate the seeding points: </label>
+        <RadioGroup
+          value={tournamentDrawSettings.teamPointsCountMethod}
+          onValueChange={(value) =>
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetTeamPointsCountMethod,
+              teamPointsCountMethod: value as TeamPointsCountMethod,
+            })
+          }
+        >
+          {teamPointsCountMethods.map((method) => (
+            <div key={method} className="flex items-center space-x-2">
+              <RadioGroupItem value={method} id={method} />
+              <label htmlFor={method}>{method}</label>
+            </div>
+          ))}
+        </RadioGroup>
+      </div>
+      <div className="flex items-center mb-6">
+        <label htmlFor="numberOfBestResultsCountedToPointsTotal">
+          Number of best result counted to points total:
+        </label>
+        <Input
+          id="numberOfBestResultsCountedToPointsTotal"
+          className="max-w-[68px]"
+          type="number"
+          min={0}
+          value={tournamentDrawSettings.numberOfBestResultsCountedToPointsTotal}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setTournamentDrawSettings({
+              type: TournamentDrawReducerActionType.SetNumberOfBestResultsCountedToPointsTotal,
+              numberOfBestResultsCountedToPointsTotal: parseInt(event.target.value, 10),
+            })
+          }
+        />
       </div>
       <div className="flex items-center mb-6">
         <label htmlFor="powerpool-teams">Powerpool teams:</label>

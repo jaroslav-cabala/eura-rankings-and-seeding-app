@@ -2,9 +2,14 @@ import React, { FC, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
-import { TournamentDrawPlayerDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
+import {
+  RankedPlayerDTO,
+  RankedTeamDTO,
+  TournamentDrawPlayerDTO,
+  TournamentDrawTeamDTO,
+} from "@/api/apiTypes";
 import { useGetRankedTeams } from "@/api/useGetRankedTeams";
-import { Category, Division, RankedPlayer, RankedTeam } from "@/domain";
+import { Category, Division } from "@/domain";
 import { fetchRankedPlayer } from "./fetchRankedPlayers";
 import { useGetRankedPlayers } from "@/api/useGetRankedPlayers";
 import { CircleAlert } from "lucide-react";
@@ -13,17 +18,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 type AddTeamProps = {
   addTeamHandler: (team: TournamentDrawTeamDTO) => boolean;
   category: Category;
-  division: Division;
+  divisions: Array<Division>;
 };
 
-export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }) => {
+export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions }) => {
   const [teamToAdd, setTeamToAdd] = useState<TeamToAdd>({
-    id: null,
-    uid: null,
+    uid: undefined,
     name: "",
+    categories: [],
     tournamentResults: [],
-    playerOne: { id: null, uid: null, name: "", tournamentResults: [] },
-    playerTwo: { id: null, uid: null, name: "", tournamentResults: [] },
+    playerOne: { uid: undefined, name: "", isWoman: false, tournamentResults: [] },
+    playerTwo: { uid: undefined, name: "", isWoman: false, tournamentResults: [] },
   });
 
   const [formSubmitAttempted, setFormSubmitAttempted] = useState(false);
@@ -168,21 +173,21 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
 
     if (teamToAdd.name && teamToAdd.playerOne.name && teamToAdd.playerTwo.name) {
       const isSuccessful = addTeamHandler({
-        id: teamToAdd.id,
         uid: teamToAdd.uid,
         name: teamToAdd.name,
+        categories: teamToAdd.categories,
         tournamentResults: teamToAdd.tournamentResults,
         players: [teamToAdd.playerOne, teamToAdd.playerTwo],
       });
 
       if (isSuccessful) {
         setTeamToAdd({
-          id: null,
-          uid: null,
+          uid: undefined,
           name: "",
+          categories: [],
           tournamentResults: [],
-          playerOne: { id: null, uid: null, name: "", tournamentResults: [] },
-          playerTwo: { id: null, uid: null, name: "", tournamentResults: [] },
+          playerOne: { uid: undefined, name: "", isWoman: false, tournamentResults: [] },
+          playerTwo: { uid: undefined, name: "", isWoman: false, tournamentResults: [] },
         });
       }
 
@@ -197,6 +202,10 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
     : !teamToAdd.playerOne?.name || !teamToAdd.playerTwo?.name
       ? "Player names are required"
       : undefined;
+
+  const teamCategoryFilterArgument = category === Category.Open ? undefined : category;
+  const playerCategoryFilterArgument =
+    category === Category.Open || category === Category.Mixed ? undefined : category;
 
   return (
     <div id="add-team" className="mb-6">
@@ -222,8 +231,8 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
             onOpenAutoFocus={(e) => e.preventDefault()}
           >
             <PopoverContentRankedTeams
-              category={category}
-              division={division}
+              category={teamCategoryFilterArgument}
+              divisions={divisions}
               teamNameInputValue={teamToAdd.name}
               selectTeamFromPopoverHandler={onSelectTeamFromPopover}
             />
@@ -251,8 +260,8 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
           >
             <PopoverContentRankedPlayers
               playerInputId="playerOne"
-              category={category}
-              division={division}
+              category={playerCategoryFilterArgument}
+              divisions={divisions}
               playerNameInputValue={teamToAdd.playerOne.name}
               selectPlayerFromPopoverHandler={onSelectPlayerFromPopover}
             />
@@ -280,8 +289,8 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
           >
             <PopoverContentRankedPlayers
               playerInputId="playerTwo"
-              category={category}
-              division={division}
+              category={playerCategoryFilterArgument}
+              divisions={divisions}
               playerNameInputValue={teamToAdd.playerTwo.name}
               selectPlayerFromPopoverHandler={onSelectPlayerFromPopover}
             />
@@ -305,34 +314,28 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, division }
 
 type PopoverContentRankedTeamsProps = {
   teamNameInputValue: string;
-  category: Category;
-  division: Division;
+  category?: Category;
+  divisions: Array<Division>;
   selectTeamFromPopoverHandler: (selectedTeam: TeamToAdd | null) => void;
 };
 
 const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
   teamNameInputValue,
   category,
-  division,
+  divisions,
   selectTeamFromPopoverHandler,
 }) => {
-  const {
-    data: rankedTeams,
-    loading,
-    error,
-  } = useGetRankedTeams({
-    category,
-    division,
-    numberOfResultsCountedToPointsTotal: 3,
-  });
+  const { data: rankedTeams, loading, error } = useGetRankedTeams();
 
-  const onTeamSelected = async (team: RankedTeam) => {
+  const onTeamSelected = async (team: RankedTeamDTO) => {
     const teamPlayers = await Promise.all(
-      team.players.map((player) => fetchRankedPlayer(player.id, category))
+      team.players.map((player) => fetchRankedPlayer({ uid: player.uid }))
     );
 
     const playersWithResults: Array<TournamentDrawPlayerDTO> = team.players.map((player) => ({
-      ...player,
+      uid: player.uid,
+      name: player.name,
+      isWoman: !!teamPlayers.find((tp) => tp?.uid === player.uid)?.isWoman,
       tournamentResults: teamPlayers.find((tp) => tp?.id === player.id)?.tournamentResults ?? [],
     }));
 
@@ -394,8 +397,8 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
 type PopoverContentRankedPlayersProps = {
   playerInputId: "playerOne" | "playerTwo";
   playerNameInputValue: string;
-  category: Category;
-  division: Division;
+  category?: Category;
+  divisions: Array<Division>;
   selectPlayerFromPopoverHandler: (
     playerInputId: "playerOne" | "playerTwo",
     selectedPlayer: TournamentDrawPlayerDTO | null
@@ -406,21 +409,13 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
   playerInputId,
   playerNameInputValue,
   category,
-  division,
+  divisions,
   selectPlayerFromPopoverHandler,
 }) => {
-  const {
-    data: rankedPlayers,
-    loading,
-    error,
-  } = useGetRankedPlayers({
-    category,
-    division,
-    numberOfResultsCountedToPointsTotal: 3,
-  });
+  const { data: rankedPlayers, loading, error } = useGetRankedPlayers();
 
   // TODO RankedPlayer type contains 'points' prop, but we ignore it(TournamentDrawPlayerDTO type does not have it)
-  const onPlayerSelected = async (selectedPlayer: RankedPlayer) => {
+  const onPlayerSelected = async (selectedPlayer: RankedPlayerDTO) => {
     selectPlayerFromPopoverHandler(playerInputId, selectedPlayer);
   };
 
@@ -467,7 +462,7 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
   );
 };
 
-type TeamToAdd = Pick<TournamentDrawTeamDTO, "id" | "name" | "tournamentResults" | "uid"> & {
+type TeamToAdd = Omit<TournamentDrawTeamDTO, "players"> & {
   playerOne: TournamentDrawPlayerDTO;
   playerTwo: TournamentDrawPlayerDTO;
 };

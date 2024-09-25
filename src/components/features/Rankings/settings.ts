@@ -9,7 +9,7 @@ export type RankingsFilterOptions = {
   search: string;
 };
 
-export const defaultRankingsFilterState: RankingsFilterOptions = {
+export const defaultFilterForRankings: RankingsFilterOptions = {
   category: Category.Open,
   division: Division.Pro,
   seasons: {

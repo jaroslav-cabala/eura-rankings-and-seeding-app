@@ -5,7 +5,7 @@ export const capitalizeFirstChar = (string: string) => string[0].toUpperCase() +
 
 // this function extracts the year from a string that represents the date of tournament
 // date is in format yyyy-mm-dd
-export const extractYearFromTournamentDate = (date: string) => date.split("-")[0];
+export const extractYearFromTournamentDate = (date: string): number => parseInt(date.split("-")[0], 10);
 
 export const formatDate = (date: string) =>
   new Date(date).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
@@ -30,6 +30,7 @@ export const getRankingIdFromCategoryAndDivision = (
     ([, value]) => value.category === category && value.division === division
   )?.[0];
 
+// move to a separate package(interestingStuff on github)
 // Object.entries() type so we get a correct type for the key
 export type Entries<T> = {
   [K in keyof T]: [K, T[K]];

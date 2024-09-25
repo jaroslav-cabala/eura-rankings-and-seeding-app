@@ -1,4 +1,4 @@
-import { defaultRankingsFilterState } from "@/components/features/Rankings/settings";
+import { defaultFilterForRankings } from "@/components/features/Rankings/settings";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 
@@ -16,7 +16,7 @@ function RankingsComponent() {
           <NavigationMenuItem className="mx-2">
             <Link
               to="/rankings/individual"
-              search={{ ...defaultRankingsFilterState }}
+              search={{ ...defaultFilterForRankings }}
               className="[&.active]:font-bold"
               activeOptions={{ includeSearch: false }}
             >
@@ -26,7 +26,7 @@ function RankingsComponent() {
           <NavigationMenuItem>
             <Link
               to="/rankings/team"
-              search={{ ...defaultRankingsFilterState }}
+              search={{ ...defaultFilterForRankings }}
               className="[&.active]:font-bold"
               activeOptions={{ includeSearch: false }}
             >

@@ -5,7 +5,7 @@ export enum RankedEntity {
   Team = "team",
 }
 
-// use types from api ???
+// TODO use types from api ???
 export enum Category {
   Open = "open",
   Women = "women",
@@ -17,6 +17,7 @@ export enum Division {
   Contender = "contender",
 }
 
+// TODO maybe move this type to Rankings feature ?
 export type RankedPlayer = RankedPlayerDTO & {
   points: number;
 };

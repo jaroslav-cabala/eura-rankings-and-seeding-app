@@ -17,7 +17,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
   return (
     <ol>
       {teams.map((team) => (
-        <li key={team.id ?? `${team.players[0].name}_${team.players[1].name}`}>
+        <li key={team.uid ?? `${team.players[0].name}_${team.players[1].name}`}>
           <div>
             <div className="font-medium">
               {`${team.name}`}&nbsp;&nbsp;{`(${team.points} points)`}
@@ -33,7 +33,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
               onClick={() =>
                 removeTeam({
                   type: TournamentDrawReducerActionType.RemoveTeam,
-                  teamId: team.id,
+                  teamUid: team.uid,
                   teamName: team.name,
                 })
               }

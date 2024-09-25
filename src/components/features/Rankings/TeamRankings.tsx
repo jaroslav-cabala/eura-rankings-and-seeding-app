@@ -16,6 +16,7 @@ import { SearchInput } from "./DataTable/SearchInput";
 import { Route as TeamRankingsRoute } from "@/routes/rankings/_layout.team";
 import { useSearch } from "@tanstack/react-router";
 import { RankingsFilterOptions } from "./settings";
+import { sortTeamsByPoints } from "@/lib/sortTeamsByPoints";
 
 export const TeamRankings = () => {
   console.log("TeamRankings component");
@@ -25,14 +26,17 @@ export const TeamRankings = () => {
     loading: teamsLoading,
     error: teamsError,
   } = useGetRankedTeams({
-    category: rankingsFilterParams.category,
-    division: rankingsFilterParams.division,
-    numberOfResultsCountedToPointsTotal: rankingsFilterParams.numberOfResultsCountedToPointsTotal,
-    fromSeason: rankingsFilterParams.seasons.from,
-    toSeason: rankingsFilterParams.seasons.to,
+    teamCategory: rankingsFilterParams.category,
+    resultDivisions: [rankingsFilterParams.division],
+    seasons: rankingsFilterParams.seasons,
   });
 
-  const tableData: Array<TeamRankingsTableDataRow> = teams.map((team, index) => ({
+  const teamsSortedByPoints = sortTeamsByPoints(
+    teams,
+    rankingsFilterParams.numberOfResultsCountedToPointsTotal
+  );
+
+  const tableData: Array<TeamRankingsTableDataRow> = teamsSortedByPoints.map((team, index) => ({
     rank: index + 1,
     team: {
       name: team.name,

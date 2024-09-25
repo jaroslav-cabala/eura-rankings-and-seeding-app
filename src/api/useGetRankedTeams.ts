@@ -1,43 +1,36 @@
 import { useEffect } from "react";
-import { Category, Division, RankedTeam } from "../domain";
 import { useFetchLazy } from "./useFetch";
-import { RankedTeamDTO } from "./apiTypes";
-import { createQueryString } from "./createQueryStringsContainingFilters";
-import { tournamentDrawDefaults } from "@/config";
-import { sortTeamsByPoints } from "@/lib/sortTeamsByPoints";
+import { RankedTeamDTO, RankedTeamsFilter } from "./apiTypes";
+import { createRankedTeamsFilterQueryString } from "./queryStringCreators";
 
 export type GetRankedTeamsResult = {
-  data: Array<RankedTeam>;
+  data: Array<RankedTeamDTO>;
   loading: boolean;
   error: boolean;
 };
 
-type UseGetRankedTeamsProps = {
-  category: Category;
-  division: Division;
-  fromSeason?: string;
-  toSeason?: string;
-  numberOfResultsCountedToPointsTotal: number;
-};
+// Fetched ranked entities from the backend. By default, entities that have no tournament results will not be
+// included in the result.
+export const useGetRankedTeams = (filter?: RankedTeamsFilter): GetRankedTeamsResult => {
+  const { teamCategory, resultCategories, resultDivisions, seasons, includeEntitiesWithNoTournamentResults } =
+    filter ?? {};
 
-export const useGetRankedTeams = ({
-  category,
-  division,
-  numberOfResultsCountedToPointsTotal,
-  fromSeason,
-  toSeason,
-}: UseGetRankedTeamsProps): GetRankedTeamsResult => {
   const { fetch, data, loading, error } = useFetchLazy<Array<RankedTeamDTO>>();
 
-  useEffect(() => {
-    const seasonsArgument = fromSeason && toSeason ? { from: fromSeason, to: toSeason } : undefined;
-    const queryString = createQueryString([division], seasonsArgument);
+  const queryString = createRankedTeamsFilterQueryString({
+    includeEntitiesWithNoTournamentResults,
+    teamCategory,
+    resultCategories,
+    resultDivisions,
+    seasons,
+  });
 
-    fetch(`http:localhost:3001/rankings/${category}/teams?${queryString}`);
-  }, [category, division, fetch, fromSeason, toSeason]);
+  useEffect(() => {
+    fetch(`http:localhost:3001/rankings/teams?${queryString}`);
+  }, [fetch, queryString]);
 
   return {
-    data: sortTeamsByPoints(data, numberOfResultsCountedToPointsTotal),
+    data: data ?? [],
     loading,
     error,
   };
@@ -45,7 +38,7 @@ export const useGetRankedTeams = ({
 
 export type GetRankedTeamsLazyResult = {
   fetch: (url: string, requestInit?: RequestInit) => Promise<void>;
-  data: Array<RankedTeam>;
+  data: Array<RankedTeamDTO>;
   loading: boolean;
   error: boolean;
 };
@@ -61,10 +54,7 @@ export const useGetRankedTeamsLazy = (
 
   return {
     fetch,
-    data: sortTeamsByPoints(
-      data,
-      numberOfResultsCountedToPointsTotal ?? tournamentDrawDefaults.numberOfResultsCountedToPointsTotal
-    ),
+    data: data ?? [],
     loading,
     error,
   };

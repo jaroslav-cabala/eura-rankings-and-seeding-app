@@ -8,6 +8,7 @@ export type UseGetTournamentDrawResult = {
   error: boolean;
 };
 
+// TODO status 200 response is error as a result from the fetch ?????
 export const useGetTournamentDraw = (id: string): UseGetTournamentDrawResult => {
   const { fetch, data, loading, error } = useFetchLazy<TournamentDrawDTO>();
 

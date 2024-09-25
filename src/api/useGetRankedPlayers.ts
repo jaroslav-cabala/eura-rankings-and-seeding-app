@@ -1,47 +1,41 @@
 import { useEffect } from "react";
-import { RankedPlayerDTO } from "./apiTypes";
-import { Category, Division, RankedPlayer } from "../domain";
+import { RankedPlayerDTO, RankedPlayersFilter } from "./apiTypes";
 import { useFetchLazy } from "./useFetch";
-import { createQueryString } from "./createQueryStringsContainingFilters";
-import { tournamentDrawDefaults } from "@/config";
-import { sortPlayersByPoints } from "@/lib/sortPlayersByPoints";
+import { createRankedPlayersFilterQueryString } from "./queryStringCreators";
 
 export type GetRankedPlayersResult = {
-  data: Array<RankedPlayer>;
+  data: Array<RankedPlayerDTO>;
   loading: boolean;
   error: boolean;
 };
 
-type UseGetRankedPlayersProps = {
-  category: Category;
-  division: Division;
-  fromSeason?: string;
-  toSeason?: string;
-  numberOfResultsCountedToPointsTotal?: number;
-};
+// Fetched ranked entities from the backend. By default, entities that have no tournament results will not be
+// included in the result.
+export const useGetRankedPlayers = (filter?: RankedPlayersFilter): GetRankedPlayersResult => {
+  const {
+    playerCategory,
+    resultCategories,
+    resultDivisions,
+    seasons,
+    includeEntitiesWithNoTournamentResults,
+  } = filter ?? {};
 
-// TODO this should return result of type RankedPlayerDTO
-export const useGetRankedPlayers = ({
-  category,
-  division,
-  numberOfResultsCountedToPointsTotal,
-  fromSeason,
-  toSeason,
-}: UseGetRankedPlayersProps): GetRankedPlayersResult => {
   const { fetch, data, loading, error } = useFetchLazy<Array<RankedPlayerDTO>>();
 
-  useEffect(() => {
-    const seasonsArgument = fromSeason && toSeason ? { from: fromSeason, to: toSeason } : undefined;
-    const queryString = createQueryString([division], seasonsArgument);
+  const queryString = createRankedPlayersFilterQueryString({
+    includeEntitiesWithNoTournamentResults,
+    playerCategory,
+    resultCategories,
+    resultDivisions,
+    seasons,
+  });
 
-    fetch(`http:localhost:3001/rankings/${category}/players?${queryString}`);
-  }, [category, division, fromSeason, toSeason, fetch]);
+  useEffect(() => {
+    fetch(`http:localhost:3001/rankings/players?${queryString}`);
+  }, [fetch, queryString]);
 
   return {
-    data: sortPlayersByPoints(
-      data,
-      numberOfResultsCountedToPointsTotal ?? tournamentDrawDefaults.numberOfResultsCountedToPointsTotal
-    ),
+    data: data ?? [],
     loading,
     error,
   };

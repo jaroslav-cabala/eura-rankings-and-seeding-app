@@ -6,6 +6,7 @@ export enum TournamentDrawReducerActionType {
   SetPowerpoolGroupsCount = "SetPowerpoolGroupsCount",
   SetGroupsCount = "SetGroupsCount",
   SetTeamPointsCountMethod = "SetTeamPointsCountMethod",
+  SetNumberOfBestResultsCountedToPointsTotal = "SetNumberOfBestResultsCountedToPointsTotal",
   SetName = "SetName",
   SetCategory = "SetCategory",
   SetDivisions = "SetDivisions",
@@ -35,6 +36,11 @@ type SetTeamPointsCountMethodAction = {
   teamPointsCountMethod: TeamPointsCountMethod;
 };
 
+type SetNumberOfBestResultsCountedToPointsTotal = {
+  type: TournamentDrawReducerActionType.SetNumberOfBestResultsCountedToPointsTotal;
+  numberOfBestResultsCountedToPointsTotal: number;
+};
+
 type SetNameAction = {
   type: TournamentDrawReducerActionType.SetName;
   name: string;
@@ -57,7 +63,7 @@ type AddTeamAction = {
 
 type RemoveTeamAction = {
   type: TournamentDrawReducerActionType.RemoveTeam;
-  teamId: string | null;
+  teamUid: string | undefined;
   teamName: string;
 };
 
@@ -75,6 +81,7 @@ export type TournamentDrawReducerActionTypes =
   | SetPowerpoolGroupsCountAction
   | SetGroupsCountAction
   | SetTeamPointsCountMethodAction
+  | SetNumberOfBestResultsCountedToPointsTotal
   | SetNameAction
   | SetCategory
   | SetDivisions
@@ -113,6 +120,12 @@ export const tournamentDrawReducer = (
         teamPointsCountMethod: action.teamPointsCountMethod,
       };
     }
+    case TournamentDrawReducerActionType.SetNumberOfBestResultsCountedToPointsTotal: {
+      return {
+        ...tournamentDraw,
+        numberOfBestResultsCountedToPointsTotal: action.numberOfBestResultsCountedToPointsTotal,
+      };
+    }
     case TournamentDrawReducerActionType.SetName: {
       return {
         ...tournamentDraw,
@@ -141,7 +154,7 @@ export const tournamentDrawReducer = (
       return {
         ...tournamentDraw,
         teams: tournamentDraw.teams.filter((team) =>
-          action.teamId ? team.id !== action.teamId : team.name !== action.teamName
+          action.teamUid ? team.uid !== action.teamUid : team.name !== action.teamName
         ),
       };
     }
@@ -162,11 +175,3 @@ export const tournamentDrawReducer = (
     }
   }
 };
-
-// When category changes, teams previously added to the tournament might be invalid, e.g men teams are invalid
-// in the women category. This function removes all invalid teams.
-// const RemoveInvalidTeamsOnCategoryChange (category: Category, teams: Array<TournamentDrawTeamDTO>): Array<TournamentDrawTeamDTO> => {
-//   if (category === Category.Women) {
-//     return teams.filter(team => team.)
-//   }
-// }

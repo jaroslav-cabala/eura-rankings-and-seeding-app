@@ -1,3 +1,4 @@
+import { TimePeriod } from "@/utils";
 import { Category, Division } from "../domain";
 
 export const teamPointsCountMethods = ["sumOfPlayersPoints", "sumOfTeamPoints"] as const;
@@ -7,36 +8,32 @@ export type RankedPlayerDTO = {
   id: string;
   uid: string;
   name: string;
+  isWoman: boolean;
   tournamentResults: RankedPlayerTournamentResultDTO[];
-};
-
-export type RankedPlayerTournamentResultDTO = {
-  tournamentId: string;
-  tournamentResultId: string;
-  tournamentName: string;
-  date: string;
-  rank: number;
-  points: number;
-  division: Division;
-  team: Team;
 };
 
 export type RankedTeamDTO = {
   id: string;
   uid: string;
   name: string;
+  categories: Array<Category>;
   players: Player[];
-  tournamentResults: RankedTeamTournamentResultDTO[];
+  tournamentResults: TournamentResultDTO[];
 };
 
-export type RankedTeamTournamentResultDTO = {
+export type TournamentResultDTO = {
   tournamentId: string;
   tournamentResultId: string;
   tournamentName: string;
   date: string;
   rank: number;
   points: number;
+  category: Category;
   division: Division;
+};
+
+export type RankedPlayerTournamentResultDTO = TournamentResultDTO & {
+  team: Team;
 };
 
 export type Player = {
@@ -73,23 +70,33 @@ export type TournamentDrawDTO = {
   powerpools: number;
   powerpoolTeams: number;
   teamPointsCountMethod: TeamPointsCountMethod;
-  numberOfResultsCountedToPointsTotal: number;
+  numberOfBestResultsCountedToPointsTotal: number;
   teams: Array<TournamentDrawTeamDTO>;
 };
 
-export type TournamentDrawTeamDTO = {
-  id: string | null;
-  uid: string | null;
-  name: string;
+export type TournamentDrawTeamDTO = Pick<RankedTeamDTO, "name" | "categories" | "tournamentResults"> & {
+  uid: string | undefined;
   players: Array<TournamentDrawPlayerDTO>;
-  tournamentResults: Array<RankedTeamTournamentResultDTO>;
 };
 
-export type TournamentDrawPlayerDTO = {
-  id: string | null;
-  uid: string | null;
-  name: string;
-  tournamentResults: Array<RankedPlayerTournamentResultDTO>;
+export type TournamentDrawPlayerDTO = Pick<RankedPlayerDTO, "isWoman" | "name" | "tournamentResults"> & {
+  uid: string | undefined;
 };
 
 export type TournamentDrawNameAndIdDTO = Pick<TournamentDrawDTO, "id" | "name">;
+
+export type RankedTeamsFilter = {
+  teamCategory?: Category;
+  includeEntitiesWithNoTournamentResults?: boolean;
+} & TournamentResultsFilter;
+
+export type RankedPlayersFilter = {
+  playerCategory?: Extract<Category, Category.Open | Category.Women>;
+  includeEntitiesWithNoTournamentResults?: boolean;
+} & TournamentResultsFilter;
+
+export type TournamentResultsFilter = {
+  resultCategories?: Array<Category>;
+  resultDivisions?: Array<Division>;
+  seasons?: TimePeriod;
+};

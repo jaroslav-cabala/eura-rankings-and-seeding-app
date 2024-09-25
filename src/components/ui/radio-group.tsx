@@ -4,11 +4,23 @@ import { Circle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+type ORIENTATION = "vertical" | "horizontal";
+
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
->(({ className, ...props }, ref) => {
-  return <RadioGroupPrimitive.Root className={cn("grid gap-2", className)} {...props} ref={ref} />;
+  {
+    orientation?: ORIENTATION;
+  } & React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+>(({ className, orientation = "horizontal", ...props }, ref) => {
+  const orientationClass = orientation === "vertical" ? "flex flex-col" : "flex";
+  return (
+    <RadioGroupPrimitive.Root
+      className={cn("grid gap-2", className, orientationClass)}
+      orientation={orientation}
+      {...props}
+      ref={ref}
+    />
+  );
 });
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 

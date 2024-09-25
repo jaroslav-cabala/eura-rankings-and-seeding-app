@@ -16,6 +16,7 @@ import { SearchInput } from "./DataTable/SearchInput";
 import { useSearch } from "@tanstack/react-router";
 import { Route as IndividualRankingsRoute } from "@/routes/rankings/_layout.individual";
 import { RankingsFilterOptions } from "./settings";
+import { sortPlayersByPoints } from "@/lib/sortPlayersByPoints";
 
 export const IndividualRankings = () => {
   console.log("IndividualRankings component");
@@ -25,14 +26,17 @@ export const IndividualRankings = () => {
     loading: playersLoading,
     error: playersError,
   } = useGetRankedPlayers({
-    category: rankingsFilterParams.category,
-    division: rankingsFilterParams.division,
-    numberOfResultsCountedToPointsTotal: rankingsFilterParams.numberOfResultsCountedToPointsTotal,
-    fromSeason: rankingsFilterParams.seasons.from,
-    toSeason: rankingsFilterParams.seasons.to,
+    resultCategories: [rankingsFilterParams.category],
+    resultDivisions: [rankingsFilterParams.division],
+    seasons: rankingsFilterParams.seasons,
   });
 
-  const tableData: Array<IndividualRankingsTableDataRow> = players.map((player, index) => ({
+  const playersSortedByPoints = sortPlayersByPoints(
+    players,
+    rankingsFilterParams.numberOfResultsCountedToPointsTotal
+  );
+
+  const tableData: Array<IndividualRankingsTableDataRow> = playersSortedByPoints.map((player, index) => ({
     rank: index + 1,
     name: player.name,
     points: player.points,

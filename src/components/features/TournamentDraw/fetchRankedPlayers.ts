@@ -1,22 +1,45 @@
-import { RankedPlayerDTO } from "@/api/apiTypes";
-import { createQueryString } from "@/api/createQueryStringsContainingFilters";
-import { Division, Category } from "@/domain";
+import { RankedPlayerDTO, RankedPlayersFilter, TournamentResultsFilter } from "@/api/apiTypes";
+import {
+  createRankedPlayersFilterQueryString,
+  createTournamentResultsFilterQueryString,
+} from "@/api/queryStringCreators";
 
-export const fetchAllRankedPlayers = async (
-  category: Category,
-  divisions: Array<Division>
-): Promise<Array<RankedPlayerDTO>> => {
-  const queryStringPlayers = createQueryString(divisions);
-  const fetchResultPlayers = await fetch(
-    new URL(`http:localhost:3001/rankings/${category}/players?${queryStringPlayers}`)
-  );
+// TODO error handling
+export const fetchRankedPlayers = async (filter?: RankedPlayersFilter): Promise<Array<RankedPlayerDTO>> => {
+  const {
+    playerCategory,
+    resultCategories,
+    resultDivisions,
+    seasons,
+    includeEntitiesWithNoTournamentResults,
+  } = filter ?? {};
+
+  const queryString = createRankedPlayersFilterQueryString({
+    includeEntitiesWithNoTournamentResults,
+    playerCategory,
+    resultCategories,
+    resultDivisions,
+    seasons,
+  });
+  const fetchResultPlayers = await fetch(new URL(`http:localhost:3001/rankings/players?${queryString}`));
 
   return fetchResultPlayers.json();
 };
 
-export const fetchRankedPlayer = async (playerId: string, category: Category): Promise<RankedPlayerDTO> => {
+export const fetchRankedPlayer = async ({
+  uid,
+  resultCategories,
+  resultDivisions,
+  seasons,
+}: TournamentResultsFilter & { uid: string }): Promise<RankedPlayerDTO> => {
+  const queryString = createTournamentResultsFilterQueryString({
+    resultCategories,
+    resultDivisions,
+    seasons,
+  });
+
   const fetchResultPlayer = await fetch(
-    new URL(`http:localhost:3001/rankings/${category}/players/${playerId}`)
+    new URL(`http:localhost:3001/rankings/players/${uid}?${queryString}`)
   );
 
   return fetchResultPlayer.json();
