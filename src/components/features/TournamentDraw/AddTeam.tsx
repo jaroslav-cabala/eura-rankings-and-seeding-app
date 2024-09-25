@@ -322,10 +322,12 @@ type PopoverContentRankedTeamsProps = {
 const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
   teamNameInputValue,
   category,
-  divisions,
   selectTeamFromPopoverHandler,
 }) => {
-  const { data: rankedTeams, loading, error } = useGetRankedTeams();
+  // If open category is selected, search for a team of any category. Otherwise search for teams of
+  // specific category(women or mixed teams)
+  const rankedTeamsFilter = category === Category.Open ? undefined : { teamCategory: category };
+  const { data: rankedTeams, loading, error } = useGetRankedTeams(rankedTeamsFilter);
 
   const onTeamSelected = async (team: RankedTeamDTO) => {
     const teamPlayers = await Promise.all(
@@ -409,10 +411,11 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
   playerInputId,
   playerNameInputValue,
   category,
-  divisions,
   selectPlayerFromPopoverHandler,
 }) => {
-  const { data: rankedPlayers, loading, error } = useGetRankedPlayers();
+  // If women category is selected, search for a woman player. Otherwise search for any player.
+  const rankedPlayersFilter = category === Category.Women ? { playerCategory: category } : undefined;
+  const { data: rankedPlayers, loading, error } = useGetRankedPlayers(rankedPlayersFilter);
 
   // TODO RankedPlayer type contains 'points' prop, but we ignore it(TournamentDrawPlayerDTO type does not have it)
   const onPlayerSelected = async (selectedPlayer: RankedPlayerDTO) => {
