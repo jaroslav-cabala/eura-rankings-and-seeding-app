@@ -77,9 +77,9 @@ const RankingsDataManagementComponent: FC<RankingsDataManagementComponentProps> 
   });
 
   return (
-    <div className="w-[1000px] mx-auto py-1 mt-12">
+    <section className="p-2 pt-4 min-w-[500px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
       {loading ? <p>loading...</p> : <DataTable table={table} />}
-    </div>
+    </section>
   );
 };
 
@@ -117,7 +117,7 @@ const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
 ];
 
 function Header<TData>(column: Column<TData, unknown>) {
-  return <div className="py-1 px-0 text-xs">{column.id}</div>;
+  return <div className="py-1 px-0">{column.id}</div>;
 }
 
 const TournamentCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) => {

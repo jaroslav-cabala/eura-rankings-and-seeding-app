@@ -2,14 +2,14 @@ import { Dispatch } from "react";
 import { Trash2 } from "lucide-react";
 import { TeamPointsCountMethod } from "@/api/apiTypes";
 import { Button } from "@/components/ui/button";
-import { TournamentDrawTeamWithPoints } from "./TournamentDraw";
+import { TournamentDrawTeam } from "./TournamentDraw";
 import { TournamentDrawReducerActionType, TournamentDrawReducerActionTypes } from "./tournamentDrawReducer";
 
 type TeamsProps = {
   removeTeam: Dispatch<
     Extract<TournamentDrawReducerActionTypes, { type: TournamentDrawReducerActionType.RemoveTeam }>
   >;
-  teams: Array<TournamentDrawTeamWithPoints>;
+  teams: Array<TournamentDrawTeam>;
   teamPointsCountMethod: TeamPointsCountMethod;
 };
 
@@ -17,7 +17,11 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
   return (
     <ol>
       {teams.map((team) => (
-        <li key={team.uid ?? `${team.players[0].name}_${team.players[1].name}`}>
+        <li
+          className="tournament-team"
+          data-invalid={!team.belongsInTheSelectedCategory}
+          key={team.uid ?? `${team.players[0].name}_${team.players[1].name}`}
+        >
           <div>
             <div className="font-medium">
               {`${team.name}`}&nbsp;&nbsp;{`(${team.points} points)`}

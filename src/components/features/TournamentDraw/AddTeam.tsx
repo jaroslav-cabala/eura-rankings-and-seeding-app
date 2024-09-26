@@ -367,7 +367,7 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
           <ol>
             <li
               key="createNewTeam"
-              className="h-[50px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
+              className="h-[48px] p-2 flex items-center justify-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
               onClick={onCreateNewTeam}
             >
               Create new team&nbsp;<span className="font-bold">"{teamNameInputValue}"</span>
@@ -379,7 +379,7 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
                 <li
                   key={team.id}
                   onClick={() => onTeamSelected(team)}
-                  className="h-[50px] p-2 flex items-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
+                  className="h-[48px] p-2 flex items-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
                 >
                   <div>
                     <div className="font-medium">{`${team.name}`}</div>

@@ -5,12 +5,12 @@ import { extractYearFromTournamentDate, TimePeriod } from "@/utils";
 export const filterTournamentResults = <T extends TournamentResultDTO>(
   results: Array<T>,
   category?: Category,
-  division?: Array<Division>,
+  divisions?: Array<Division>,
   seasons?: TimePeriod
 ): Array<T> =>
   results.filter((result) => {
     const categoryFilterResult = category ? result.category === category : true;
-    const divisionFilterResult = division ? division?.includes(result.division) : true;
+    const divisionFilterResult = divisions ? divisions?.includes(result.division) : true;
 
     let seasonsFilterResult = true;
     if (seasons) {

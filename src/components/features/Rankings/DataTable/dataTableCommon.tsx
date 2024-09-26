@@ -11,11 +11,13 @@ export const SortingButton = <TData,>(column: Column<TData, unknown>) => {
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
     >
       {column.id}
-      <ArrowUpDown className="ml-2 h-4 w-4" />
+      {/* <ArrowUpDown className="ml-1 h-4 w-4" /> */}
     </Button>
   );
 };
 
-export const ColumnSimpleValueWrapper: FC<PropsWithChildren> = ({ children }) => {
-  return <div className="text-base font-medium">{children}</div>;
-};
+export const ColumnSimpleValueWrapper: FC<PropsWithChildren> = ({ children }) => (
+  <div className="text-base font-medium">{children}</div>
+);
+
+export const TournamentsPlayedColumn: FC<PropsWithChildren> = ({ children }) => <div>{children}</div>;

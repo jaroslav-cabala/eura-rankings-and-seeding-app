@@ -11,7 +11,7 @@ function RankingsComponent() {
 
   return (
     <>
-      <NavigationMenu className="p-2">
+      <NavigationMenu className="p-4">
         <NavigationMenuList>
           <NavigationMenuItem className="mx-2">
             <Link

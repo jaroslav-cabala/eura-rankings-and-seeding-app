@@ -16,7 +16,10 @@ export const DataTable = <TData extends RowData>({ table }: DataTableProps<TData
             <ShadcnTable.TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <ShadcnTable.TableHead key={header.id} className="px-3">
+                  <ShadcnTable.TableHead
+                    key={header.id}
+                    className={`px-3 lg:min-w-[${header.column.columnDef.size}]`}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(header.column.columnDef.header, header.getContext())}
@@ -32,7 +35,10 @@ export const DataTable = <TData extends RowData>({ table }: DataTableProps<TData
             table.getRowModel().rows.map((row) => (
               <ShadcnTable.TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (
-                  <ShadcnTable.TableCell key={cell.id} className="p-3">
+                  <ShadcnTable.TableCell
+                    key={cell.id}
+                    className={`py-2 px-3 lg:min-w-[${cell.column.columnDef.size}]`}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </ShadcnTable.TableCell>
                 ))}
@@ -45,7 +51,7 @@ export const DataTable = <TData extends RowData>({ table }: DataTableProps<TData
             //   </ShadcnTable.TableCell>
             // </ShadcnTable.TableRow>
             <ShadcnTable.TableRow>
-              <ShadcnTable.TableCell className="h-24 text-center p-3">No results.</ShadcnTable.TableCell>
+              <ShadcnTable.TableCell className="h-24 text-center p-2">No results.</ShadcnTable.TableCell>
             </ShadcnTable.TableRow>
           )}
         </ShadcnTable.TableBody>

@@ -8,7 +8,7 @@ export const Route = createRootRoute({
           Rankings
         </Link>{" "}
         <Link to="/tournament-draws" className="[&.active]:font-bold">
-          Tournament Draw
+          Tournament Draws
         </Link>{" "}
         <Link to="/management" className="[&.active]:font-bold">
           Management

@@ -34,7 +34,7 @@ function TournamentDrawsComponent() {
   }
 
   return (
-    <section id="tournament-draws-landing">
+    <section className="flex justify-center gap-12 py-32 px-2">
       <Card className="max-h-[700px]">
         <CardHeader className="items-center">
           <CardTitle>Edit a tournament draw</CardTitle>

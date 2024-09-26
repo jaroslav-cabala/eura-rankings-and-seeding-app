@@ -1,16 +1,22 @@
-import { Group } from "./TournamentDraw";
+import { TournamentDrawTeam } from "./TournamentDraw";
 
-export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpools?: Array<Group> }) => {
+export const Groups = ({
+  groups,
+  powerpools,
+}: {
+  groups?: Array<Array<TournamentDrawTeam>>;
+  powerpools?: Array<Array<TournamentDrawTeam>>;
+}) => {
   return (
     <div className="groups">
       {powerpools?.map((powerpool, index) => (
         <div className="powerpool" key={`powerpool${index}`}>
           <p className="title mb-5 px-3">Powerpool {getGroupLetter(index)}</p>
           <ol>
-            {powerpool.teams.map((team) => (
+            {powerpool.map((team) => (
               <li
                 className="py-1 px-3 mb-2 last:mb-0"
-                key={team.id ?? `${team.players[0].name}_${team.players[1].name}`}
+                key={team.uid ?? `${team.players[0].name}_${team.players[1].name}`}
               >
                 <span className="font-medium">{`${team.name} `}</span>
                 <span className="lowlighted-text">{`${team.points} points`}</span>
@@ -23,10 +29,10 @@ export const Groups = ({ groups, powerpools }: { groups?: Array<Group>; powerpoo
         <div className="group" key={`group${index}`}>
           <p className="title mb-5 px-3">Group {getGroupLetter(index)}</p>
           <ol>
-            {group.teams.map((team) => (
+            {group.map((team) => (
               <li
                 className="py-1 px-3 mb-2 last:mb-0"
-                key={team.id ?? `${team.players[0].name}_${team.players[1].name}`}
+                key={team.uid ?? `${team.players[0].name}_${team.players[1].name}`}
               >
                 <span className="font-medium">{`${team.name}`}&nbsp;&nbsp;</span>
                 <span className="lowlighted-text">{`(${team.points} points)`}</span>

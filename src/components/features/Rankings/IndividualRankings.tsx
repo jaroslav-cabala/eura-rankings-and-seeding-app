@@ -90,22 +90,22 @@ const IndividualRankingsComponent: FC<IndividualRankingsComponentProps> = ({
     },
   });
   return (
-    <>
+    <section className="p-2 min-w-[500px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px] lg:flex lg:flex-row-reverse lg:justify-center lg:gap-6">
       <RankingsFilter rankingsFilterParams={rankingsFilterParams} />
-      <div className="w-1/2 mx-auto py-1">
+      <div className="lg:flex-grow">
         {dataLoading ? (
           <p>loading player rankings</p>
         ) : (
           <>
-            <div className="flex items-center py-1">
+            <div className="flex items-center justify-between py-1">
+              <span className="font-medium">{table.getRowModel().rows?.length} players</span>
               <SearchInput table={table} columnId="Name" placeholder="Search players..." />
-              <div className="ml-5">{table.getRowModel().rows?.length} ranked players</div>
             </div>
             <DataTable table={table} />
           </>
         )}
       </div>
-    </>
+    </section>
   );
 };
 
@@ -120,6 +120,7 @@ const columns: ColumnDef<IndividualRankingsTableDataRow>[] = [
   {
     id: "Rank",
     accessorKey: "rank",
+    size: 60,
     header: ({ column }) => {
       return SortingButton(column);
     },
@@ -130,6 +131,7 @@ const columns: ColumnDef<IndividualRankingsTableDataRow>[] = [
   {
     id: "Name",
     accessorKey: "name",
+    size: 300,
     header: ({ column }) => {
       return SortingButton(column);
     },
@@ -140,6 +142,7 @@ const columns: ColumnDef<IndividualRankingsTableDataRow>[] = [
   {
     id: "Points",
     accessorKey: "points",
+    size: 80,
     header: ({ column }) => {
       return SortingButton(column);
     },
@@ -148,8 +151,9 @@ const columns: ColumnDef<IndividualRankingsTableDataRow>[] = [
     },
   },
   {
-    id: "Tournaments Played",
+    id: "Tournaments",
     accessorKey: "tournamentsPlayed",
+    size: 80,
     header: ({ column }) => {
       return SortingButton(column);
     },

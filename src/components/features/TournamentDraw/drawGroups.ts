@@ -1,9 +1,9 @@
 import { TournamentDrawDTO } from "@/api/apiTypes";
 import { snakeDraw } from "../../../lib/snakeDraw";
-import { GroupStage, Group, TournamentDrawTeamWithPoints } from "./TournamentDraw";
+import { GroupStage, Group, TournamentDrawTeam } from "./TournamentDraw";
 
 export const drawGroups = (
-  teams: Array<TournamentDrawTeamWithPoints>,
+  teams: Array<TournamentDrawTeam>,
   tournamentDrawSettings: Pick<TournamentDrawDTO, "powerpools" | "powerpoolTeams" | "groups">
 ): GroupStage | undefined => {
   let powerpools: Array<Group> | undefined = undefined;
@@ -21,7 +21,7 @@ export const drawGroups = (
   }
 
   teamsCopy.reverse();
-  const groups = snakeDraw<TournamentDrawTeamWithPoints>(teamsCopy, tournamentDrawSettings.groups);
+  const groups = snakeDraw<TournamentDrawTeam>(teamsCopy, tournamentDrawSettings.groups);
 
   return {
     groups,
@@ -30,12 +30,12 @@ export const drawGroups = (
 };
 
 const drawPowerpools = (
-  teams: Array<TournamentDrawTeamWithPoints>,
+  teams: Array<TournamentDrawTeam>,
   noPowerpoolGroups: number,
   noPowerpoolTeams: number
 ): GroupStage["powerpools"] => {
   const powerpoolTeams = teams.splice(0, noPowerpoolTeams).reverse();
-  const powerpoolGroups = snakeDraw<TournamentDrawTeamWithPoints>(powerpoolTeams, noPowerpoolGroups);
+  const powerpoolGroups = snakeDraw<TournamentDrawTeam>(powerpoolTeams, noPowerpoolGroups);
 
   return powerpoolGroups;
 };
