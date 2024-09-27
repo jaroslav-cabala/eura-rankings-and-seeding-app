@@ -30,9 +30,9 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
   return (
     <div
       id="rankings-filter"
-      className="mb-6 flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:gap-y-6 sm:gap-x-0 lg:flex-col lg:gap-6 lg:h-min"
+      className="px-4 mb-6 flex flex-col gap-6 sm:py-0 sm:flex-row sm:flex-wrap sm:gap-y-6 sm:gap-x-0 lg:flex-col lg:gap-6 lg:h-min lg:py-2"
     >
-      <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto">
+      <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto lg:pr-0">
         <span className="font-medium">Category:</span>
         <Select
           value={category}
@@ -72,7 +72,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
           </SelectContent>
         </Select>
       </div>
-      <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto">
+      <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto lg:pr-0">
         <span className="font-medium">Seasons:</span>
         <div className="flex items-center gap-2">
           <Select

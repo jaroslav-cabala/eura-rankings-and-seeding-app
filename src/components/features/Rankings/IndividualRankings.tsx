@@ -2,9 +2,11 @@ import React, { FC } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
+  PaginationState,
   SortingState,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -17,6 +19,7 @@ import { useSearch } from "@tanstack/react-router";
 import { Route as IndividualRankingsRoute } from "@/routes/rankings/_layout.individual";
 import { RankingsFilterOptions } from "./settings";
 import { sortPlayersByPoints } from "@/lib/sortPlayersByPoints";
+import { Pagination } from "./DataTable/Pagination";
 
 export const IndividualRankings = () => {
   console.log("IndividualRankings component");
@@ -76,6 +79,11 @@ const IndividualRankingsComponent: FC<IndividualRankingsComponentProps> = ({
   console.log(`IndividualRankings component - tableData=`, data);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 15,
+  });
+
   const table = useReactTable({
     data,
     columns,
@@ -84,9 +92,12 @@ const IndividualRankingsComponent: FC<IndividualRankingsComponentProps> = ({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnFilters,
+      pagination,
     },
   });
   return (
@@ -97,11 +108,14 @@ const IndividualRankingsComponent: FC<IndividualRankingsComponentProps> = ({
           <p>loading player rankings</p>
         ) : (
           <>
-            <div className="flex items-center justify-between py-1">
-              <span className="font-medium">{table.getRowModel().rows?.length} players</span>
+            <div className="flex items-center justify-between pb-2 pl-4">
+              <span className="font-medium">{table.getRowCount()} players</span>
               <SearchInput table={table} columnId="Name" placeholder="Search players..." />
             </div>
             <DataTable table={table} />
+            <div className=" pt-2 pl-4 flex items-center gap-6">
+              <Pagination table={table} />
+            </div>
           </>
         )}
       </div>

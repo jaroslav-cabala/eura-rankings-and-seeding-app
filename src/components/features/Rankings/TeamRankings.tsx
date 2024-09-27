@@ -5,6 +5,7 @@ import {
   SortingState,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -17,6 +18,7 @@ import { Route as TeamRankingsRoute } from "@/routes/rankings/_layout.team";
 import { useSearch } from "@tanstack/react-router";
 import { RankingsFilterOptions } from "./settings";
 import { sortTeamsByPoints } from "@/lib/sortTeamsByPoints";
+import { Pagination } from "./DataTable/Pagination";
 
 export const TeamRankings = () => {
   console.log("TeamRankings component");
@@ -83,6 +85,7 @@ const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
       columnFilters,
@@ -101,6 +104,9 @@ const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({
               <SearchInput table={table} columnId="Team" placeholder="Search teams..." />
             </div>
             <DataTable table={table} />
+            <div className=" pt-2 pl-4 flex items-center gap-6">
+              <Pagination table={table} />
+            </div>
           </>
         )}
       </div>
@@ -134,7 +140,7 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
   {
     id: "Team",
     accessorKey: "team.name",
-    // size: 300,
+    size: 300,
     header: ({ column }) => SortingButton(column),
     cell: ({ row }) => {
       return (

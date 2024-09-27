@@ -18,7 +18,11 @@ export const DataTable = <TData extends RowData>({ table }: DataTableProps<TData
                 return (
                   <ShadcnTable.TableHead
                     key={header.id}
-                    className={`px-3 lg:min-w-[${header.column.columnDef.size}]`}
+                    className={`px-3`}
+                    style={{
+                      minWidth: header.column.columnDef.size,
+                      maxWidth: header.column.columnDef.size,
+                    }}
                   >
                     {header.isPlaceholder
                       ? null
@@ -37,7 +41,11 @@ export const DataTable = <TData extends RowData>({ table }: DataTableProps<TData
                 {row.getVisibleCells().map((cell) => (
                   <ShadcnTable.TableCell
                     key={cell.id}
-                    className={`py-2 px-3 lg:min-w-[${cell.column.columnDef.size}]`}
+                    className={`py-2 px-3`}
+                    style={{
+                      minWidth: cell.column.columnDef.size,
+                      maxWidth: cell.column.columnDef.size,
+                    }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </ShadcnTable.TableCell>
