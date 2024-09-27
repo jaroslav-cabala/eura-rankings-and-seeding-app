@@ -130,15 +130,16 @@ const TournamentCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> 
       )}
       target="_blank"
       key={divisionResult.tournamentResultId}
-      className="text-sm font-normal text-blue-400 hover:cursor-pointer hover:text-blue-600 hover:underline hover:underline-offset-2 p-0 h-4 mr-2"
+      className="text-sm p-0 h-4 font-normal text-blue-400 hover:cursor-pointer hover:text-blue-600 hover:underline hover:underline-offset-4"
     >
-      {`${divisionResult.category} ${divisionResult.division}`}
+      {divisionResult.category}&nbsp;
+      {divisionResult.division}{" "}
     </a>
   ));
   return (
     <>
       <ColumnSimpleValueWrapper>{row.getValue("Tournament")}</ColumnSimpleValueWrapper>
-      <div className="">{tournamentResultLinks}</div>
+      <span>{tournamentResultLinks}</span>
     </>
   );
 };

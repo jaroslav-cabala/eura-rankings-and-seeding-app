@@ -28,8 +28,11 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
 
   // TODO onValue change - hide call to navigate into an event handler here in the component
   return (
-    <div id="rankings-filter" className="mb-6 flex flex-col gap-6 lg:h-min">
-      <div>
+    <div
+      id="rankings-filter"
+      className="mb-6 flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:gap-y-6 sm:gap-x-0 lg:flex-col lg:gap-6 lg:h-min"
+    >
+      <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto">
         <span className="font-medium">Category:</span>
         <Select
           value={category}
@@ -37,7 +40,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
             navigate({ search: { ...rankingsFilterParams, category: value as Category } })
           }
         >
-          <SelectTrigger className="w-[130px]">
+          <SelectTrigger className="w-[150px]">
             <SelectValue>{capitalizeFirstChar(category)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -50,7 +53,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
           </SelectContent>
         </Select>
       </div>
-      <div>
+      <div className="sm:basis-[57%] lg:basis-auto">
         <span className="font-medium">Division:</span>
         <Select
           value={division}
@@ -58,7 +61,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
             navigate({ search: { ...rankingsFilterParams, division: value as Division } })
           }
         >
-          <SelectTrigger className="w-[130px]">
+          <SelectTrigger className="w-[150px]">
             <SelectValue>{capitalizeFirstChar(division)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -69,7 +72,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
           </SelectContent>
         </Select>
       </div>
-      <div>
+      <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto">
         <span className="font-medium">Seasons:</span>
         <div className="flex items-center gap-2">
           <Select
@@ -114,7 +117,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
         </div>
         <Button
           variant="link"
-          className="justify-start pt-0 px-3"
+          className="justify-start pt-0 px-3 text-blue-400 hover:text-blue-600"
           onClick={() =>
             navigate({
               search: {
@@ -127,7 +130,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
           {getCurrentYear}
         </Button>
       </div>
-      <div>
+      <div className="sm:basis-[57%] lg:basis-auto">
         <span className="font-medium">Points total:</span>
         <div className="flex items-center gap-2">
           Sum of the best
