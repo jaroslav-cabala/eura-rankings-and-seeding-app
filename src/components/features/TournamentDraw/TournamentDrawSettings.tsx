@@ -39,7 +39,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
 }) => {
   return (
     <div id="tournament-draw-settings" className="mb-6">
-      <div className="title pb-6 pt-2">Tournament draw settings</div>
+      <div className="title pb-6">Tournament draw settings</div>
       <div className="flex items-center mb-6">
         <label htmlFor="tournamentDrawName">Name:</label>
         <Input

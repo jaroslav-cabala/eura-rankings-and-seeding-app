@@ -44,7 +44,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
               title="Delete team"
               size="icon"
               variant="icon"
-              className="hover:text-red-500"
+              className="hover:text-[hsl(var(--destructive))]"
             >
               <Trash2 />
             </Button>

@@ -2,7 +2,6 @@ import { FC } from "react";
 import { TournamentDTO, TournamentDivisionDTO } from "@/api/apiTypes";
 import { useFetchLazy } from "@/api/useFetch";
 import { createFileRoute } from "@tanstack/react-router";
-import { DataTable } from "@/components/ui/dataTable";
 import {
   Column,
   ColumnDef,
@@ -18,6 +17,7 @@ import { CircleX, Import, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, getHrefToFwangoTournamentResult } from "@/utils";
 import { useGetTournaments } from "../../api/useGetTournaments";
+import { DataTable } from "@/components/ui/dataTable";
 
 export const Route = createFileRoute("/management/")({
   component: Management,

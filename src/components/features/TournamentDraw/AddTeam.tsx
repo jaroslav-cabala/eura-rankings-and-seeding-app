@@ -223,7 +223,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
             />
           </PopoverAnchor>
           <PopoverContent
-            className="p-2 select-team-popover-content"
+            className="p-2 add-team-popover-content"
             onEscapeKeyDown={(e) => hideSelectTeamPopover(e)}
             onPointerDownOutside={(e) => hideSelectTeamPopover(e)}
             onFocusOutside={(e) => hideSelectTeamPopover(e)}
@@ -251,7 +251,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
             />
           </PopoverAnchor>
           <PopoverContent
-            className="p-2 select-team-popover-content"
+            className="p-2 add-team-popover-content"
             onEscapeKeyDown={(e) => hideSelectPlayerPopover("playerOne", e)}
             onPointerDownOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
             onFocusOutside={(e) => hideSelectPlayerPopover("playerOne", e)}
@@ -280,7 +280,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
             />
           </PopoverAnchor>
           <PopoverContent
-            className="p-2 select-team-popover-content"
+            className="p-2 add-team-popover-content"
             onEscapeKeyDown={(e) => hideSelectPlayerPopover("playerTwo", e)}
             onPointerDownOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}
             onFocusOutside={(e) => hideSelectPlayerPopover("playerTwo", e)}

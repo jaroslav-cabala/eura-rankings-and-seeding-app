@@ -6,21 +6,16 @@ import { Groups } from "./Groups";
 import { drawGroups } from "./drawGroups";
 import { Button } from "@/components/ui/button";
 import { AddTeam } from "./AddTeam";
-import {
-  TeamPointsCountMethod,
-  TournamentDrawDTO,
-  TournamentDrawPlayerDTO,
-  TournamentDrawTeamDTO,
-} from "@/api/apiTypes";
+import { TournamentDrawDTO, TournamentDrawPlayerDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
 import { tournamentDrawReducer, TournamentDrawReducerActionType } from "./tournamentDrawReducer";
 import { Teams } from "./Teams";
-import { getTotalPointsFromXBestResults } from "@/lib/getTotalPointsFromXBestResults";
 import { useFetchLazy } from "@/api/useFetch";
 import { useToast } from "@/components/ui/hooks/use-toast";
 import { pairImportedTeamsWithExistingTeams } from "./pairImportedTeamsWithExistingTeams";
-import { filterTournamentResults } from "@/lib/filterTournamentResults";
-import { Category, Division } from "@/domain";
+import { Category } from "@/domain";
 import { TournamentDrawsMenu } from "./TournamentDrawsMenu";
+import { calculateSeedingPointsOfTeams } from "./calculateSeedingPoints";
+import { checkIfTeamOrPlayersAreAlreadyInTheTournament } from "./checkIfTeamOrPlayersAreAlreadyInTheTournament";
 
 // TODO improve this type with never. There are 2 options - either we count player points
 // in which case team points is sum of the player points
@@ -47,7 +42,6 @@ export const TournamentDraw: FC<TournamentDrawProps> = ({ tournamentDrawId, tour
     tournamentDrawInitial ?? newTournamentDraw
   );
   const [groupStage, setGroupStage] = useState<GroupStage | undefined>(undefined);
-  // const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const { fetch, data: saveResponse, loading: saveInProgress, error: saveError } = useFetchLazy<boolean>();
   const { toast } = useToast();
 
@@ -170,13 +164,13 @@ export const TournamentDraw: FC<TournamentDrawProps> = ({ tournamentDrawId, tour
   };
 
   return (
-    <section className="flex gap-6 m-auto min-w-[600px] pt-2 pr-2 pb-2">
+    <section className="flex gap-7 m-auto min-w-[600px] pt-2 pr-2 pb-2">
       <TournamentDrawsMenu
         selectedTournamentDrawId={tournamentDraw.id}
         selectedTournamentDrawName={tournamentDraw.name}
       />
-      <div id="group-stage-draw">
-        <div id="tournament-teams">
+      <div className="flex flex-grow-[3] gap-7">
+        <div className="py-2 flex-grow flex-shrink basis-2/6 min-w-[420px]">
           <div className="mb-6">
             <Button
               variant="destructive"
@@ -235,7 +229,7 @@ export const TournamentDraw: FC<TournamentDrawProps> = ({ tournamentDrawId, tour
             teamPointsCountMethod={tournamentDraw.teamPointsCountMethod}
           />
         </div>
-        <div className="group-draw">
+        <div className=" py-2 flex-grow-[4] flex-shrink-1 basis-4/6">
           <TournamentDrawSettings
             tournamentDrawSettings={tournamentDrawSettings}
             setTournamentDrawSettings={dispatch}
@@ -253,140 +247,14 @@ export const TournamentDraw: FC<TournamentDrawProps> = ({ tournamentDrawId, tour
 };
 
 const GroupsPlaceholder = (
-  <div className="flex gap-4 w-[600px]">
-    {Array(4)
+  <div className="flex flex-wrap gap-4">
+    {Array(8)
       .fill(0)
       .map((_, index) => (
-        <div key={index} className="h-64 w-[300px] bg-[hsl(var(--accent))] rounded-sm" />
+        <div key={index} className="h-52 w-[220px] bg-[hsl(var(--accent))] rounded-sm" />
       ))}
   </div>
 );
-
-type CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason =
-  | "existingTeam"
-  | "existingPlayerOne"
-  | "existingPlayerTwo"
-  | "bothPlayersExisting";
-
-type CheckIfTeamOrPlayerIsAlreadyInTheTournamentResult = {
-  checkResult: boolean;
-  reason: CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason | null;
-};
-
-const checkIfTeamOrPlayersAreAlreadyInTheTournament = (
-  newTeam: TournamentDrawTeamDTO,
-  existingTeams: Array<TournamentDrawTeamDTO>
-): CheckIfTeamOrPlayerIsAlreadyInTheTournamentResult => {
-  let reason: CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason | null = null;
-
-  // check if the new team is already in the tournament
-  const isTeamAlreadyAlreadyInTheTournament = !!existingTeams.find(
-    (existingTeam) => existingTeam.uid === newTeam.uid && existingTeam.name === newTeam.name
-  );
-
-  if (isTeamAlreadyAlreadyInTheTournament) {
-    return {
-      checkResult: true,
-      reason: "existingTeam",
-    };
-  }
-
-  // check if any of the players in the new team are already in the tournament
-  let IsPlayerOneAlreadyInTheTournament = false;
-  let IsPlayerTwoAlreadyInTheTournament = false;
-
-  const newTeamPlayerOne = newTeam.players[0];
-  const newTeamPlayerTwo = newTeam.players[1];
-  for (const existingTeam of existingTeams) {
-    if (IsPlayerTwoAlreadyInTheTournament && IsPlayerOneAlreadyInTheTournament) {
-      break;
-    }
-
-    if (!IsPlayerOneAlreadyInTheTournament) {
-      IsPlayerOneAlreadyInTheTournament =
-        existingTeam.players.map((p) => p.uid).includes(newTeamPlayerOne.uid) &&
-        existingTeam.players.map((p) => p.name).includes(newTeamPlayerOne.name);
-    }
-    if (!IsPlayerTwoAlreadyInTheTournament) {
-      IsPlayerTwoAlreadyInTheTournament =
-        existingTeam.players.map((p) => p.uid).includes(newTeamPlayerTwo.uid) &&
-        existingTeam.players.map((p) => p.name).includes(newTeamPlayerTwo.name);
-    }
-  }
-
-  if (IsPlayerOneAlreadyInTheTournament && IsPlayerTwoAlreadyInTheTournament) {
-    reason = "bothPlayersExisting";
-  }
-
-  if (IsPlayerOneAlreadyInTheTournament && !IsPlayerTwoAlreadyInTheTournament) {
-    reason = "existingPlayerOne";
-  }
-
-  if (IsPlayerTwoAlreadyInTheTournament && !IsPlayerOneAlreadyInTheTournament) {
-    reason = "existingPlayerTwo";
-  }
-
-  return {
-    checkResult: !!reason,
-    reason,
-  };
-};
-
-const calculateSeedingPointsOfTeams = (
-  teams: Array<TournamentDrawTeamDTO>,
-  category: Category,
-  divisions: Array<Division>,
-  teamPointsCountMethod: TeamPointsCountMethod,
-  numberOfResultsCountedToPointsTotal: number
-): Array<TournamentDrawTeam> => {
-  console.log("---------------------------------calculating seeding points of teams in the tournament");
-  console.log(
-    "---------------------------------and determining whether teams belong to the selected category"
-  );
-
-  const teamsWithFilteredTournamentResults = teams.map((team) => ({
-    ...team,
-    players: team.players.map((player) => ({
-      ...player,
-      tournamentResults: filterTournamentResults(player.tournamentResults, category, divisions),
-    })),
-    tournamentResults: filterTournamentResults(team.tournamentResults, category, divisions),
-  }));
-
-  // false when both players are in the system(have the uid), are not women and the category is women
-  const doesTeamBelongInTheSelectedCategory = (players: Array<TournamentDrawPlayerDTO>) =>
-    category === Category.Women ? players.every((p) => !p.uid || p.isWoman) : true;
-
-  return teamPointsCountMethod === "sumOfTeamPoints"
-    ? teamsWithFilteredTournamentResults
-        ?.map<TournamentDrawTeam>((team) => ({
-          ...team,
-          belongsInTheSelectedCategory: doesTeamBelongInTheSelectedCategory(team.players),
-          players: team.players.map((player) => ({
-            ...player,
-            points: 0,
-          })),
-          points: getTotalPointsFromXBestResults(team.tournamentResults, numberOfResultsCountedToPointsTotal),
-        }))
-        .sort((teamA, teamB) => teamB.points - teamA.points) ?? []
-    : teamsWithFilteredTournamentResults
-        ?.map<TournamentDrawTeam>((team) => {
-          const players = team.players.map((player) => ({
-            ...player,
-            points: getTotalPointsFromXBestResults(
-              player.tournamentResults,
-              numberOfResultsCountedToPointsTotal
-            ),
-          }));
-          return {
-            ...team,
-            belongsInTheSelectedCategory: doesTeamBelongInTheSelectedCategory(team.players),
-            players,
-            points: players[0].points + players[1].points,
-          };
-        })
-        .sort((teamA, teamB) => teamB.points - teamA.points) ?? [];
-};
 
 const newTournamentDraw: TournamentDrawDTO = {
   modified: 0,
