@@ -44,7 +44,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
         <label htmlFor="tournamentDrawName">Name:</label>
         <Input
           id="tournamentDrawName"
-          className="w-80"
+          className="w-[400px]"
           value={tournamentDrawSettings.name}
           onChange={(event) =>
             setTournamentDrawSettings({
@@ -65,7 +65,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
             })
           }
         >
-          <SelectTrigger id="selectCategory" className="w-[130px]">
+          <SelectTrigger id="selectCategory" className="w-[150px]">
             <SelectValue>{capitalizeFirstChar(tournamentDrawSettings.category)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -99,7 +99,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
         </ToggleGroup>
       </div>
       <div className="flex items-center mb-6">
-        <label>Calculate the seeding points: </label>
+        <label>Seeding points calculation: </label>
         <RadioGroup
           value={tournamentDrawSettings.teamPointsCountMethod}
           onValueChange={(value) =>
@@ -116,14 +116,12 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
             </div>
           ))}
         </RadioGroup>
-      </div>
-      <div className="flex items-center mb-6">
-        <label htmlFor="numberOfBestResultsCountedToPointsTotal">
-          Number of best result counted to points total:
+        <label htmlFor="numberOfBestResultsCountedToPointsTotal" className="pl-6">
+          The best
         </label>
         <Input
           id="numberOfBestResultsCountedToPointsTotal"
-          className="max-w-[68px]"
+          className="max-w-16 px-2"
           type="number"
           min={0}
           value={tournamentDrawSettings.numberOfBestResultsCountedToPointsTotal}
@@ -133,13 +131,14 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
               numberOfBestResultsCountedToPointsTotal: parseInt(event.target.value, 10),
             })
           }
-        />
+        />{" "}
+        results.
       </div>
       <div className="flex items-center mb-6">
         <label htmlFor="powerpool-teams">Powerpool teams:</label>
         <Input
           id="powerpool-teams"
-          className="max-w-[68px]"
+          className="max-w-16 px-2"
           type="number"
           min={0}
           value={tournamentDrawSettings.powerpoolTeams}
@@ -154,7 +153,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
         <label htmlFor="powerpool-groups">Powerpool groups:</label>
         <Input
           id="powerpool-groups"
-          className="max-w-[68px]"
+          className="max-w-16 px-2"
           type="number"
           min={0}
           value={tournamentDrawSettings.powerpools}
@@ -169,7 +168,7 @@ export const TournamentDrawSettings: React.FC<TournamentDrawSettingsProps> = ({
         <label htmlFor="groups">Groups:</label>
         <Input
           id="groups"
-          className="max-w-[68px]"
+          className="max-w-16 px-2"
           type="number"
           min={1}
           max={tournamentDrawSettings.teamCount}
