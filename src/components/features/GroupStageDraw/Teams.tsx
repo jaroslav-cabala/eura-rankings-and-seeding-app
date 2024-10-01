@@ -2,12 +2,12 @@ import { Dispatch } from "react";
 import { Trash2 } from "lucide-react";
 import { TeamPointsCountMethod } from "@/api/apiTypes";
 import { Button } from "@/components/ui/button";
-import { TournamentDrawTeam } from "./TournamentDraw";
-import { TournamentDrawReducerActionType, TournamentDrawReducerActionTypes } from "./tournamentDrawReducer";
+import { TournamentDrawTeam } from "./GroupStageDraw";
+import { groupStageDrawReducerActionType, GroupStageDrawReducerActionTypes } from "./groupStageDrawReducer";
 
 type TeamsProps = {
   removeTeam: Dispatch<
-    Extract<TournamentDrawReducerActionTypes, { type: TournamentDrawReducerActionType.RemoveTeam }>
+    Extract<GroupStageDrawReducerActionTypes, { type: groupStageDrawReducerActionType.RemoveTeam }>
   >;
   teams: Array<TournamentDrawTeam>;
   teamPointsCountMethod: TeamPointsCountMethod;
@@ -15,7 +15,7 @@ type TeamsProps = {
 
 export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCountMethod }) => {
   return (
-    <ol>
+    <ol className={teams.length ? "" : "m-auto"}>
       {teams.map((team) => (
         <li
           className="tournament-team"
@@ -26,7 +26,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
             <div className="font-medium">
               {`${team.name}`}&nbsp;&nbsp;{`(${team.points} points)`}
             </div>
-            <div className="lowlighted-text">
+            <div className="grey-text">
               {teamPointsCountMethod === "sumOfPlayersPoints"
                 ? `${team.players[0].name} (${team.players[0].points}), ${team.players[1].name} (${team.players[1].points})`
                 : `${team.players[0].name}, ${team.players[1].name}`}
@@ -36,7 +36,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
             <Button
               onClick={() =>
                 removeTeam({
-                  type: TournamentDrawReducerActionType.RemoveTeam,
+                  type: groupStageDrawReducerActionType.RemoveTeam,
                   teamUid: team.uid,
                   teamName: team.name,
                 })
@@ -51,6 +51,9 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
           </div>
         </li>
       ))}
+      {teams.length === 0 && (
+        <li className="p-6 text-center text-muted-foreground">No teams in the tournament. Add some!</li>
+      )}
     </ol>
   );
 };

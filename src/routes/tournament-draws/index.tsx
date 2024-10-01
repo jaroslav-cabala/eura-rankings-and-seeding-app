@@ -7,27 +7,31 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/tournament-draws/")({
-  component: TournamentDrawsComponent,
+  component: GroupStageDrawsComponent,
 });
 
-function TournamentDrawsComponent() {
+function GroupStageDrawsComponent() {
   const navigate = useNavigate({ from: "/tournament-draws" });
   const { data, loading, error } = useGetTournamentDraws();
 
   if (error) {
     return (
       <section id="fullscreen-section">
-        <div className="py-2">Error while fetching tournament draws</div>
+        <div className="loading-screen-wrapper">
+          <div className="flex m-auto">Unexpected error.</div>
+        </div>
       </section>
     );
   }
 
-  if (loading) {
+  if (loading || !data) {
     return (
       <section>
-        <div className="py-2">
-          <Loader2 className="animate-spin mr-2" />
-          Loading tournament draws...
+        <div className="loading-screen-wrapper">
+          <div className="flex m-auto">
+            <Loader2 className="animate-spin mr-2" />
+            Loading data...
+          </div>
         </div>
       </section>
     );
@@ -37,7 +41,7 @@ function TournamentDrawsComponent() {
     <section className="flex justify-center gap-12 py-32 px-2">
       <Card className="max-h-[700px]">
         <CardHeader className="items-center">
-          <CardTitle>Edit a tournament draw</CardTitle>
+          <CardTitle>Edit a group stage draw</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col">
           {data?.map((t) => (

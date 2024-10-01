@@ -1,7 +1,7 @@
 import { TeamPointsCountMethod, TournamentDrawDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
 import { Category, Division } from "@/domain";
 
-export enum TournamentDrawReducerActionType {
+export enum groupStageDrawReducerActionType {
   SetPowerpoolTeamsCount = "SetPowerpoolTeamsCount",
   SetPowerpoolGroupsCount = "SetPowerpoolGroupsCount",
   SetGroupsCount = "SetGroupsCount",
@@ -12,71 +12,76 @@ export enum TournamentDrawReducerActionType {
   SetDivisions = "SetDivisions",
   AddTeam = "AddTeam",
   RemoveTeam = "RemoveTeam",
+  RemoveAllTeams = "RemoveAllTeams",
   SetTeams = "SetTems",
   Reset = "Reset",
 }
 
 type SetPowerpoolTeamsCountAction = {
-  type: TournamentDrawReducerActionType.SetPowerpoolTeamsCount;
+  type: groupStageDrawReducerActionType.SetPowerpoolTeamsCount;
   powerpoolTeamsCount: string;
 };
 
 type SetPowerpoolGroupsCountAction = {
-  type: TournamentDrawReducerActionType.SetPowerpoolGroupsCount;
+  type: groupStageDrawReducerActionType.SetPowerpoolGroupsCount;
   powerpoolGroupsCount: string;
 };
 
 type SetGroupsCountAction = {
-  type: TournamentDrawReducerActionType.SetGroupsCount;
+  type: groupStageDrawReducerActionType.SetGroupsCount;
   groupsCount: string;
 };
 
 type SetTeamPointsCountMethodAction = {
-  type: TournamentDrawReducerActionType.SetTeamPointsCountMethod;
+  type: groupStageDrawReducerActionType.SetTeamPointsCountMethod;
   teamPointsCountMethod: TeamPointsCountMethod;
 };
 
 type SetNumberOfBestResultsCountedToPointsTotal = {
-  type: TournamentDrawReducerActionType.SetNumberOfBestResultsCountedToPointsTotal;
+  type: groupStageDrawReducerActionType.SetNumberOfBestResultsCountedToPointsTotal;
   numberOfBestResultsCountedToPointsTotal: number;
 };
 
 type SetNameAction = {
-  type: TournamentDrawReducerActionType.SetName;
+  type: groupStageDrawReducerActionType.SetName;
   name: string;
 };
 
 type SetCategory = {
-  type: TournamentDrawReducerActionType.SetCategory;
+  type: groupStageDrawReducerActionType.SetCategory;
   category: Category;
 };
 
 type SetDivisions = {
-  type: TournamentDrawReducerActionType.SetDivisions;
+  type: groupStageDrawReducerActionType.SetDivisions;
   divisions: Array<Division>;
 };
 
 type AddTeamAction = {
-  type: TournamentDrawReducerActionType.AddTeam;
+  type: groupStageDrawReducerActionType.AddTeam;
   team: TournamentDrawTeamDTO;
 };
 
 type RemoveTeamAction = {
-  type: TournamentDrawReducerActionType.RemoveTeam;
+  type: groupStageDrawReducerActionType.RemoveTeam;
   teamUid: string | undefined;
   teamName: string;
 };
 
+type RemoveAllTeamsAction = {
+  type: groupStageDrawReducerActionType.RemoveAllTeams;
+};
+
 type SetTeamsAction = {
-  type: TournamentDrawReducerActionType.SetTeams;
+  type: groupStageDrawReducerActionType.SetTeams;
   teams: Array<TournamentDrawTeamDTO>;
 };
 
 type ResetAction = {
-  type: TournamentDrawReducerActionType.Reset;
+  type: groupStageDrawReducerActionType.Reset;
 };
 
-export type TournamentDrawReducerActionTypes =
+export type GroupStageDrawReducerActionTypes =
   | SetPowerpoolTeamsCountAction
   | SetPowerpoolGroupsCountAction
   | SetGroupsCountAction
@@ -87,70 +92,71 @@ export type TournamentDrawReducerActionTypes =
   | SetDivisions
   | AddTeamAction
   | RemoveTeamAction
+  | RemoveAllTeamsAction
   | SetTeamsAction
   | ResetAction;
 
 //TODO how to handle string to number conversion
-export const tournamentDrawReducer = (
+export const groupStageDrawReducer = (
   tournamentDraw: TournamentDrawDTO,
-  action: TournamentDrawReducerActionTypes
+  action: GroupStageDrawReducerActionTypes
 ): TournamentDrawDTO => {
   switch (action.type) {
-    case TournamentDrawReducerActionType.SetPowerpoolTeamsCount: {
+    case groupStageDrawReducerActionType.SetPowerpoolTeamsCount: {
       return {
         ...tournamentDraw,
         powerpoolTeams: Number(action.powerpoolTeamsCount),
       };
     }
-    case TournamentDrawReducerActionType.SetPowerpoolGroupsCount: {
+    case groupStageDrawReducerActionType.SetPowerpoolGroupsCount: {
       return {
         ...tournamentDraw,
         powerpools: Number(action.powerpoolGroupsCount),
       };
     }
-    case TournamentDrawReducerActionType.SetGroupsCount: {
+    case groupStageDrawReducerActionType.SetGroupsCount: {
       return {
         ...tournamentDraw,
         groups: Number(action.groupsCount),
       };
     }
-    case TournamentDrawReducerActionType.SetTeamPointsCountMethod: {
+    case groupStageDrawReducerActionType.SetTeamPointsCountMethod: {
       return {
         ...tournamentDraw,
         teamPointsCountMethod: action.teamPointsCountMethod,
       };
     }
-    case TournamentDrawReducerActionType.SetNumberOfBestResultsCountedToPointsTotal: {
+    case groupStageDrawReducerActionType.SetNumberOfBestResultsCountedToPointsTotal: {
       return {
         ...tournamentDraw,
         numberOfBestResultsCountedToPointsTotal: action.numberOfBestResultsCountedToPointsTotal,
       };
     }
-    case TournamentDrawReducerActionType.SetName: {
+    case groupStageDrawReducerActionType.SetName: {
       return {
         ...tournamentDraw,
         name: action.name,
       };
     }
-    case TournamentDrawReducerActionType.SetCategory: {
+    case groupStageDrawReducerActionType.SetCategory: {
       return {
         ...tournamentDraw,
         category: action.category,
       };
     }
-    case TournamentDrawReducerActionType.SetDivisions: {
+    case groupStageDrawReducerActionType.SetDivisions: {
       return {
         ...tournamentDraw,
         divisions: action.divisions,
       };
     }
-    case TournamentDrawReducerActionType.AddTeam: {
+    case groupStageDrawReducerActionType.AddTeam: {
       return {
         ...tournamentDraw,
         teams: [...tournamentDraw.teams, action.team],
       };
     }
-    case TournamentDrawReducerActionType.RemoveTeam: {
+    case groupStageDrawReducerActionType.RemoveTeam: {
       return {
         ...tournamentDraw,
         teams: tournamentDraw.teams.filter((team) =>
@@ -158,13 +164,19 @@ export const tournamentDrawReducer = (
         ),
       };
     }
-    case TournamentDrawReducerActionType.SetTeams: {
+    case groupStageDrawReducerActionType.RemoveAllTeams: {
+      return {
+        ...tournamentDraw,
+        teams: [],
+      };
+    }
+    case groupStageDrawReducerActionType.SetTeams: {
       return {
         ...tournamentDraw,
         teams: action.teams,
       };
     }
-    case TournamentDrawReducerActionType.Reset: {
+    case groupStageDrawReducerActionType.Reset: {
       return {
         ...tournamentDraw,
         groups: 0,
@@ -172,6 +184,10 @@ export const tournamentDrawReducer = (
         powerpoolTeams: 0,
         teams: [],
       };
+    }
+    default: {
+      const actionType: never = action;
+      throw new Error(`Didn't expect to get here, ${actionType}`);
     }
   }
 };

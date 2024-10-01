@@ -1,5 +1,3 @@
-export type Group<T> = { teams: Array<T> };
-
 /**
  * Draws teams into groups using the snake method.
  * Teams passed as a parameter have to be sorted in ascending order(team with least points is first in the array).
@@ -12,10 +10,10 @@ export type Group<T> = { teams: Array<T> };
 export const snakeDraw = <TeamType>(
   teams: Array<TeamType>,
   noGroups: number
-): Array<Group<TeamType>> | undefined => {
-  const groups: Array<Group<TeamType>> = Array(noGroups)
+): Array<Array<TeamType>> | undefined => {
+  const groups: Array<Array<TeamType>> = Array(noGroups)
     .fill(0)
-    .map(() => ({ teams: [] }));
+    .map(() => []);
 
   if (!teams.length || !noGroups) {
     return [];
@@ -29,7 +27,7 @@ export const snakeDraw = <TeamType>(
       const team = teams.pop();
 
       if (team) {
-        group.teams.push(team);
+        group.push(team);
       } else {
         break; //no teams left to put into groups, stop loop early
       }

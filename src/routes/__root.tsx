@@ -5,20 +5,29 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <div className="bg-[hsl(var(--accent))]">
-        <NavigationMenu className="p-4 m-auto text-xl">
+        <NavigationMenu className="h-16 p-4 m-auto text-xl">
           <NavigationMenuList className="gap-4">
             <NavigationMenuItem>
-              <Link to="/rankings" className="[&.active]:font-bold">
+              <Link
+                to="/rankings"
+                className="[&.active]:text-primary font-bold text-muted-foreground/90 hover:text-primary"
+              >
                 Rankings
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to="/tournament-draws" className="[&.active]:font-bold">
+              <Link
+                to="/tournament-draws"
+                className="[&.active]:text-primary font-bold text-muted-foreground/90 hover:text-primary"
+              >
                 Tournament Draws
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to="/management" className="[&.active]:font-bold">
+              <Link
+                to="/management"
+                className="[&.active]:text-primary font-bold text-muted-foreground/90 hover:text-primary"
+              >
                 Management
               </Link>
             </NavigationMenuItem>

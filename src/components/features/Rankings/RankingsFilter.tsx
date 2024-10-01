@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { RankingsFilterOptions, timePeriodOptions } from "./settings";
 import { useNavigate } from "@tanstack/react-router";
-import "./RankingsFilter.css";
 
 type RankingsFilterProps = {
   rankingsFilterParams: RankingsFilterOptions;
@@ -30,7 +29,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
   return (
     <div
       id="rankings-filter"
-      className="px-4 mb-6 flex flex-col gap-6 sm:py-0 sm:flex-row sm:flex-wrap sm:gap-y-6 sm:gap-x-0 lg:flex-col lg:gap-6 lg:h-min lg:py-2"
+      className="flex flex-col gap-6 sm:py-0 sm:flex-row sm:flex-wrap sm:gap-y-6 sm:gap-x-0 lg:flex-col lg:gap-6 lg:h-min lg:py-2"
     >
       <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto lg:pr-0">
         <span className="font-medium">Category:</span>
@@ -40,7 +39,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
             navigate({ search: { ...rankingsFilterParams, category: value as Category } })
           }
         >
-          <SelectTrigger className="w-[150px]">
+          <SelectTrigger className="w-[150px] mt-1">
             <SelectValue>{capitalizeFirstChar(category)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -61,7 +60,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
             navigate({ search: { ...rankingsFilterParams, division: value as Division } })
           }
         >
-          <SelectTrigger className="w-[150px]">
+          <SelectTrigger className="w-[150px] mt-1">
             <SelectValue>{capitalizeFirstChar(division)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -74,7 +73,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
       </div>
       <div className="sm:basis-[43%] sm:pr-6 lg:basis-auto lg:pr-0">
         <span className="font-medium">Seasons:</span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-1">
           <Select
             value={seasons.from}
             onValueChange={(value) =>
@@ -117,7 +116,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
         </div>
         <Button
           variant="link"
-          className="justify-start pt-0 px-3 text-blue-400 hover:text-blue-600"
+          className="pt-0 px-3"
           onClick={() =>
             navigate({
               search: {
@@ -132,7 +131,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
       </div>
       <div className="sm:basis-[57%] lg:basis-auto">
         <span className="font-medium">Points total:</span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-1">
           Sum of the best
           <div className="flex gap-1">
             <Button
@@ -150,8 +149,9 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
               <ChevronLeftIcon className="h-4 w-4" />
             </Button>
             <Input
-              className="w-[50px] text-center"
+              className="w-16"
               value={numberOfResultsCountedToPointsTotal}
+              type="number"
               onChange={(event) =>
                 navigate({
                   search: {

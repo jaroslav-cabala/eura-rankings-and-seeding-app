@@ -1,12 +1,12 @@
 import { TournamentDrawDTO } from "@/api/apiTypes";
 import { snakeDraw } from "../../../lib/snakeDraw";
-import { GroupStage, Group, TournamentDrawTeam } from "./TournamentDraw";
+import { GroupStage, TournamentDrawTeam } from "./GroupStageDraw";
 
 export const drawGroups = (
   teams: Array<TournamentDrawTeam>,
   tournamentDrawSettings: Pick<TournamentDrawDTO, "powerpools" | "powerpoolTeams" | "groups">
 ): GroupStage | undefined => {
-  let powerpools: Array<Group> | undefined = undefined;
+  let powerpools: Array<Array<TournamentDrawTeam>> | undefined = undefined;
 
   const teamsCopy = [...teams].sort((a, b) => b.points - a.points);
 

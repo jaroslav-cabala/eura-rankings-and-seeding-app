@@ -12,7 +12,7 @@ import { useGetRankedTeams } from "@/api/useGetRankedTeams";
 import { Category, Division } from "@/domain";
 import { fetchRankedPlayer } from "./fetchRankedPlayers";
 import { useGetRankedPlayers } from "@/api/useGetRankedPlayers";
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, CirclePlus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 type AddTeamProps = {
@@ -208,7 +208,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
     category === Category.Open || category === Category.Mixed ? undefined : category;
 
   return (
-    <div id="add-team" className="mb-6">
+    <div id="add-team">
       <form onSubmit={(e) => onAddTeamFormSubmit(e)}>
         <Popover open={selectTeamPopoverOpen}>
           <PopoverAnchor asChild>
@@ -298,6 +298,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
         </Popover>
         <div className="flex items-center justify-between">
           <Button variant="default" type="submit">
+            <CirclePlus className="w-6 mr-2" />
             Add team
           </Button>
           {formSubmitAttempted && addTeamFormValidationMessage && (
@@ -383,7 +384,7 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
                 >
                   <div>
                     <div className="font-medium">{`${team.name}`}</div>
-                    <div className="lowlighted-text">
+                    <div className="grey-text">
                       {team.players[0]?.name}, {team.players[1]?.name}
                     </div>
                   </div>

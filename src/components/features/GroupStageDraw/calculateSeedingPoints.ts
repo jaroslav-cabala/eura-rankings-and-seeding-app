@@ -2,7 +2,7 @@ import { TeamPointsCountMethod, TournamentDrawPlayerDTO, TournamentDrawTeamDTO }
 import { Category, Division } from "@/domain";
 import { filterTournamentResults } from "@/lib/filterTournamentResults";
 import { getTotalPointsFromXBestResults } from "@/lib/getTotalPointsFromXBestResults";
-import { TournamentDrawTeam } from "./TournamentDraw";
+import { TournamentDrawTeam } from "./GroupStageDraw";
 
 export const calculateSeedingPointsOfTeams = (
   teams: Array<TournamentDrawTeamDTO>,

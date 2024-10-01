@@ -38,9 +38,11 @@ function Management() {
 
   if (errorDataFwango || errorDataStorage) {
     return (
-      <>
-        <div className="w-[1300px] mx-auto py-1">Error while fetching data</div>
-      </>
+      <section id="fullscreen-section">
+        <div className="loading-screen-wrapper">
+          <div className="flex m-auto">Unexpected error.</div>
+        </div>
+      </section>
     );
   }
 
@@ -77,8 +79,8 @@ const RankingsDataManagementComponent: FC<RankingsDataManagementComponentProps> 
   });
 
   return (
-    <section className="p-2 pt-4 min-w-[500px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
-      {loading ? <p>loading...</p> : <DataTable table={table} />}
+    <section className="p-2 pt-4 min-w-[400px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
+      <DataTable table={table} loading={loading} />
     </section>
   );
 };
@@ -95,6 +97,7 @@ const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
   {
     id: "Date",
     accessorKey: "date",
+    size: 80,
     header: ({ column }) => Header(column),
     cell: ({ row }) => {
       return <div className="font-normal">{formatDate(row.getValue("Date"))}</div>;
@@ -103,6 +106,7 @@ const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
   {
     id: "Tournament",
     accessorKey: "name",
+    size: 200,
     header: ({ column }) => Header(column),
     cell: ({ row }) => {
       return <TournamentCell row={row} />;
@@ -111,6 +115,7 @@ const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
   {
     id: "Status",
     accessorKey: "isTournamentImported",
+    size: 60,
     header: ({ column }) => Header(column),
     cell: ({ row }) => <StatusCell row={row} />,
   },
