@@ -43,7 +43,7 @@ export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setG
         </label>
         <Input
           id="tournamentDrawName"
-          className="min-w-fit max-w-[400px] mt-2"
+          className="min-w-fit max-w-[400px] mt-2 shadow-sm"
           value={groupStageDrawSettings.name}
           onChange={(event) =>
             setGroupStageDrawSettings({
@@ -67,7 +67,7 @@ export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setG
               })
             }
           >
-            <SelectTrigger id="selectCategory" className="min-w-40 max-w-[150px] mt-2">
+            <SelectTrigger id="selectCategory" className="min-w-40 max-w-[150px] mt-2 shadow-sm">
               <SelectValue>{capitalizeFirstChar(groupStageDrawSettings.category)}</SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -96,7 +96,7 @@ export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setG
             className="justify-start mt-2"
           >
             {Object.entries(Division).map(([, division]) => (
-              <ToggleGroupItem key={division} value={division}>
+              <ToggleGroupItem key={division} value={division} className="shadow-sm">
                 {division}
               </ToggleGroupItem>
             ))}
@@ -211,12 +211,17 @@ const NumberInputWithButtonsToChangeValue = ({
   return (
     <div className="flex items-center gap-2">
       <div className="flex gap-1">
-        <Button variant="outline" size="icon" onClick={() => valueSetter(value === 0 ? value : value - 1)}>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => valueSetter(value === 0 ? value : value - 1)}
+          className="shadow-sm"
+        >
           <ChevronLeftIcon className="h-4 w-4" />
         </Button>
         <Input
           id={inputId}
-          className="w-16"
+          className="w-16 shadow-sm"
           type="number"
           min={0}
           max={maxValue}
@@ -226,6 +231,7 @@ const NumberInputWithButtonsToChangeValue = ({
         <Button
           variant="outline"
           size="icon"
+          className="shadow-sm"
           onClick={() => valueSetter(!maxValue || value < maxValue ? value + 1 : value)}
         >
           <ChevronRightIcon className="h-4 w-4" />

@@ -7,6 +7,7 @@ export type GetRankedPlayersResult = {
   data: Array<RankedPlayerDTO>;
   loading: boolean;
   error: boolean;
+  completed: boolean;
 };
 
 // Fetched ranked entities from the backend. By default, entities that have no tournament results will not be
@@ -20,7 +21,7 @@ export const useGetRankedPlayers = (filter?: RankedPlayersFilter): GetRankedPlay
     includeEntitiesWithNoTournamentResults,
   } = filter ?? {};
 
-  const { fetch, data, loading, error } = useFetchLazy<Array<RankedPlayerDTO>>();
+  const { fetch, data, loading, error, completed } = useFetchLazy<Array<RankedPlayerDTO>>();
 
   const queryString = createRankedPlayersFilterQueryString({
     includeEntitiesWithNoTournamentResults,
@@ -38,5 +39,6 @@ export const useGetRankedPlayers = (filter?: RankedPlayersFilter): GetRankedPlay
     data: data ?? [],
     loading,
     error,
+    completed,
   };
 };

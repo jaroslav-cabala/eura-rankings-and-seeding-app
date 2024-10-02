@@ -39,7 +39,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
             navigate({ search: { ...rankingsFilterParams, category: value as Category } })
           }
         >
-          <SelectTrigger className="w-[150px] mt-1">
+          <SelectTrigger className="w-[150px] mt-1 shadow-sm">
             <SelectValue>{capitalizeFirstChar(category)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -60,7 +60,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
             navigate({ search: { ...rankingsFilterParams, division: value as Division } })
           }
         >
-          <SelectTrigger className="w-[150px] mt-1">
+          <SelectTrigger className="w-[150px] mt-1 shadow-sm">
             <SelectValue>{capitalizeFirstChar(division)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -80,7 +80,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
               navigate({ search: { ...rankingsFilterParams, seasons: { ...seasons, from: value } } })
             }
           >
-            <SelectTrigger className="w-[100px]">
+            <SelectTrigger className="w-[100px] shadow-sm">
               <SelectValue>{seasons.from}</SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -100,7 +100,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
               navigate({ search: { ...rankingsFilterParams, seasons: { ...seasons, to: value } } })
             }
           >
-            <SelectTrigger className="w-[100px]">
+            <SelectTrigger className="w-[100px] shadow-sm">
               <SelectValue>{seasons.to}</SelectValue>
             </SelectTrigger>
             <SelectContent>
@@ -145,11 +145,12 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
                   },
                 })
               }
+              className="shadow-sm"
             >
               <ChevronLeftIcon className="h-4 w-4" />
             </Button>
             <Input
-              className="w-16"
+              className="w-16 shadow-sm"
               value={numberOfResultsCountedToPointsTotal}
               type="number"
               onChange={(event) =>
@@ -172,6 +173,7 @@ export const RankingsFilter: FC<RankingsFilterProps> = ({ rankingsFilterParams }
                   },
                 })
               }
+              className="shadow-sm"
             >
               <ChevronRightIcon className="h-4 w-4" />
             </Button>

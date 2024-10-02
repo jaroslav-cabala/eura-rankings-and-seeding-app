@@ -7,6 +7,7 @@ export type GetRankedTeamsResult = {
   data: Array<RankedTeamDTO>;
   loading: boolean;
   error: boolean;
+  completed: boolean;
 };
 
 // Fetched ranked entities from the backend. By default, entities that have no tournament results will not be
@@ -15,7 +16,7 @@ export const useGetRankedTeams = (filter?: RankedTeamsFilter): GetRankedTeamsRes
   const { teamCategory, resultCategories, resultDivisions, seasons, includeEntitiesWithNoTournamentResults } =
     filter ?? {};
 
-  const { fetch, data, loading, error } = useFetchLazy<Array<RankedTeamDTO>>();
+  const { fetch, data, loading, error, completed } = useFetchLazy<Array<RankedTeamDTO>>();
 
   const queryString = createRankedTeamsFilterQueryString({
     includeEntitiesWithNoTournamentResults,
@@ -33,6 +34,7 @@ export const useGetRankedTeams = (filter?: RankedTeamsFilter): GetRankedTeamsRes
     data: data ?? [],
     loading,
     error,
+    completed,
   };
 };
 
@@ -41,6 +43,7 @@ export type GetRankedTeamsLazyResult = {
   data: Array<RankedTeamDTO>;
   loading: boolean;
   error: boolean;
+  completed: boolean;
 };
 
 // TODO: decide whether this function is needed
@@ -50,12 +53,13 @@ export const useGetRankedTeamsLazy = (
   console.log(`useGetRankedPlayersLazy hook,
     numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal}`);
 
-  const { fetch, data, loading, error } = useFetchLazy<Array<RankedTeamDTO>>();
+  const { fetch, data, loading, error, completed } = useFetchLazy<Array<RankedTeamDTO>>();
 
   return {
     fetch,
     data: data ?? [],
     loading,
     error,
+    completed,
   };
 };

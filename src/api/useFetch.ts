@@ -5,16 +5,18 @@ export type UseFetchResult<T> = {
   data: T | undefined;
   loading: boolean;
   error: boolean;
+  completed: boolean;
 };
 
 export const useFetchLazy = <T>(): UseFetchResult<T> => {
   const [data, setData] = useState<T | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
   const fetchData = useCallback(async (fetchUrl: string, requestInit?: RequestInit) => {
-    setIsError(false);
-    setIsLoading(true);
+    setError(false);
+    setLoading(true);
 
     try {
       // handle also cases when Response.OK is false
@@ -23,16 +25,18 @@ export const useFetchLazy = <T>(): UseFetchResult<T> => {
 
       setData(json);
     } catch (error) {
-      setIsError(true);
+      setError(true);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
+      setCompleted(true);
     }
   }, []);
 
   return {
     fetch: fetchData,
     data,
-    loading: isLoading,
-    error: isError,
+    loading,
+    error,
+    completed,
   };
 };

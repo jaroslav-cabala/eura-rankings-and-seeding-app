@@ -9,32 +9,27 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { DataTable } from "../../ui/dataTable";
+import { DataTable } from "../../ui/DataTable/DataTable";
 import { RankingsFilter } from "./RankingsFilter";
-import { SortingButton, ColumnSimpleValueWrapper } from "./DataTable/dataTableCommon";
+import { SortingButton, ColumnSimpleValueWrapper } from "../../ui/DataTable/dataTableCommon";
 import React, { FC } from "react";
-import { SearchInput } from "./DataTable/SearchInput";
 import { Route as TeamRankingsRoute } from "@/routes/rankings/_layout.team";
 import { useSearch } from "@tanstack/react-router";
 import { RankingsFilterOptions } from "./settings";
 import { sortTeamsByPoints } from "@/lib/sortTeamsByPoints";
-import { Pagination } from "./DataTable/Pagination";
+import { SearchInput } from "../../ui/DataTable/SearchInput";
 
 export const TeamRankings = () => {
   console.log("TeamRankings component");
   const rankingsFilterParams = useSearch({ from: TeamRankingsRoute.id });
-  const {
-    data: teams,
-    loading: teamsLoading,
-    error: teamsError,
-  } = useGetRankedTeams({
+  const { data, loading, error, completed } = useGetRankedTeams({
     teamCategory: rankingsFilterParams.category,
     resultDivisions: [rankingsFilterParams.division],
     seasons: rankingsFilterParams.seasons,
   });
 
   const teamsSortedByPoints = sortTeamsByPoints(
-    teams,
+    data,
     rankingsFilterParams.numberOfResultsCountedToPointsTotal
   );
 
@@ -49,7 +44,7 @@ export const TeamRankings = () => {
     tournamentsPlayed: team.tournamentResults.length,
   }));
 
-  if (teamsError) {
+  if (error) {
     return (
       <>
         <div className="w-1/2 container mx-auto py-1">Error while loading team rankings</div>
@@ -59,7 +54,7 @@ export const TeamRankings = () => {
   return (
     <TeamRankingsComponent
       data={tableData}
-      dataLoading={teamsLoading}
+      dataLoading={loading || !completed}
       rankingsFilterParams={rankingsFilterParams}
     />
   );
@@ -94,21 +89,12 @@ const TeamRankingsComponent: FC<TeamRankingsComponentProps> = ({
   return (
     <div className="lg:flex lg:flex-row-reverse lg:justify-center lg:gap-6">
       <RankingsFilter rankingsFilterParams={rankingsFilterParams} />
-      <div className="mt-6 lg:flex-grow">
-        {dataLoading ? (
-          <p>loading team rankings</p>
-        ) : (
-          <>
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-medium">{table.getRowModel().rows?.length} teams</span>
-              <SearchInput table={table} columnId="Team" placeholder="Search teams..." />
-            </div>
-            <DataTable table={table} loading={dataLoading} />
-            <div className=" pt-2 mb-4 flex items-center gap-6">
-              <Pagination table={table} />
-            </div>
-          </>
-        )}
+      <div className="mt-6 lg:flex-grow lg:mt-0">
+        <div className="flex flex-wrap items-center justify-between mb-2">
+          {!dataLoading && table && <span className="font-medium py-2">{table.getRowCount()} teams</span>}
+          <SearchInput table={table} columnId="Team" placeholder="Search teams..." className="ml-auto" />
+        </div>
+        <DataTable table={table} loading={dataLoading} />
       </div>
     </div>
   );
@@ -129,7 +115,10 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
   {
     id: "Rank",
     accessorKey: "rank",
-    size: 50,
+    size: 60,
+    meta: {
+      customSize: true,
+    },
     header: ({ column }) => {
       return SortingButton(column);
     },
@@ -156,7 +145,10 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
   {
     id: "Points",
     accessorKey: "points",
-    size: 70,
+    size: 80,
+    meta: {
+      customSize: true,
+    },
     header: ({ column }) => SortingButton(column),
     cell: ({ row }) => {
       return <ColumnSimpleValueWrapper>{row.getValue("Points")}</ColumnSimpleValueWrapper>;
@@ -166,6 +158,9 @@ const columns: ColumnDef<TeamRankingsTableDataRow>[] = [
     id: "Tournaments",
     accessorKey: "tournamentsPlayed",
     size: 80,
+    meta: {
+      customSize: true,
+    },
     header: ({ column }) => SortingButton(column),
   },
 ];

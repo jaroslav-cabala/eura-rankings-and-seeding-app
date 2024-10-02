@@ -35,11 +35,6 @@ export type TournamentDrawTeam = Omit<TournamentDrawTeamDTO, "players"> & {
   players: Array<TournamentDrawPlayerDTO & { points: number }>;
 };
 
-export type GroupStage = {
-  powerpools?: Array<Array<TournamentDrawTeam>>;
-  groups?: Array<Array<TournamentDrawTeam>>;
-};
-
 type GroupStageDrawProps = {
   groupStageDrawId?: string;
   groupStageDrawInitialState?: TournamentDrawDTO;
@@ -180,7 +175,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   });
 
   return (
-    <section className="flex m-auto justify-center min-w-[400px] max-w-[2200px] px-2 py-4">
+    <section className="flex m-auto justify-center max-w-[2200px] p-2 pt-6">
       {/* <TournamentDrawsMenu
         selectedTournamentDrawId={tournamentDraw.id}
         selectedTournamentDrawName={tournamentDraw.name} 
@@ -230,7 +225,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
                 hidden
               />
               <Button asChild>
-                <label htmlFor="import-teams" className="cursor-pointer mr-0">
+                <label htmlFor="import-teams" className="cursor-pointer mr-0 shadow-sm">
                   <Import className="w-6 mr-2" />
                   Import teams
                 </label>

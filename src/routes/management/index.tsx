@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { TournamentDTO, TournamentDivisionDTO } from "@/api/apiTypes";
 import { useFetchLazy } from "@/api/useFetch";
 import { createFileRoute } from "@tanstack/react-router";
@@ -7,17 +7,20 @@ import {
   ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
+  PaginationState,
   Row,
   useReactTable,
 } from "@tanstack/react-table";
-import { ColumnSimpleValueWrapper } from "@/components/features/Rankings/DataTable/dataTableCommon";
+import { ColumnSimpleValueWrapper } from "@/components/ui/DataTable/dataTableCommon";
 import { Badge } from "@/components/ui/badge";
 import { CircleX, Import, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, getHrefToFwangoTournamentResult } from "@/utils";
 import { useGetTournaments } from "../../api/useGetTournaments";
-import { DataTable } from "@/components/ui/dataTable";
+import { DataTable } from "@/components/ui/DataTable/DataTable";
+import { SearchInput } from "@/components/ui/DataTable/SearchInput";
 
 export const Route = createFileRoute("/management/")({
   component: Management,
@@ -70,17 +73,38 @@ type RankingsDataManagementComponentProps = {
 };
 
 const RankingsDataManagementComponent: FC<RankingsDataManagementComponentProps> = ({ data, loading }) => {
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+    state: {
+      pagination,
+    },
   });
 
   return (
-    <section className="p-2 pt-4 min-w-[400px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
-      <DataTable table={table} loading={loading} />
+    <section className="p-2 pt-8 min-w-[400px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
+      <div className="mt-6 lg:flex-grow lg:mt-0">
+        <div className="flex flex-wrap items-center justify-between mb-2">
+          {!loading && table && <span className="font-medium py-2">{table.getRowCount()} teams</span>}
+          <SearchInput
+            table={table}
+            columnId="Tournament"
+            placeholder="Search tournaments..."
+            className="ml-auto"
+          />
+        </div>
+        <DataTable table={table} loading={loading} />
+      </div>
     </section>
   );
 };

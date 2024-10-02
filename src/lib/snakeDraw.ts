@@ -4,13 +4,10 @@
  * First seed in the first group is the team with most seeding points.
  * @param teams teams to draw into groups
  * @param noGroups number of groups
- * @returns R an array of groups with teams.
+ * @returns An array of groups(arrays) with teams.
  *  If 'teams' parameter is empty array or 'noGroups' is 0, returns empty array.
  */
-export const snakeDraw = <TeamType>(
-  teams: Array<TeamType>,
-  noGroups: number
-): Array<Array<TeamType>> | undefined => {
+export const snakeDraw = <TeamType>(teams: Array<TeamType>, noGroups: number): Array<Array<TeamType>> => {
   const groups: Array<Array<TeamType>> = Array(noGroups)
     .fill(0)
     .map(() => []);

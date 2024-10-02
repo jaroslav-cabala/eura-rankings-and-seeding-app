@@ -16,16 +16,19 @@ function RankingsComponent() {
   console.log("Rankings component");
 
   return (
-    <section className="p-2 pt-0 min-w-[500px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
+    <section className="p-2 min-w-[400px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
       <div className="py-6">
-        <NavigationMenu aria-label="Rankings" className="">
+        <NavigationMenu aria-label="Rankings">
           <NavigationMenuList>
             <NavigationMenuItem>
               <Link
                 to="/rankings/individual"
                 search={{ ...defaultFilterForRankings }}
                 activeOptions={{ includeSearch: false }}
-                className={cn("[&.active]:text-primary [&.active]:bg-accent", navigationMenuTriggerStyle())}
+                className={cn(
+                  "[&.active]:text-primary [&.active]:bg-accent text-lg [&.active]:shadow-sm",
+                  navigationMenuTriggerStyle()
+                )}
               >
                 Individual Rankings
               </Link>
@@ -35,7 +38,10 @@ function RankingsComponent() {
                 to="/rankings/team"
                 search={{ ...defaultFilterForRankings }}
                 activeOptions={{ includeSearch: false }}
-                className={cn("[&.active]:text-primary [&.active]:bg-accent", navigationMenuTriggerStyle())}
+                className={cn(
+                  "[&.active]:text-primary [&.active]:bg-accent text-lg [&.active]:shadow-sm",
+                  navigationMenuTriggerStyle()
+                )}
               >
                 Team Rankings
               </Link>

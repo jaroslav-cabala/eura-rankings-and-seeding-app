@@ -2,9 +2,10 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import "./index.css";
 import { useGetTournamentDraws } from "@/api/useGetTournamentDraws";
-import { Loader2, Plus } from "lucide-react";
+import { CirclePlus, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { OverflowTooltip } from "@/components/ui/EllipsisTooltip";
 
 export const Route = createFileRoute("/tournament-draws/")({
   component: GroupStageDrawsComponent,
@@ -38,29 +39,31 @@ function GroupStageDrawsComponent() {
   }
 
   return (
-    <section className="flex justify-center gap-12 py-32 px-2">
+    <section className="min-w-[400px] flex flex-col items-center justify-center gap-12 py-32 px-2 lg:flex-row">
       <Card className="max-h-[700px]">
         <CardHeader className="items-center">
           <CardTitle>Edit a group stage draw</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col">
           {data?.map((t) => (
-            <Button
-              variant="ghost"
-              onClick={() => navigate({ to: `/tournament-draws/${t.id}` })}
-              className="text-base justify-start"
-            >
-              {t.name}
-            </Button>
+            <OverflowTooltip content={t.name}>
+              <Button
+                variant="ghost"
+                onClick={() => navigate({ to: `/tournament-draws/${t.id}` })}
+                className="text-base justify-start w-[350px] xl:w-[420px] 2xl:w-[460px] px-3"
+              >
+                <span className="text-ellipsis overflow-hidden">{t.name}</span>
+              </Button>
+            </OverflowTooltip>
           ))}
         </CardContent>
       </Card>
       <p className="text-2xl font-semibold content-center px-6">Or</p>
-      <div className="flex flex-col justify-center items-center">
-        <Input placeholder="Tournament draw name..." className="w-[280px] h-12" />
-        <Button className="mt-6 px-10 w-fit">
-          <Plus className="h-8 w-8 pr-2" />
-          <span>Create new</span>
+      <div className="items-center">
+        <Input placeholder="Tournament draw name..." className="w-[350px] shadow-sm" />
+        <Button variant="default" className="mt-6 w-full shadow-sm">
+          <CirclePlus className="w-6 mr-2" />
+          Create new
         </Button>
       </div>
     </section>

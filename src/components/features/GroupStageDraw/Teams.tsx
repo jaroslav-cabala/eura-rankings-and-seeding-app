@@ -18,7 +18,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
     <ol className={teams.length ? "" : "m-auto"}>
       {teams.map((team) => (
         <li
-          className="tournament-team"
+          className="tournament-team shadow-sm"
           data-invalid={!team.belongsInTheSelectedCategory}
           key={team.uid ?? `${team.players[0].name}_${team.players[1].name}`}
         >
