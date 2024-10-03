@@ -52,7 +52,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
         </li>
       ))}
       {teams.length === 0 && (
-        <li className="p-6 text-center text-muted-foreground">No teams in the tournament. Add some!</li>
+        <li className="p-10 text-center text-muted-foreground">No teams in the tournament. Add some!</li>
       )}
     </ol>
   );

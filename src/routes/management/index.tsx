@@ -41,7 +41,7 @@ function Management() {
 
   if (errorDataFwango || errorDataStorage) {
     return (
-      <section id="fullscreen-section">
+      <section>
         <div className="loading-screen-wrapper">
           <div className="flex m-auto">Unexpected error.</div>
         </div>

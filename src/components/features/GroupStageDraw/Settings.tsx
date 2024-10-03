@@ -137,7 +137,7 @@ export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setG
           </div>
         </div>
       </div>
-      <div className="flex gap-6">
+      <div className="flex flex-wrap gap-6">
         <div>
           <label className="font-medium" htmlFor="powerpool-teams">
             Powerpool teams:

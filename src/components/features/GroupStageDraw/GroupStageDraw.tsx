@@ -175,17 +175,17 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   });
 
   return (
-    <section className="flex m-auto justify-center max-w-[2200px] p-2 pt-6">
+    <section className="flex m-auto p-2 pt-6 justify-center min-w-[400px] sm:w-[630px] lg:w-auto max-w-[2200px] ">
       {/* <TournamentDrawsMenu
         selectedTournamentDrawId={tournamentDraw.id}
         selectedTournamentDrawName={tournamentDraw.name} 
       /> */}
-      <div className="grid gap-y-10 min-w-[400px] grid-cols-1 sm:w-[630px] lg:w-auto lg:min-w-[1024px] lg:max-xl:grid-cols-[1fr_1.7fr] lg:grid-rows-[minmax(0,auto)] lg:gap-6 xl:min-w-[1280px] xl:grid-cols-[1fr_1.7fr] 2xl:min-w-[1536px]">
+      <div className="w-full grid gap-y-10 grid-cols-1 lg:max-xl:grid-cols-[1fr_1.4fr] lg:grid-rows-[minmax(0,auto)] lg:gap-6 xl:max-2xl:grid-cols-[1fr_1.65fr] 2xl:grid-cols-[1fr_2fr]">
         <div className="p-2 row-start-1 row-end-2 lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-2">
           <Settings groupStageDrawSettings={tournamentDrawSettings} setGroupStageDrawSettings={dispatch} />
         </div>
         <div className="p-2 row-start-2 row-end-3 lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3 flex flex-col">
-          <div className="mb-6 flex flex-col gap-2 sm:max-lg:flex-row sm:max-lg:gap-0 lg:max:xl:gap-2 2xl:flex-row 2xl:gap-0">
+          <div className="mb-6 flex flex-col gap-2 sm:max-lg:flex-row sm:max-lg:gap-0 lg:max:xl:gap-2 xl:flex-row xl:gap-0">
             <div className="flex items-center">
               <span className="title">Teams ({tournamentDraw.teams.length})</span>
               <Button
@@ -198,7 +198,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
                 <Trash2 />
               </Button>
             </div>
-            <div className="flex justify-between sm:max-lg:ml-auto sm:max-lg:gap-2 2xl:ml-auto 2xl:gap-2">
+            <div className="flex justify-between sm:max-lg:ml-auto sm:max-lg:gap-2 xl:ml-auto xl:gap-2">
               <Button
                 variant="link"
                 className="pr-4 pl-0"

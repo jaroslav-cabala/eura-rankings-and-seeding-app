@@ -3,8 +3,8 @@ import { snakeDraw } from "../../../lib/snakeDraw";
 import { TournamentDrawTeam } from "./GroupStageDraw";
 
 type GroupStage = {
-  powerpools?: Array<Array<TournamentDrawTeam>>;
-  groups?: Array<Array<TournamentDrawTeam>>;
+  powerpools: Array<Array<TournamentDrawTeam>>;
+  groups: Array<Array<TournamentDrawTeam>>;
 };
 
 /**

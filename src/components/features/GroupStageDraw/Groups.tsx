@@ -53,7 +53,9 @@ export const Groups = ({
         </div>
       )}
       {!groups?.length && !powerpools?.length && (
-        <div className="p-10 text-center text-muted-foreground">No teams in the tournament. Add some!</div>
+        <div className="p-10 text-center text-muted-foreground xl:w-[65%]">
+          No teams in the tournament. Add some!
+        </div>
       )}
     </>
   );
