@@ -215,6 +215,7 @@ const NumberInputWithButtonsToChangeValue = ({
           variant="outline"
           size="icon"
           onClick={() => valueSetter(value === 0 ? value : value - 1)}
+          disabled={value === 0}
           className="shadow-sm"
         >
           <ChevronLeftIcon className="h-4 w-4" />
@@ -232,7 +233,8 @@ const NumberInputWithButtonsToChangeValue = ({
           variant="outline"
           size="icon"
           className="shadow-sm"
-          onClick={() => valueSetter(!maxValue || value < maxValue ? value + 1 : value)}
+          onClick={() => valueSetter(maxValue === undefined || value < maxValue ? value + 1 : value)}
+          disabled={value === maxValue}
         >
           <ChevronRightIcon className="h-4 w-4" />
         </Button>

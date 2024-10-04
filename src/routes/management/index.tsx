@@ -92,19 +92,17 @@ const RankingsDataManagementComponent: FC<RankingsDataManagementComponentProps> 
   });
 
   return (
-    <section className="p-2 pt-8 min-w-[400px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
-      <div className="mt-6 lg:flex-grow lg:mt-0">
-        <div className="flex flex-wrap items-center justify-between mb-2">
-          {!loading && table && <span className="font-medium py-2">{table.getRowCount()} teams</span>}
-          <SearchInput
-            table={table}
-            columnId="Tournament"
-            placeholder="Search tournaments..."
-            className="ml-auto"
-          />
-        </div>
-        <DataTable table={table} loading={loading} />
+    <section className="p-2 pt-8 min-w-[400px] m-auto lg:min-w-[800px] lg:max-w-[1000px] lg:flex-grow">
+      <div className="flex flex-wrap items-center justify-between mb-2">
+        {!loading && table && <span className="font-medium py-2">{table.getRowCount()} teams</span>}
+        <SearchInput
+          table={table}
+          columnId="Tournament"
+          placeholder="Search tournaments..."
+          className="ml-auto"
+        />
       </div>
+      <DataTable table={table} loading={loading} />
     </section>
   );
 };

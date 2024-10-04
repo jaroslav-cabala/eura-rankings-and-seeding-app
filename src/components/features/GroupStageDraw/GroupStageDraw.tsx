@@ -248,29 +248,16 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
           />
         </div>
         <div className="p-2 row-start-3 row-end-4 lg:col-start-2 lg:col-end-3 lg:row-start-2 lg:row-end-3">
-          {drawnGroups ? (
-            <Groups groups={drawnGroups.groups} powerpools={drawnGroups.powerpools} />
-          ) : (
-            GroupsPlaceholder
-          )}
+          <Groups
+            teamCount={teamsWithPoints.length}
+            groups={drawnGroups.groups}
+            powerpools={drawnGroups.powerpools}
+          />
         </div>
       </div>
     </section>
   );
 };
-
-const GroupsPlaceholder = (
-  <div className="flex flex-wrap gap-6">
-    <div className="w-full text-left title">
-      <h1>Groups</h1>
-    </div>
-    {Array(8)
-      .fill(0)
-      .map((_, index) => (
-        <div key={index} className="h-52 w-[220px] bg-[hsl(var(--accent))] rounded-sm" />
-      ))}
-  </div>
-);
 
 const newgroupStageDrawInitialStateDraw: TournamentDrawDTO = {
   modified: 0,

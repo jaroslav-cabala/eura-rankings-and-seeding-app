@@ -24,7 +24,7 @@ export const drawGroups = (
 
   // TODO Teams copy is modified here and then used to draw groups.
   // Maybe this could be improved so the function is more clear ?
-  const powerpoolTeams = teams.splice(0, tournamentDrawSettings.powerpoolTeams).reverse();
+  const powerpoolTeams = teamsCopy.splice(0, tournamentDrawSettings.powerpoolTeams).reverse();
   powerpools = snakeDraw<TournamentDrawTeam>(powerpoolTeams, tournamentDrawSettings.powerpools);
 
   teamsCopy.reverse();

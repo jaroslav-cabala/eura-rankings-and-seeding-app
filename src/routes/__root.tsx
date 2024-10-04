@@ -4,7 +4,7 @@ import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div className="bg-[hsl(var(--accent))]">
+      <header className="bg-[hsl(var(--accent))]">
         <NavigationMenu className="h-16 p-4 m-auto text-xl">
           <NavigationMenuList className="gap-4">
             <NavigationMenuItem>
@@ -33,10 +33,12 @@ export const Route = createRootRoute({
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-      </div>
-      <hr />
-      <Outlet />
-      <Toaster />
+        <hr />
+      </header>
+      <main>
+        <Outlet />
+        <Toaster />
+      </main>
       {/* <TanStackRouterDevtools /> */}
     </>
   ),

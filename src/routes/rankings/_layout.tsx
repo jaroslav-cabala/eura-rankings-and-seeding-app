@@ -16,40 +16,40 @@ function RankingsComponent() {
   console.log("Rankings component");
 
   return (
-    <section className="p-2 min-w-[400px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
-      <div className="py-6">
-        <NavigationMenu aria-label="Rankings">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link
-                to="/rankings/individual"
-                search={{ ...defaultFilterForRankings }}
-                activeOptions={{ includeSearch: false }}
-                className={cn(
-                  "[&.active]:text-primary [&.active]:bg-accent text-lg [&.active]:shadow-sm",
-                  navigationMenuTriggerStyle()
-                )}
-              >
-                Individual Rankings
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link
-                to="/rankings/team"
-                search={{ ...defaultFilterForRankings }}
-                activeOptions={{ includeSearch: false }}
-                className={cn(
-                  "[&.active]:text-primary [&.active]:bg-accent text-lg [&.active]:shadow-sm",
-                  navigationMenuTriggerStyle()
-                )}
-              >
-                Team Rankings
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
-      <Outlet />
-    </section>
+    <div className="p-2 min-w-[400px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">
+      <NavigationMenu aria-label="Rankings" className="py-6">
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <Link
+              to="/rankings/individual"
+              search={{ ...defaultFilterForRankings }}
+              activeOptions={{ includeSearch: false }}
+              className={cn(
+                "[&.active]:text-primary [&.active]:bg-accent text-lg [&.active]:shadow-sm",
+                navigationMenuTriggerStyle()
+              )}
+            >
+              Individual Rankings
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link
+              to="/rankings/team"
+              search={{ ...defaultFilterForRankings }}
+              activeOptions={{ includeSearch: false }}
+              className={cn(
+                "[&.active]:text-primary [&.active]:bg-accent text-lg [&.active]:shadow-sm",
+                navigationMenuTriggerStyle()
+              )}
+            >
+              Team Rankings
+            </Link>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+      <section>
+        <Outlet />
+      </section>
+    </div>
   );
 }

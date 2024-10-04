@@ -3,7 +3,9 @@ import { TournamentDrawTeam } from "./GroupStageDraw";
 export const Groups = ({
   groups,
   powerpools,
+  teamCount,
 }: {
+  teamCount: number;
   groups: Array<Array<TournamentDrawTeam>>;
   powerpools: Array<Array<TournamentDrawTeam>>;
 }) => {
@@ -12,9 +14,9 @@ export const Groups = ({
       <div className="title mb-6">
         <h1>Groups</h1>
       </div>
-      {!!powerpools?.length && (
-        <div className="flex flex-wrap gap-6 mb-6">
-          {powerpools.map((powerpool, index) => (
+      <div className="flex flex-wrap gap-6 mb-6">
+        {!!powerpools?.length &&
+          powerpools.map((powerpool, index) => (
             <div className="powerpool shadow-sm" key={`powerpool${index}`}>
               <p className="title mb-6 mt-2 px-3">Powerpool {getGroupLetter(index)}</p>
               <ol>
@@ -30,11 +32,8 @@ export const Groups = ({
               </ol>
             </div>
           ))}
-        </div>
-      )}
-      {!!groups?.length && (
-        <div className="flex flex-wrap gap-6">
-          {groups?.map((group, index) => (
+        {!!groups?.length &&
+          groups?.map((group, index) => (
             <div className="group shadow-sm" key={`group${index}`}>
               <p className="title mb-6 mt-2 px-3">Group {getGroupLetter(index)}</p>
               <ol>
@@ -50,11 +49,15 @@ export const Groups = ({
               </ol>
             </div>
           ))}
-        </div>
-      )}
-      {!groups?.length && !powerpools?.length && (
+      </div>
+      {teamCount === 0 && (
         <div className="p-10 text-center text-muted-foreground xl:w-[65%]">
           No teams in the tournament. Add some!
+        </div>
+      )}
+      {!!teamCount && !groups?.length && !powerpools?.length && (
+        <div className="p-10 text-center text-muted-foreground xl:w-[65%]">
+          Set number of powerpools and groups!
         </div>
       )}
     </>
