@@ -43,7 +43,7 @@ export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setG
         </label>
         <Input
           id="tournamentDrawName"
-          className="min-w-fit max-w-[400px] mt-2 shadow-sm"
+          className="mt-2 shadow-sm lg:max-w-[500px]"
           value={groupStageDrawSettings.name}
           onChange={(event) =>
             setGroupStageDrawSettings({

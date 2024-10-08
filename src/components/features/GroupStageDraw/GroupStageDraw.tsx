@@ -1,14 +1,5 @@
 import { FC, useReducer, useState } from "react";
-import {
-  ChevronsDown,
-  ChevronsRight,
-  CirclePlus,
-  Import,
-  Loader2,
-  RotateCcw,
-  Save,
-  Trash2,
-} from "lucide-react";
+import { ChevronsDown, ChevronsRight, Import, Trash2 } from "lucide-react";
 import "./TournamentDraw.css";
 import { Settings } from "./Settings";
 import { Groups } from "./Groups";
@@ -22,7 +13,6 @@ import { useFetchLazy } from "@/api/useFetch";
 import { useToast } from "@/components/ui/hooks/use-toast";
 import { pairImportedTeamsWithExistingTeams } from "./pairImportedTeamsWithExistingTeams";
 import { Category } from "@/domain";
-import { TournamentDrawsMenu } from "./TournamentDrawsMenu";
 import { calculateSeedingPointsOfTeams } from "./calculateSeedingPoints";
 import { checkIfTeamOrPlayersAreAlreadyInTheTournament } from "./checkIfTeamOrPlayersAreAlreadyInTheTournament";
 
@@ -45,7 +35,6 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
     groupStageDrawReducer,
     groupStageDrawInitialState ?? newgroupStageDrawInitialStateDraw
   );
-  const [groupStage, setGroupStage] = useState<GroupStage | undefined>(undefined);
   const [addTeamFormVisible, setAddTeamFormVisible] = useState(false);
   const { fetch, data: saveResponse, loading: saveInProgress, error: saveError } = useFetchLazy<boolean>();
   const { toast } = useToast();
@@ -122,20 +111,6 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
     }
   };
 
-  // const drawGroupsHandler = (): void => {
-  //   const drawnGroups = drawGroups(teamsWithPoints, {
-  //     groups: tournamentDraw.groups,
-  //     powerpools: tournamentDraw.powerpools,
-  //     powerpoolTeams: tournamentDraw.powerpoolTeams,
-  //   });
-  //   setGroupStage(drawnGroups);
-  // };
-
-  // const resetTournament = (): void => {
-  //   dispatch({ type: groupStageDrawReducerActionType.Reset });
-  //   setGroupStage(undefined);
-  // };
-
   // const saveTournamentDraw = async (): Promise<void> => {
   //   // TODO think about this function. Async operation is executed here but we are not waiting for the result...
   //   // what about errors ?
@@ -175,85 +150,79 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   });
 
   return (
-    <section className="flex m-auto p-2 pt-6 justify-center min-w-[400px] sm:w-[630px] lg:w-auto max-w-[2200px] ">
-      {/* <TournamentDrawsMenu
-        selectedTournamentDrawId={tournamentDraw.id}
-        selectedTournamentDrawName={tournamentDraw.name} 
-      /> */}
-      <div className="w-full grid gap-y-10 grid-cols-1 lg:max-xl:grid-cols-[1fr_1.4fr] lg:grid-rows-[minmax(0,auto)] lg:gap-6 xl:max-2xl:grid-cols-[1fr_1.65fr] 2xl:grid-cols-[1fr_2fr]">
-        <div className="p-2 row-start-1 row-end-2 lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-2">
-          <Settings groupStageDrawSettings={tournamentDrawSettings} setGroupStageDrawSettings={dispatch} />
+    <section className="w-full grid gap-y-10 lg:grid-rows-[minmax(0,auto)] grid-cols-1 lg:gap-6 xl:max-2xl:grid-cols-[1fr_1.35fr] 2xl:grid-cols-[1fr_1.6fr] min-[1920px]:grid-cols-[1fr_2fr]">
+      <div className="p-2 row-start-1 row-end-2 xl:col-start-2 xl:col-end-3">
+        <div className="flex flex-wrap items-center justify-between mb-10 gap-x-3 gap-y-4">
+          <h1 className="font-semibold text-2xl">{tournamentDraw.name}</h1>
+          <Button>Save changes</Button>
         </div>
-        <div className="p-2 row-start-2 row-end-3 lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3 flex flex-col">
-          <div className="mb-6 flex flex-col gap-2 sm:max-lg:flex-row sm:max-lg:gap-0 lg:max:xl:gap-2 xl:flex-row xl:gap-0">
-            <div className="flex items-center">
-              <span className="title">Teams ({tournamentDraw.teams.length})</span>
-              <Button
-                onClick={() => dispatch({ type: groupStageDrawReducerActionType.Reset })}
-                title="Delete all teams"
-                variant="icon"
-                size="icon_small"
-                className="hover:text-[hsl(var(--destructive))]"
-              >
-                <Trash2 />
-              </Button>
-            </div>
-            <div className="flex justify-between sm:max-lg:ml-auto sm:max-lg:gap-2 xl:ml-auto xl:gap-2">
-              <Button
-                variant="link"
-                className="pr-4 pl-0"
-                onClick={() => setAddTeamFormVisible((val) => !val)}
-              >
-                {addTeamFormVisible ? (
-                  <>
-                    <ChevronsDown className="h-6" />
-                    Hide add team form
-                  </>
-                ) : (
-                  <>
-                    <ChevronsRight className="h-6" />
-                    Add team
-                  </>
-                )}
-              </Button>
-              <input
-                id="import-teams"
-                type="file"
-                accept=".csv"
-                onClick={(e) => (e.currentTarget.value = "")}
-                onChange={(e) => importTeamsFromFwango(e)}
-                hidden
-              />
-              <Button asChild>
-                <label htmlFor="import-teams" className="cursor-pointer mr-0 shadow-sm">
-                  <Import className="w-6 mr-2" />
-                  Import teams
-                </label>
-              </Button>
-            </div>
+        <Settings groupStageDrawSettings={tournamentDrawSettings} setGroupStageDrawSettings={dispatch} />
+      </div>
+      <div className="p-2 row-start-2 row-end-3 xl:col-start-1 xl:col-end-2 xl:row-start-1 xl:row-end-3 flex flex-col">
+        <div className="mb-6 flex flex-col gap-2 sm:max-xl:flex-row sm:max-xl:gap-0 xl:max-2xl:gap-2 2xl:flex-row 2xl:gap-0">
+          <div className="flex items-center">
+            <span className="title">Teams ({tournamentDraw.teams.length})</span>
+            <Button
+              onClick={() => dispatch({ type: groupStageDrawReducerActionType.Reset })}
+              title="Delete all teams"
+              variant="icon"
+              size="icon_small"
+              className="hover:text-[hsl(var(--destructive))]"
+            >
+              <Trash2 />
+            </Button>
           </div>
-          {addTeamFormVisible && (
-            <div className="mb-6">
-              <AddTeam
-                addTeamHandler={addTeam}
-                category={tournamentDraw.category}
-                divisions={tournamentDraw.divisions}
-              />
-            </div>
-          )}
-          <Teams
-            removeTeam={dispatch}
-            teams={teamsWithPoints}
-            teamPointsCountMethod={tournamentDraw.teamPointsCountMethod}
-          />
+          <div className="flex justify-between sm:gap-2 sm:ml-auto xl:ml-0 2xl:ml-auto">
+            <Button variant="link" className="pr-4 pl-0" onClick={() => setAddTeamFormVisible((val) => !val)}>
+              {addTeamFormVisible ? (
+                <>
+                  <ChevronsDown className="h-6" />
+                  Hide add team form
+                </>
+              ) : (
+                <>
+                  <ChevronsRight className="h-6" />
+                  Add team
+                </>
+              )}
+            </Button>
+            <input
+              id="import-teams"
+              type="file"
+              accept=".csv"
+              onClick={(e) => (e.currentTarget.value = "")}
+              onChange={(e) => importTeamsFromFwango(e)}
+              hidden
+            />
+            <Button asChild>
+              <label htmlFor="import-teams" className="cursor-pointer mr-0 shadow-sm">
+                <Import className="w-6 mr-2" />
+                Import teams
+              </label>
+            </Button>
+          </div>
         </div>
-        <div className="p-2 row-start-3 row-end-4 lg:col-start-2 lg:col-end-3 lg:row-start-2 lg:row-end-3">
-          <Groups
-            teamCount={teamsWithPoints.length}
-            groups={drawnGroups.groups}
-            powerpools={drawnGroups.powerpools}
-          />
-        </div>
+        {addTeamFormVisible && (
+          <div className="mb-6">
+            <AddTeam
+              addTeamHandler={addTeam}
+              category={tournamentDraw.category}
+              divisions={tournamentDraw.divisions}
+            />
+          </div>
+        )}
+        <Teams
+          removeTeam={dispatch}
+          teams={teamsWithPoints}
+          teamPointsCountMethod={tournamentDraw.teamPointsCountMethod}
+        />
+      </div>
+      <div className="p-2 row-start-3 row-end-4 xl:col-start-2 xl:col-end-3 xl:row-start-2 xl:row-end-3">
+        <Groups
+          teamCount={teamsWithPoints.length}
+          groups={drawnGroups.groups}
+          powerpools={drawnGroups.powerpools}
+        />
       </div>
     </section>
   );

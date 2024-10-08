@@ -4,7 +4,6 @@ import { TeamPointsCountMethod } from "@/api/apiTypes";
 import { Button } from "@/components/ui/button";
 import { TournamentDrawTeam } from "./GroupStageDraw";
 import { groupStageDrawReducerActionType, GroupStageDrawReducerActionTypes } from "./groupStageDrawReducer";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 type TeamsProps = {
   removeTeam: Dispatch<
@@ -16,7 +15,6 @@ type TeamsProps = {
 
 export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCountMethod }) => {
   return (
-    // <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-96 w-auto">
     <ol className={teams.length ? "" : "m-auto"}>
       {teams.map((team) => (
         <li
@@ -57,6 +55,5 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
         <li className="p-10 text-center text-muted-foreground">No teams in the tournament. Add some!</li>
       )}
     </ol>
-    // </ScrollArea>
   );
 };

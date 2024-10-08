@@ -13,13 +13,14 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ManagementImport } from './routes/management'
+import { Route as GroupStageDrawsImport } from './routes/groupStageDraws'
 import { Route as IndexImport } from './routes/index'
-import { Route as TournamentDrawsIndexImport } from './routes/tournament-draws/index'
 import { Route as RankingsIndexImport } from './routes/rankings/index'
-import { Route as ManagementIndexImport } from './routes/management/index'
-import { Route as TournamentDrawsNewImport } from './routes/tournament-draws/new'
-import { Route as TournamentDrawsTournamentDrawIdImport } from './routes/tournament-draws/$tournamentDrawId'
+import { Route as GroupStageDrawsIndexImport } from './routes/groupStageDraws/index'
 import { Route as RankingsLayoutImport } from './routes/rankings/_layout'
+import { Route as GroupStageDrawsNewImport } from './routes/groupStageDraws/new'
+import { Route as GroupStageDrawsGroupStageDrawIdImport } from './routes/groupStageDraws/$groupStageDrawId'
 import { Route as RankingsLayoutTeamImport } from './routes/rankings/_layout.team'
 import { Route as RankingsLayoutIndividualImport } from './routes/rankings/_layout.individual'
 
@@ -34,13 +35,18 @@ const RankingsRoute = RankingsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  path: '/',
+const ManagementRoute = ManagementImport.update({
+  path: '/management',
   getParentRoute: () => rootRoute,
 } as any)
 
-const TournamentDrawsIndexRoute = TournamentDrawsIndexImport.update({
-  path: '/tournament-draws/',
+const GroupStageDrawsRoute = GroupStageDrawsImport.update({
+  path: '/groupStageDraws',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -49,26 +55,26 @@ const RankingsIndexRoute = RankingsIndexImport.update({
   getParentRoute: () => RankingsRoute,
 } as any)
 
-const ManagementIndexRoute = ManagementIndexImport.update({
-  path: '/management/',
-  getParentRoute: () => rootRoute,
+const GroupStageDrawsIndexRoute = GroupStageDrawsIndexImport.update({
+  path: '/',
+  getParentRoute: () => GroupStageDrawsRoute,
 } as any)
-
-const TournamentDrawsNewRoute = TournamentDrawsNewImport.update({
-  path: '/tournament-draws/new',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const TournamentDrawsTournamentDrawIdRoute =
-  TournamentDrawsTournamentDrawIdImport.update({
-    path: '/tournament-draws/$tournamentDrawId',
-    getParentRoute: () => rootRoute,
-  } as any)
 
 const RankingsLayoutRoute = RankingsLayoutImport.update({
   id: '/_layout',
   getParentRoute: () => RankingsRoute,
 } as any)
+
+const GroupStageDrawsNewRoute = GroupStageDrawsNewImport.update({
+  path: '/new',
+  getParentRoute: () => GroupStageDrawsRoute,
+} as any)
+
+const GroupStageDrawsGroupStageDrawIdRoute =
+  GroupStageDrawsGroupStageDrawIdImport.update({
+    path: '/$groupStageDrawId',
+    getParentRoute: () => GroupStageDrawsRoute,
+  } as any)
 
 const RankingsLayoutTeamRoute = RankingsLayoutTeamImport.update({
   path: '/team',
@@ -88,6 +94,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/groupStageDraws': {
+      preLoaderRoute: typeof GroupStageDrawsImport
+      parentRoute: typeof rootRoute
+    }
+    '/management': {
+      preLoaderRoute: typeof ManagementImport
+      parentRoute: typeof rootRoute
+    }
+    '/groupStageDraws/$groupStageDrawId': {
+      preLoaderRoute: typeof GroupStageDrawsGroupStageDrawIdImport
+      parentRoute: typeof GroupStageDrawsImport
+    }
+    '/groupStageDraws/new': {
+      preLoaderRoute: typeof GroupStageDrawsNewImport
+      parentRoute: typeof GroupStageDrawsImport
+    }
     '/rankings': {
       preLoaderRoute: typeof RankingsImport
       parentRoute: typeof rootRoute
@@ -96,25 +118,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RankingsLayoutImport
       parentRoute: typeof RankingsRoute
     }
-    '/tournament-draws/$tournamentDrawId': {
-      preLoaderRoute: typeof TournamentDrawsTournamentDrawIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/tournament-draws/new': {
-      preLoaderRoute: typeof TournamentDrawsNewImport
-      parentRoute: typeof rootRoute
-    }
-    '/management/': {
-      preLoaderRoute: typeof ManagementIndexImport
-      parentRoute: typeof rootRoute
+    '/groupStageDraws/': {
+      preLoaderRoute: typeof GroupStageDrawsIndexImport
+      parentRoute: typeof GroupStageDrawsImport
     }
     '/rankings/': {
       preLoaderRoute: typeof RankingsIndexImport
       parentRoute: typeof RankingsImport
-    }
-    '/tournament-draws/': {
-      preLoaderRoute: typeof TournamentDrawsIndexImport
-      parentRoute: typeof rootRoute
     }
     '/rankings/_layout/individual': {
       preLoaderRoute: typeof RankingsLayoutIndividualImport
@@ -131,6 +141,12 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
+  GroupStageDrawsRoute.addChildren([
+    GroupStageDrawsGroupStageDrawIdRoute,
+    GroupStageDrawsNewRoute,
+    GroupStageDrawsIndexRoute,
+  ]),
+  ManagementRoute,
   RankingsRoute.addChildren([
     RankingsLayoutRoute.addChildren([
       RankingsLayoutIndividualRoute,
@@ -138,10 +154,6 @@ export const routeTree = rootRoute.addChildren([
     ]),
     RankingsIndexRoute,
   ]),
-  TournamentDrawsTournamentDrawIdRoute,
-  TournamentDrawsNewRoute,
-  ManagementIndexRoute,
-  TournamentDrawsIndexRoute,
 ])
 
 /* prettier-ignore-end */

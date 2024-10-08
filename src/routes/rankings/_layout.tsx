@@ -13,7 +13,7 @@ export const Route = createFileRoute("/rankings/_layout")({
 });
 
 function RankingsComponent() {
-  console.log("Rankings component");
+  console.log("Rankings menu");
 
   return (
     <div className="p-2 min-w-[400px] max-w-[700px] m-auto lg:min-w-[800px] lg:max-w-[1000px]">

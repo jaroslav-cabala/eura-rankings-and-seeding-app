@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   top: 0;
+  left: 0;
 }
 
 .tournament-team {
@@ -57,12 +58,4 @@ div.powerpool {
 
 .grey-color {
   color: grey;
-}
-
-#fullscreen-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: calc(100% - 3.51rem);
 }

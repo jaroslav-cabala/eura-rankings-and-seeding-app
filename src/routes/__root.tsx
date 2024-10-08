@@ -1,12 +1,18 @@
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Toaster } from "@/components/ui/toaster";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 export const Route = createRootRoute({
-  component: () => (
+  component: Root,
+});
+
+function Root() {
+  console.log("Root - header");
+  return (
     <>
       <header className="bg-[hsl(var(--accent))]">
         <NavigationMenu className="h-16 p-4 m-auto text-xl">
-          <NavigationMenuList className="gap-4">
+          <NavigationMenuList className="gap-4 flex-wrap">
             <NavigationMenuItem>
               <Link
                 to="/rankings"
@@ -17,7 +23,7 @@ export const Route = createRootRoute({
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link
-                to="/tournament-draws"
+                to="/groupStageDraws"
                 className="[&.active]:text-primary font-bold text-muted-foreground/90 hover:text-primary"
               >
                 Tournament Draws
@@ -35,11 +41,11 @@ export const Route = createRootRoute({
         </NavigationMenu>
         <hr />
       </header>
-      <main>
+      <main className="m-auto min-w-[400px] sm:max-lg:max-w-[650px] lg:max-w-[1100px] xl:max-w-[2500px]">
         <Outlet />
         <Toaster />
       </main>
-      {/* <TanStackRouterDevtools /> */}
+      <TanStackRouterDevtools />
     </>
-  ),
-});
+  );
+}

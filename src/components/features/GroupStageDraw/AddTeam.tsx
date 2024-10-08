@@ -296,13 +296,16 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
             />
           </PopoverContent>
         </Popover>
-        <div className="flex items-center justify-between">
-          <Button variant="default" type="submit">
+        <div className="flex flex-col-reverse items-start justify-between sm:flex-row sm:items-center xl:flex-col-reverse xl:items-start 2xl:flex-row 2xl:items-center">
+          <Button variant="default" type="submit" className="lg:w-auto">
             <CirclePlus className="w-6 mr-2" />
             Add team
           </Button>
           {formSubmitAttempted && addTeamFormValidationMessage && (
-            <p role="alert" className="flex items-center justify-center text-red-500">
+            <p
+              role="alert"
+              className="flex items-center justify-center mb-2 sm:mb-0 xl:mb-2 2xl:mb-0 text-red-500"
+            >
               <CircleAlert className="w-6 mr-2" />
               {addTeamFormValidationMessage}
             </p>

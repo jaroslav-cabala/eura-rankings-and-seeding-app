@@ -1,13 +1,13 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
 
-type OverflowTooltipProps = {
+type EllipsisTooltipProps = {
   children: React.ReactNode;
   content: React.ReactNode;
 };
 
 // TODO make this work when resizing viewport
-export const OverflowTooltip: FC<OverflowTooltipProps> = ({ children, content, ...props }) => {
+export const EllipsisTooltip: FC<EllipsisTooltipProps> = ({ children, content, ...props }) => {
   const [displayTooltip, setDisplayTooltip] = useState(false);
   const [openTooltip, setOpenTooltip] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -29,7 +29,7 @@ export const OverflowTooltip: FC<OverflowTooltipProps> = ({ children, content, .
         open={openTooltip}
         onOpenChange={(open) => setOpenTooltip(displayTooltip && open)}
       >
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <div ref={ref}>{children}</div>
         </TooltipTrigger>
         <TooltipContent side="top" align="center" {...props}>

@@ -18,11 +18,11 @@ import { Badge } from "@/components/ui/badge";
 import { CircleX, Import, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, getHrefToFwangoTournamentResult } from "@/utils";
-import { useGetTournaments } from "../../api/useGetTournaments";
 import { DataTable } from "@/components/ui/DataTable/DataTable";
 import { SearchInput } from "@/components/ui/DataTable/SearchInput";
+import { useGetTournaments } from "@/api/useGetTournaments";
 
-export const Route = createFileRoute("/management/")({
+export const Route = createFileRoute("/management")({
   component: Management,
 });
 

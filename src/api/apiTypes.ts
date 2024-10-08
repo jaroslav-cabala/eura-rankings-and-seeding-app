@@ -83,7 +83,7 @@ export type TournamentDrawPlayerDTO = Pick<RankedPlayerDTO, "isWoman" | "name" |
   uid: string | undefined;
 };
 
-export type TournamentDrawNameAndIdDTO = Pick<TournamentDrawDTO, "id" | "name">;
+export type TournamentDrawNameAndIdDTO = Pick<TournamentDrawDTO, "id" | "name" | "modified">;
 
 export type RankedTeamsFilter = {
   teamCategory?: Category;
