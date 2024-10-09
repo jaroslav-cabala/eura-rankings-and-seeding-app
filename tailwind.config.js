@@ -22,7 +22,7 @@ module.exports = {
         // => @media (min-width: 1660px) { ... }
         "2xl": "1700px",
         // => @media (min-width: 1660px) { ... }
-        superwide: "2280px",
+        superwide: "2200px",
         // => @media (min-width: 1660px) { ... }
       },
       colors: {

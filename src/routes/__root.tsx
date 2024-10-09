@@ -41,7 +41,7 @@ function Root() {
         </NavigationMenu>
         <hr />
       </header>
-      <main className="m-auto min-w-[400px] sm:max-lg:max-w-[650px] lg:max-w-[1100px] xl:max-w-[2500px]">
+      <main className="m-auto min-w-[400px] sm:max-lg:max-w-[650px] lg:max-w-[980px] xl:max-w-[2400px]">
         <Outlet />
         <Toaster />
       </main>

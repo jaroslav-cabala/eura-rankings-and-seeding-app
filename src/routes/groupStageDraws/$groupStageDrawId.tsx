@@ -14,7 +14,7 @@ function EditTournamentDraw() {
   if (error) {
     return (
       <section>
-        <div className="loading-screen-wrapper">
+        <div className="fixed-centered-content">
           <div className="flex m-auto">Unexpected error.</div>
         </div>
       </section>
@@ -24,7 +24,7 @@ function EditTournamentDraw() {
   if (loading || !data) {
     return (
       <section>
-        <div className="loading-screen-wrapper">
+        <div className="fixed-centered-content">
           <div className="flex m-auto">
             <Loader2 className="animate-spin mr-2" />
             Loading data...

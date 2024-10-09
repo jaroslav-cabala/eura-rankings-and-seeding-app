@@ -1,17 +1,18 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftToLine, ArrowRightToLine, Loader2, SquarePlus } from "lucide-react";
 import { useGetTournamentDraws } from "@/api/useGetTournamentDraws";
-import { Link, useNavigate, UseNavigateResult } from "@tanstack/react-router";
+import { Link, useNavigate, UseNavigateResult, useRouterState } from "@tanstack/react-router";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { TournamentDrawNameAndIdDTO } from "@/api/apiTypes";
 import { cn } from "@/lib/utils";
 
-type TournamentDrawsMenuProps = {
-  // selectedTournamentDrawId: string;
-};
+//TODO
+// type TournamentDrawsMenuProps = {
+//   // selectedTournamentDrawId: string;
+// };
 
-export const TournamentDrawsMenu: FC<TournamentDrawsMenuProps> = () => {
+export const TournamentDrawsMenu = () => {
   const { data, loading, error } = useGetTournamentDraws();
   const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ export const TournamentDrawsMenu: FC<TournamentDrawsMenuProps> = () => {
   const groupStageDrawsSorted = [...data].sort((a, b) => b.modified - a.modified);
   groupStageDrawsSorted.push({
     id: "13",
-    name: "testtttt- super duper long ass fucking groups stage draw name, ffs",
+    name: "testtttt- super duper long ass fucking groups stage draw name, ffs -------------",
     modified: 3243094509,
   });
 
@@ -60,11 +61,11 @@ const SidebarVariant = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
-  const menuTogglerMarkup = (icon: React.JSX.Element) => (
+  const menuTogglerMarkup = (icon: React.JSX.Element, className?: string) => (
     <Button
       variant="icon"
       size="icon"
-      className="lg:max-xl:hidden superwide:hidden col-start-3 col-end-4 justify-self-end hover:bg-[hsl(var(--accent))]"
+      className={cn("justify-self-end hover:bg-[hsl(var(--accent))]", className)}
       onClick={() => setIsMenuOpen((val) => !val)}
     >
       {icon}
@@ -74,20 +75,26 @@ const SidebarVariant = ({
   return (
     <aside
       className={cn(
-        `p-2 text-center ${isMenuOpen ? "min-w-[320px] lg:min-w-[420px] xl:min-w-[360px]" : "w-auto"}`,
+        `p-2 text-center ${isMenuOpen ? "min-w-[320px] lg:min-w-[360px]" : "w-auto mr-8"}`,
         className
       )}
     >
       {isMenuOpen ? (
-        <div className="mb-6 grid grid-cols-[1fr_max-content_1fr] grid-rows-1 items-center">
-          <h2 className="title col-start-2 col-end-3 justify-self-start">Tournaments</h2>
+        <div className="mb-6 flex justify-between">
+          <h2 className="title">Group stage draws:</h2>
           {menuTogglerMarkup(<ArrowLeftToLine />)}
         </div>
       ) : (
-        menuTogglerMarkup(<ArrowRightToLine />)
+        <div className="mb-6 flex justify-between">{menuTogglerMarkup(<ArrowRightToLine />, "")}</div>
       )}
       {isMenuOpen && (
         <>
+          <Button
+            className="w-full py-1.5 px-4 mb-6"
+            onClick={() => navigate({ to: "/groupStageDraws/new" })}
+          >
+            <SquarePlus className="w-6 mr-2" /> Create new
+          </Button>
           <div className="flex flex-col mb-6 text-left">
             {menuItems?.map((t) => (
               <Link
@@ -99,9 +106,6 @@ const SidebarVariant = ({
               </Link>
             ))}
           </div>
-          <Button className="w-full py-1.5 px-4" onClick={() => navigate({ to: "/groupStageDraws/new" })}>
-            <SquarePlus className="w-6 mr-2" /> Create new
-          </Button>
         </>
       )}
     </aside>
@@ -118,10 +122,13 @@ const SheetVariant = ({
   className?: string;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const routerState = useRouterState();
+  const isIndexLocation = routerState.location.pathname === "/groupStageDraws";
+  const centeredContentCss = "fixed flex top-0 left-0 w-full h-full items-center";
 
   return (
-    <div className={className}>
-      <div className="p-2 flex items-center gap-6">
+    <div className={cn(`${isIndexLocation && centeredContentCss}`, className)}>
+      <div className="p-2 flex items-center gap-6 m-auto">
         <Button variant="outline" className="py-1.5 px-4" onClick={() => setIsMenuOpen((val) => !val)}>
           Select a group stage draw
         </Button>

@@ -1,4 +1,4 @@
-.loading-screen-wrapper {
+.fixed-centered-content {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -58,4 +58,9 @@ div.powerpool {
 
 .grey-color {
   color: grey;
+}
+
+.rotate-sidebar {
+  transform: rotate(90deg) translate(40px);
+  transform-origin: 0 0;
 }
