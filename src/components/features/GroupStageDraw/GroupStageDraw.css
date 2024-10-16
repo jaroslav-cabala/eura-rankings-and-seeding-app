@@ -43,7 +43,6 @@ div.powerpool {
   border-radius: 6px;
   padding: 0.5rem;
   background-color: hsl(var(--accent));
-  min-width: 250px;
 }
 
 .grey-text {
@@ -63,4 +62,8 @@ div.powerpool {
 .rotate-sidebar {
   transform: rotate(90deg) translate(40px);
   transform-origin: 0 0;
+}
+
+.group-stage-draws-menu-link:hover button {
+  display: inline-flex;
 }

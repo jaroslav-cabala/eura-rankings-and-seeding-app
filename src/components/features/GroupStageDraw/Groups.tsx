@@ -1,4 +1,4 @@
-import { TournamentDrawTeam } from "./GroupStageDraw";
+import { GroupStageDrawTeam } from "./GroupStageDraw";
 
 export const Groups = ({
   groups,
@@ -6,15 +6,15 @@ export const Groups = ({
   teamCount,
 }: {
   teamCount: number;
-  groups: Array<Array<TournamentDrawTeam>>;
-  powerpools: Array<Array<TournamentDrawTeam>>;
+  groups: Array<Array<GroupStageDrawTeam>>;
+  powerpools: Array<Array<GroupStageDrawTeam>>;
 }) => {
   return (
     <>
-      <div className="title mb-6">
+      <div className="title mb-5">
         <h1>Groups</h1>
       </div>
-      <div className="flex flex-wrap gap-6 mb-6">
+      <div className="flex flex-wrap gap-5">
         {!!powerpools?.length &&
           powerpools.map((powerpool, index) => (
             <div className="powerpool shadow-sm" key={`powerpool${index}`}>

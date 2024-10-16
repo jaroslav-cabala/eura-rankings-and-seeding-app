@@ -1,4 +1,4 @@
-import { TournamentDrawTeamDTO } from "@/api/apiTypes";
+import { GroupStageDrawTeamDTO } from "@/api/apiTypes";
 
 export type CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason =
   | "existingTeam"
@@ -12,8 +12,8 @@ export type CheckIfTeamOrPlayerIsAlreadyInTheTournamentResult = {
 };
 
 export const checkIfTeamOrPlayersAreAlreadyInTheTournament = (
-  newTeam: TournamentDrawTeamDTO,
-  existingTeams: Array<TournamentDrawTeamDTO>
+  newTeam: GroupStageDrawTeamDTO,
+  existingTeams: Array<GroupStageDrawTeamDTO>
 ): CheckIfTeamOrPlayerIsAlreadyInTheTournamentResult => {
   let reason: CheckIfTeamOrPlayerIsAlreadyInTheTournamentResultDuplicityReason | null = null;
 

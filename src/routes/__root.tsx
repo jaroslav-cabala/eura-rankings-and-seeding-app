@@ -1,7 +1,7 @@
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Toaster } from "@/components/ui/toaster";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+// import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 export const Route = createRootRoute({
   component: Root,
 });
@@ -16,15 +16,15 @@ function Root() {
             <NavigationMenuItem>
               <Link
                 to="/rankings"
-                className="[&.active]:text-primary font-bold text-muted-foreground/90 hover:text-primary"
+                className="[&.active]:text-primary font-bold text-muted-foreground/85 hover:text-primary"
               >
                 Rankings
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link
-                to="/groupStageDraws"
-                className="[&.active]:text-primary font-bold text-muted-foreground/90 hover:text-primary"
+                to="/group-stage-draws"
+                className="[&.active]:text-primary font-bold text-muted-foreground/85 hover:text-primary"
               >
                 Tournament Draws
               </Link>
@@ -32,7 +32,7 @@ function Root() {
             <NavigationMenuItem>
               <Link
                 to="/management"
-                className="[&.active]:text-primary font-bold text-muted-foreground/90 hover:text-primary"
+                className="[&.active]:text-primary font-bold text-muted-foreground/85 hover:text-primary"
               >
                 Management
               </Link>
@@ -45,7 +45,7 @@ function Root() {
         <Outlet />
         <Toaster />
       </main>
-      <TanStackRouterDevtools />
+      {/* <TanStackRouterDevtools /> */}
     </>
   );
 }

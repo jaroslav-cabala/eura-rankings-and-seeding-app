@@ -60,7 +60,7 @@ export type TournamentDivisionDTO = {
   category: Category;
 };
 
-export type TournamentDrawDTO = {
+export type GroupStageDrawDTO = {
   modified: number;
   id: string;
   name: string;
@@ -71,19 +71,19 @@ export type TournamentDrawDTO = {
   powerpoolTeams: number;
   teamPointsCountMethod: TeamPointsCountMethod;
   numberOfBestResultsCountedToPointsTotal: number;
-  teams: Array<TournamentDrawTeamDTO>;
+  teams: Array<GroupStageDrawTeamDTO>;
 };
 
-export type TournamentDrawTeamDTO = Pick<RankedTeamDTO, "name" | "categories" | "tournamentResults"> & {
+export type GroupStageDrawTeamDTO = Pick<RankedTeamDTO, "name" | "categories" | "tournamentResults"> & {
   uid: string | undefined;
-  players: Array<TournamentDrawPlayerDTO>;
+  players: Array<GroupStageDrawPlayerDTO>;
 };
 
-export type TournamentDrawPlayerDTO = Pick<RankedPlayerDTO, "isWoman" | "name" | "tournamentResults"> & {
+export type GroupStageDrawPlayerDTO = Pick<RankedPlayerDTO, "isWoman" | "name" | "tournamentResults"> & {
   uid: string | undefined;
 };
 
-export type TournamentDrawNameAndIdDTO = Pick<TournamentDrawDTO, "id" | "name" | "modified">;
+export type GroupStageDrawNameAndIdDTO = Pick<GroupStageDrawDTO, "id" | "name" | "modified">;
 
 export type RankedTeamsFilter = {
   teamCategory?: Category;

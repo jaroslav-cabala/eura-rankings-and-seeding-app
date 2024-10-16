@@ -1,0 +1,33 @@
+import { GroupStageDrawNameAndIdDTO } from "@/api/apiTypes";
+import React, { createContext, useContext, useState } from "react";
+
+interface GroupStageDrawMenuContext {
+  menuItems: Array<GroupStageDrawNameAndIdDTO>;
+  setMenuItems: React.Dispatch<React.SetStateAction<GroupStageDrawMenuContext["menuItems"]>>;
+}
+
+export const GroupStageDrawMenuContext = createContext<GroupStageDrawMenuContext | null>(null);
+
+export const useGroupStageDrawMenuContext = () => {
+  const context = useContext(GroupStageDrawMenuContext);
+
+  if (!context) {
+    throw new Error(
+      `${useGroupStageDrawMenuContext.name} must be used within a ${GroupStageDrawMenuContextProvider.name}`
+    );
+  }
+
+  return context;
+};
+
+export const GroupStageDrawMenuContextProvider = ({
+  children,
+}: React.PropsWithChildren<{ menuItems: Array<GroupStageDrawNameAndIdDTO> }>) => {
+  const [menuItems, setMenuItems] = useState<GroupStageDrawMenuContext["menuItems"]>([]);
+
+  return (
+    <GroupStageDrawMenuContext.Provider value={{ menuItems, setMenuItems }}>
+      {children}
+    </GroupStageDrawMenuContext.Provider>
+  );
+};

@@ -14,13 +14,12 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as ManagementImport } from './routes/management'
-import { Route as GroupStageDrawsImport } from './routes/groupStageDraws'
+import { Route as GroupStageDrawsImport } from './routes/group-stage-draws'
 import { Route as IndexImport } from './routes/index'
 import { Route as RankingsIndexImport } from './routes/rankings/index'
-import { Route as GroupStageDrawsIndexImport } from './routes/groupStageDraws/index'
+import { Route as GroupStageDrawsIndexImport } from './routes/group-stage-draws/index'
 import { Route as RankingsLayoutImport } from './routes/rankings/_layout'
-import { Route as GroupStageDrawsNewImport } from './routes/groupStageDraws/new'
-import { Route as GroupStageDrawsGroupStageDrawIdImport } from './routes/groupStageDraws/$groupStageDrawId'
+import { Route as GroupStageDrawsGroupStageDrawIdImport } from './routes/group-stage-draws/$groupStageDrawId'
 import { Route as RankingsLayoutTeamImport } from './routes/rankings/_layout.team'
 import { Route as RankingsLayoutIndividualImport } from './routes/rankings/_layout.individual'
 
@@ -41,7 +40,7 @@ const ManagementRoute = ManagementImport.update({
 } as any)
 
 const GroupStageDrawsRoute = GroupStageDrawsImport.update({
-  path: '/groupStageDraws',
+  path: '/group-stage-draws',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -63,11 +62,6 @@ const GroupStageDrawsIndexRoute = GroupStageDrawsIndexImport.update({
 const RankingsLayoutRoute = RankingsLayoutImport.update({
   id: '/_layout',
   getParentRoute: () => RankingsRoute,
-} as any)
-
-const GroupStageDrawsNewRoute = GroupStageDrawsNewImport.update({
-  path: '/new',
-  getParentRoute: () => GroupStageDrawsRoute,
 } as any)
 
 const GroupStageDrawsGroupStageDrawIdRoute =
@@ -94,7 +88,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/groupStageDraws': {
+    '/group-stage-draws': {
       preLoaderRoute: typeof GroupStageDrawsImport
       parentRoute: typeof rootRoute
     }
@@ -102,12 +96,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManagementImport
       parentRoute: typeof rootRoute
     }
-    '/groupStageDraws/$groupStageDrawId': {
+    '/group-stage-draws/$groupStageDrawId': {
       preLoaderRoute: typeof GroupStageDrawsGroupStageDrawIdImport
-      parentRoute: typeof GroupStageDrawsImport
-    }
-    '/groupStageDraws/new': {
-      preLoaderRoute: typeof GroupStageDrawsNewImport
       parentRoute: typeof GroupStageDrawsImport
     }
     '/rankings': {
@@ -118,7 +108,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RankingsLayoutImport
       parentRoute: typeof RankingsRoute
     }
-    '/groupStageDraws/': {
+    '/group-stage-draws/': {
       preLoaderRoute: typeof GroupStageDrawsIndexImport
       parentRoute: typeof GroupStageDrawsImport
     }
@@ -143,7 +133,6 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   GroupStageDrawsRoute.addChildren([
     GroupStageDrawsGroupStageDrawIdRoute,
-    GroupStageDrawsNewRoute,
     GroupStageDrawsIndexRoute,
   ]),
   ManagementRoute,

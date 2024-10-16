@@ -5,8 +5,8 @@ import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover"
 import {
   RankedPlayerDTO,
   RankedTeamDTO,
-  TournamentDrawPlayerDTO,
-  TournamentDrawTeamDTO,
+  GroupStageDrawPlayerDTO,
+  GroupStageDrawTeamDTO,
 } from "@/api/apiTypes";
 import { useGetRankedTeams } from "@/api/useGetRankedTeams";
 import { Category, Division } from "@/domain";
@@ -16,7 +16,7 @@ import { CircleAlert, CirclePlus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 type AddTeamProps = {
-  addTeamHandler: (team: TournamentDrawTeamDTO) => boolean;
+  addTeamHandler: (team: GroupStageDrawTeamDTO) => boolean;
   category: Category;
   divisions: Array<Division>;
 };
@@ -143,7 +143,7 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
 
   const onSelectPlayerFromPopover = (
     playerInputId: "playerOne" | "playerTwo",
-    selectedPlayer: TournamentDrawPlayerDTO | null
+    selectedPlayer: GroupStageDrawPlayerDTO | null
   ): void => {
     // if a player is selected from the popover, update the state
     // if selectedPlayer is null, it means 'add new player <value>' was clicked and state does not
@@ -338,7 +338,7 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
       team.players.map((player) => fetchRankedPlayer({ uid: player.uid }))
     );
 
-    const playersWithResults: Array<TournamentDrawPlayerDTO> = team.players.map((player) => ({
+    const playersWithResults: Array<GroupStageDrawPlayerDTO> = team.players.map((player) => ({
       uid: player.uid,
       name: player.name,
       isWoman: !!teamPlayers.find((tp) => tp?.uid === player.uid)?.isWoman,
@@ -407,7 +407,7 @@ type PopoverContentRankedPlayersProps = {
   divisions: Array<Division>;
   selectPlayerFromPopoverHandler: (
     playerInputId: "playerOne" | "playerTwo",
-    selectedPlayer: TournamentDrawPlayerDTO | null
+    selectedPlayer: GroupStageDrawPlayerDTO | null
   ) => void;
 };
 
@@ -469,7 +469,7 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
   );
 };
 
-type TeamToAdd = Omit<TournamentDrawTeamDTO, "players"> & {
-  playerOne: TournamentDrawPlayerDTO;
-  playerTwo: TournamentDrawPlayerDTO;
+type TeamToAdd = Omit<GroupStageDrawTeamDTO, "players"> & {
+  playerOne: GroupStageDrawPlayerDTO;
+  playerTwo: GroupStageDrawPlayerDTO;
 };

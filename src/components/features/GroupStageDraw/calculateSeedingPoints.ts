@@ -1,16 +1,16 @@
-import { TeamPointsCountMethod, TournamentDrawPlayerDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
+import { TeamPointsCountMethod, GroupStageDrawPlayerDTO, GroupStageDrawTeamDTO } from "@/api/apiTypes";
 import { Category, Division } from "@/domain";
 import { filterTournamentResults } from "@/lib/filterTournamentResults";
 import { getTotalPointsFromXBestResults } from "@/lib/getTotalPointsFromXBestResults";
-import { TournamentDrawTeam } from "./GroupStageDraw";
+import { GroupStageDrawTeam } from "./GroupStageDraw";
 
 export const calculateSeedingPointsOfTeams = (
-  teams: Array<TournamentDrawTeamDTO>,
+  teams: Array<GroupStageDrawTeamDTO>,
   category: Category,
   divisions: Array<Division>,
   teamPointsCountMethod: TeamPointsCountMethod,
   numberOfResultsCountedToPointsTotal: number
-): Array<TournamentDrawTeam> => {
+): Array<GroupStageDrawTeam> => {
   console.log("---------------------------------calculating seeding points of teams in the tournament");
   console.log(
     "---------------------------------and determining whether teams belong to the selected category"
@@ -26,12 +26,12 @@ export const calculateSeedingPointsOfTeams = (
   }));
 
   // false when both players are in the system(have the uid), are not women and the category is women
-  const doesTeamBelongInTheSelectedCategory = (players: Array<TournamentDrawPlayerDTO>) =>
+  const doesTeamBelongInTheSelectedCategory = (players: Array<GroupStageDrawPlayerDTO>) =>
     category === Category.Women ? players.every((p) => !p.uid || p.isWoman) : true;
 
   return teamPointsCountMethod === "sumOfTeamPoints"
     ? teamsWithFilteredTournamentResults
-        ?.map<TournamentDrawTeam>((team) => ({
+        ?.map<GroupStageDrawTeam>((team) => ({
           ...team,
           belongsInTheSelectedCategory: doesTeamBelongInTheSelectedCategory(team.players),
           players: team.players.map((player) => ({
@@ -42,7 +42,7 @@ export const calculateSeedingPointsOfTeams = (
         }))
         .sort((teamA, teamB) => teamB.points - teamA.points) ?? []
     : teamsWithFilteredTournamentResults
-        ?.map<TournamentDrawTeam>((team) => {
+        ?.map<GroupStageDrawTeam>((team) => {
           const players = team.players.map((player) => ({
             ...player,
             points: getTotalPointsFromXBestResults(

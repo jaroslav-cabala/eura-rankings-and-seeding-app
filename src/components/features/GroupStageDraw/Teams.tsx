@@ -2,14 +2,14 @@ import { Dispatch } from "react";
 import { Trash2 } from "lucide-react";
 import { TeamPointsCountMethod } from "@/api/apiTypes";
 import { Button } from "@/components/ui/button";
-import { TournamentDrawTeam } from "./GroupStageDraw";
+import { GroupStageDrawTeam } from "./GroupStageDraw";
 import { groupStageDrawReducerActionType, GroupStageDrawReducerActionTypes } from "./groupStageDrawReducer";
 
 type TeamsProps = {
   removeTeam: Dispatch<
     Extract<GroupStageDrawReducerActionTypes, { type: groupStageDrawReducerActionType.RemoveTeam }>
   >;
-  teams: Array<TournamentDrawTeam>;
+  teams: Array<GroupStageDrawTeam>;
   teamPointsCountMethod: TeamPointsCountMethod;
 };
 
@@ -32,7 +32,7 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
                 : `${team.players[0].name}, ${team.players[1].name}`}
             </div>
           </div>
-          <div id="team-actions">
+          <div>
             <Button
               onClick={() =>
                 removeTeam({

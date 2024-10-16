@@ -1,10 +1,10 @@
-import { TournamentDrawTeamDTO } from "@/api/apiTypes";
+import { GroupStageDrawTeamDTO } from "@/api/apiTypes";
 import { fetchRankedTeams } from "./fetchRankedTeams";
 import { fetchRankedPlayers } from "./fetchRankedPlayers";
 
 export const pairImportedTeamsWithExistingTeams = async (
   fileWithImportedTeams: File
-): Promise<Array<TournamentDrawTeamDTO>> => {
+): Promise<Array<GroupStageDrawTeamDTO>> => {
   const importedTeams = await parseFileWithImportedTeams(fileWithImportedTeams);
 
   // Get all ranked teams with all their results.
@@ -15,7 +15,7 @@ export const pairImportedTeamsWithExistingTeams = async (
   // a pain if there's tons of data, but certainly not now
   const rankedPlayers = await fetchRankedPlayers();
 
-  const tournamentTeams: Array<TournamentDrawTeamDTO> = [];
+  const tournamentTeams: Array<GroupStageDrawTeamDTO> = [];
 
   for (const importedTeam of importedTeams) {
     const existingTeam = rankedTeams.find(

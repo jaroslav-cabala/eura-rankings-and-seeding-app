@@ -1,10 +1,10 @@
-import { TournamentDrawDTO } from "@/api/apiTypes";
+import { GroupStageDrawDTO } from "@/api/apiTypes";
 import { snakeDraw } from "../../../lib/snakeDraw";
-import { TournamentDrawTeam } from "./GroupStageDraw";
+import { GroupStageDrawTeam } from "./GroupStageDraw";
 
 type GroupStage = {
-  powerpools: Array<Array<TournamentDrawTeam>>;
-  groups: Array<Array<TournamentDrawTeam>>;
+  powerpools: Array<Array<GroupStageDrawTeam>>;
+  groups: Array<Array<GroupStageDrawTeam>>;
 };
 
 /**
@@ -15,20 +15,20 @@ type GroupStage = {
  * there are no groups or powerpools
  */
 export const drawGroups = (
-  teams: Array<TournamentDrawTeam>,
-  tournamentDrawSettings: Pick<TournamentDrawDTO, "powerpools" | "powerpoolTeams" | "groups">
+  teams: Array<GroupStageDrawTeam>,
+  tournamentDrawSettings: Pick<GroupStageDrawDTO, "powerpools" | "powerpoolTeams" | "groups">
 ): GroupStage => {
-  let powerpools: Array<Array<TournamentDrawTeam>> = [];
+  let powerpools: Array<Array<GroupStageDrawTeam>> = [];
 
   const teamsCopy = [...teams].sort((a, b) => b.points - a.points);
 
   // TODO Teams copy is modified here and then used to draw groups.
   // Maybe this could be improved so the function is more clear ?
   const powerpoolTeams = teamsCopy.splice(0, tournamentDrawSettings.powerpoolTeams).reverse();
-  powerpools = snakeDraw<TournamentDrawTeam>(powerpoolTeams, tournamentDrawSettings.powerpools);
+  powerpools = snakeDraw<GroupStageDrawTeam>(powerpoolTeams, tournamentDrawSettings.powerpools);
 
   teamsCopy.reverse();
-  const groups = snakeDraw<TournamentDrawTeam>(teamsCopy, tournamentDrawSettings.groups);
+  const groups = snakeDraw<GroupStageDrawTeam>(teamsCopy, tournamentDrawSettings.groups);
 
   return {
     groups,

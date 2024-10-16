@@ -1,4 +1,4 @@
-import { TeamPointsCountMethod, TournamentDrawDTO, TournamentDrawTeamDTO } from "@/api/apiTypes";
+import { TeamPointsCountMethod, GroupStageDrawDTO, GroupStageDrawTeamDTO } from "@/api/apiTypes";
 import { Category, Division } from "@/domain";
 
 export enum groupStageDrawReducerActionType {
@@ -59,7 +59,7 @@ type SetDivisions = {
 
 type AddTeamAction = {
   type: groupStageDrawReducerActionType.AddTeam;
-  team: TournamentDrawTeamDTO;
+  team: GroupStageDrawTeamDTO;
 };
 
 type RemoveTeamAction = {
@@ -74,7 +74,7 @@ type RemoveAllTeamsAction = {
 
 type SetTeamsAction = {
   type: groupStageDrawReducerActionType.SetTeams;
-  teams: Array<TournamentDrawTeamDTO>;
+  teams: Array<GroupStageDrawTeamDTO>;
 };
 
 type ResetAction = {
@@ -98,9 +98,9 @@ export type GroupStageDrawReducerActionTypes =
 
 //TODO how to handle string to number conversion
 export const groupStageDrawReducer = (
-  tournamentDraw: TournamentDrawDTO,
+  tournamentDraw: GroupStageDrawDTO,
   action: GroupStageDrawReducerActionTypes
-): TournamentDrawDTO => {
+): GroupStageDrawDTO => {
   switch (action.type) {
     case groupStageDrawReducerActionType.SetPowerpoolTeamsCount: {
       return {

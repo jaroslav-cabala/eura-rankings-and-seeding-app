@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Category, Division } from "@/domain";
 import { capitalizeFirstChar } from "@/utils";
-import { TeamPointsCountMethod, teamPointsCountMethods, TournamentDrawDTO } from "@/api/apiTypes";
+import { TeamPointsCountMethod, teamPointsCountMethods, GroupStageDrawDTO } from "@/api/apiTypes";
 import { groupStageDrawReducerActionType, GroupStageDrawReducerActionTypes } from "./groupStageDrawReducer";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -20,7 +20,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 type SettingsProps = {
   setGroupStageDrawSettings: Dispatch<GroupStageDrawReducerActionTypes>;
   groupStageDrawSettings: Pick<
-    TournamentDrawDTO,
+    GroupStageDrawDTO,
     | "name"
     | "powerpoolTeams"
     | "powerpools"
@@ -33,7 +33,7 @@ type SettingsProps = {
 };
 export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setGroupStageDrawSettings }) => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="text-left title">
         <h1>Settings</h1>
       </div>
