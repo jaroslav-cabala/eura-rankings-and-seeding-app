@@ -22,8 +22,9 @@ export const useGroupStageDrawMenuContext = () => {
 
 export const GroupStageDrawMenuContextProvider = ({
   children,
-}: React.PropsWithChildren<{ menuItems: Array<GroupStageDrawNameAndIdDTO> }>) => {
-  const [menuItems, setMenuItems] = useState<GroupStageDrawMenuContext["menuItems"]>([]);
+  groupStageDraws,
+}: React.PropsWithChildren<{ groupStageDraws: Array<GroupStageDrawNameAndIdDTO> }>) => {
+  const [menuItems, setMenuItems] = useState<GroupStageDrawMenuContext["menuItems"]>(groupStageDraws);
 
   return (
     <GroupStageDrawMenuContext.Provider value={{ menuItems, setMenuItems }}>

@@ -2,6 +2,7 @@ import { GroupStageDrawNameAndIdDTO } from "@/api/apiTypes";
 import { fetchData } from "@/api/fetchData";
 import { FullScreenError } from "@/components/common/FullScreenError";
 import { FullScreenPending } from "@/components/common/FullScreenPending";
+import { GroupStageDrawMenuContextProvider } from "@/components/features/GroupStageDraw/GroupStageDrawMenu/GroupStageDrawMenuContext";
 import { GroupStageDrawsMenu } from "@/components/features/GroupStageDraw/GroupStageDrawMenu/GroupStageDrawsMenu";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 export const Route = createFileRoute("/group-stage-draws")({
@@ -26,8 +27,10 @@ function GroupStageDrawsComponent() {
 
   return (
     <div className="w-full flex flex-col gap-y-10 lg:flex-row lg:gap-x-8 p-2 pt-8">
-      <GroupStageDrawsMenu groupStageDrawsInitial={data} />
-      <Outlet />
+      <GroupStageDrawMenuContextProvider groupStageDraws={data}>
+        <GroupStageDrawsMenu />
+        <Outlet />
+      </GroupStageDrawMenuContextProvider>
     </div>
   );
 }

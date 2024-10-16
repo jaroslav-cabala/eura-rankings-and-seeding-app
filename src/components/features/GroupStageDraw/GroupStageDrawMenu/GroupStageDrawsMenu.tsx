@@ -8,17 +8,13 @@ import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/hooks/use-toast";
 import { ErrorToastMessage } from "../common";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useGroupStageDrawMenuContext } from "./GroupStageDrawMenuContext";
 
-export const GroupStageDrawsMenu = ({
-  groupStageDrawsInitial,
-}: {
-  groupStageDrawsInitial: Array<GroupStageDrawNameAndIdDTO>;
-}) => {
+export const GroupStageDrawsMenu = () => {
   console.dir(`GroupStageDrawsMenu`);
   // console.dir(groupStageDrawsInitial);
   const navigate = useNavigate();
-  const [groupStageDraws, setGroupStageDraws] =
-    useState<Array<GroupStageDrawNameAndIdDTO>>(groupStageDrawsInitial);
+  const { menuItems, setMenuItems } = useGroupStageDrawMenuContext();
 
   const createNewGroupStageDraw = async () => {
     const result = await fetch(`http://localhost:3001/groupstage-draws`, {
@@ -31,7 +27,7 @@ export const GroupStageDrawsMenu = ({
     // TODO create a type on frontend and backend
     const [id, name, modified]: [id: string, name: string, modified: number] = await result.json();
 
-    setGroupStageDraws([...groupStageDraws, { id, name, modified }]);
+    setMenuItems([...menuItems, { id, name, modified }]);
 
     navigate({ to: `/groupStageDraws/${id}` });
   };
@@ -45,7 +41,7 @@ export const GroupStageDrawsMenu = ({
         },
       });
 
-      setGroupStageDraws(groupStageDraws.filter((gsd) => gsd.id !== id));
+      setMenuItems(menuItems.filter((menuItem) => menuItem.id !== id));
     } catch (error) {
       toast({
         description: (
@@ -57,7 +53,7 @@ export const GroupStageDrawsMenu = ({
     }
   };
 
-  const groupStageDrawsSorted = [...groupStageDraws].sort((a, b) => b.modified - a.modified);
+  const groupStageDrawsSorted = [...menuItems].sort((a, b) => b.modified - a.modified);
 
   return (
     <>

@@ -16,6 +16,7 @@ import { calculateSeedingPointsOfTeams } from "./calculateSeedingPoints";
 import { checkIfTeamOrPlayersAreAlreadyInTheTournament } from "./checkIfTeamOrPlayersAreAlreadyInTheTournament";
 import "./GroupStageDraw.css";
 import { ErrorToastMessage } from "./common";
+import { useGroupStageDrawMenuContext } from "./GroupStageDrawMenu/GroupStageDrawMenuContext";
 
 // TODO improve this type with never. There are 2 options - either we count player points
 // in which case team points is sum of the player points
@@ -32,6 +33,7 @@ type GroupStageDrawProps = {
 };
 
 export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, groupStageDrawInitialState }) => {
+  const { menuItems, setMenuItems } = useGroupStageDrawMenuContext();
   const [groupStageDraw, dispatch] = useReducer(
     groupStageDrawReducer,
     groupStageDrawInitialState ?? newGroupStageDrawInitialState
@@ -39,6 +41,24 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   const [addTeamFormVisible, setAddTeamFormVisible] = useState(false);
   const { fetch, loading: saveInProgress } = useFetchLazy<boolean>();
   const { toast } = useToast();
+
+  const setGroupStageDrawName = (name: string) => {
+    dispatch({
+      type: groupStageDrawReducerActionType.SetName,
+      name,
+    });
+
+    const newMenuItems = menuItems
+      .filter((menuItem) => menuItem.id !== groupStageDraw.id)
+      .concat([
+        {
+          id: groupStageDraw.id,
+          name,
+          modified: groupStageDraw.modified,
+        },
+      ]);
+    setMenuItems(newMenuItems);
+  };
 
   const importTeamsFromFwango = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const importedTeamsFile = e.target.files?.[0];
@@ -189,7 +209,11 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
             )}
           </Button>
         </div>
-        <Settings groupStageDrawSettings={tournamentDrawSettings} setGroupStageDrawSettings={dispatch} />
+        <Settings
+          groupStageDrawSettings={tournamentDrawSettings}
+          setGroupStageDrawSettings={dispatch}
+          setGroupStageDrawName={setGroupStageDrawName}
+        />
       </div>
       <div className="row-start-2 row-end-3 xl:col-start-1 xl:col-end-2 xl:row-start-1 xl:row-end-3 flex flex-col">
         <div className="mb-5 flex flex-col gap-2 sm:max-xl:flex-row sm:max-xl:gap-0 xl:max-2xl:gap-2 2xl:flex-row 2xl:gap-0">
