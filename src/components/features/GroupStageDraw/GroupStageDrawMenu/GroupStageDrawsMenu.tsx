@@ -29,7 +29,7 @@ export const GroupStageDrawsMenu = () => {
 
     setMenuItems([...menuItems, { id, name, modified }]);
 
-    navigate({ to: `/groupStageDraws/${id}` });
+    navigate({ to: `/group-stage-draws/${id}` });
   };
 
   const deleteGroupStageDraw = async (id: string) => {
@@ -59,14 +59,14 @@ export const GroupStageDrawsMenu = () => {
     <>
       <SheetVariant
         menuItems={groupStageDrawsSorted}
-        createNewCallback={createNewGroupStageDraw}
-        deleteDrawCallback={deleteGroupStageDraw}
+        createNewDrawHandler={createNewGroupStageDraw}
+        deleteDrawHandler={deleteGroupStageDraw}
         className="lg:hidden"
       />
       <SidebarVariant
         menuItems={groupStageDrawsSorted}
-        createNewCallback={createNewGroupStageDraw}
-        deleteDrawCallback={deleteGroupStageDraw}
+        createNewDrawHandler={createNewGroupStageDraw}
+        deleteDrawHandler={deleteGroupStageDraw}
         className="hidden lg:block"
       />
     </>
@@ -75,23 +75,23 @@ export const GroupStageDrawsMenu = () => {
 
 const SidebarVariant = ({
   menuItems,
-  createNewCallback,
-  deleteDrawCallback,
+  createNewDrawHandler,
+  deleteDrawHandler,
   className,
 }: {
   menuItems: Array<GroupStageDrawNameAndIdDTO>;
-  createNewCallback: () => void;
-  deleteDrawCallback: (id: string) => void;
+  createNewDrawHandler: () => void;
+  deleteDrawHandler: (id: string) => void;
   className?: string;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const routerState = useRouterState();
-  const isIndexLocation = routerState.location.pathname === "/groupStageDraws";
+  const isIndexLocation = routerState.location.pathname === "/group-stage-draws";
 
   return (
     <aside
       className={cn(
-        `text-center ${isMenuOpen ? "h-[calc(100vh-92px)] min-w-[320px] lg:min-w-[360px]" : "w-auto mr-8"}`,
+        `text-center ${isMenuOpen ? "h-[calc(100vh-92px)] min-w-[320px] max-w-[320px] lg:min-w-[360px] lg:max-w-[360px] superwide:max-w-[450px]" : "w-auto mr-8"}`,
         className
       )}
     >
@@ -111,7 +111,7 @@ const SidebarVariant = ({
       )}
       {isMenuOpen && (
         <>
-          <Button className="w-full py-1.5 px-4 mb-5" onClick={createNewCallback}>
+          <Button className="w-full py-1.5 px-4 mb-5" onClick={createNewDrawHandler}>
             <SquarePlus className="w-6 mr-2" /> Create new
           </Button>
           <ScrollArea className="h-[calc(100%-135px)] pr-3">
@@ -121,7 +121,7 @@ const SidebarVariant = ({
                   key={menuItem.id}
                   groupStageDrawId={menuItem.id}
                   name={menuItem.name}
-                  deleteDrawCallback={deleteDrawCallback}
+                  deleteDrawHandler={deleteDrawHandler}
                 />
               ))}
             </div>
@@ -155,18 +155,18 @@ const MenuToggle = ({
 
 const SheetVariant = ({
   menuItems,
-  createNewCallback,
-  deleteDrawCallback,
+  createNewDrawHandler,
+  deleteDrawHandler,
   className,
 }: {
   menuItems: Array<GroupStageDrawNameAndIdDTO>;
-  createNewCallback: () => void;
-  deleteDrawCallback: (id: string) => void;
+  createNewDrawHandler: () => void;
+  deleteDrawHandler: (id: string) => void;
   className?: string;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const routerState = useRouterState();
-  const isIndexLocation = routerState.location.pathname === "/groupStageDraws";
+  const isIndexLocation = routerState.location.pathname === "/group-stage-draws";
   const centeredContentCss = "fixed flex top-0 left-0 w-full h-full items-center";
 
   return (
@@ -176,7 +176,7 @@ const SheetVariant = ({
           Select a group stage draw
         </Button>
         <span className="font-bold text-lg">or</span>
-        <Button className="py-1.5 px-4" onClick={createNewCallback}>
+        <Button className="py-1.5 px-4" onClick={createNewDrawHandler}>
           <SquarePlus className="w-6 mr-2" /> Create new
         </Button>
       </div>
@@ -193,7 +193,8 @@ const SheetVariant = ({
                     key={menuItem.id}
                     groupStageDrawId={menuItem.id}
                     name={menuItem.name}
-                    deleteDrawCallback={deleteDrawCallback}
+                    deleteDrawHandler={deleteDrawHandler}
+                    linkClickHandler={() => setIsMenuOpen(false)}
                   />
                 ))}
               </div>
@@ -208,22 +209,25 @@ const SheetVariant = ({
 const GroupStageDrawsMenuLink: FC<{
   groupStageDrawId: string;
   name: string;
-  deleteDrawCallback: (id: string) => void;
-}> = ({ groupStageDrawId, name, deleteDrawCallback }) => {
+  deleteDrawHandler: (id: string) => void;
+  linkClickHandler?: () => void;
+}> = ({ groupStageDrawId, name, deleteDrawHandler, linkClickHandler }) => {
   return (
     <Link
       key={groupStageDrawId}
       to={`/group-stage-draws/${groupStageDrawId}`}
-      className="group-stage-draws-menu-link flex items-center justify-between rounded-md font-medium h-10 py-[0.375rem] px-3 text-muted-foreground/85 [&.active]:text-primary hover:text-primary hover:underline [&.active]:no-underline hover:underline-offset-4 "
+      preload="intent"
+      onClick={linkClickHandler}
+      className="group-stage-draws-menu-link flex items-center justify-between rounded-md font-medium h-10 py-[0.375rem] px-3 text-muted-foreground/85 [&.active]:text-primary [&.active]:bg-accent hover:text-primary"
     >
       {({ isActive }) => (
         <>
-          {name}
+          <span className="overflow">{name}</span>
           {!isActive && (
             <Button
               onClick={(e) => {
                 e.preventDefault();
-                deleteDrawCallback(groupStageDrawId);
+                deleteDrawHandler(groupStageDrawId);
               }}
               title="Delete draw"
               size="icon_small"

@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 type SettingsProps = {
-  setGroupStageDrawName: (name: string) => void;
   setGroupStageDrawSettings: Dispatch<GroupStageDrawReducerActionTypes>;
   groupStageDrawSettings: Pick<
     GroupStageDrawDTO,
@@ -32,11 +31,7 @@ type SettingsProps = {
     | "divisions"
   > & { teamCount: number };
 };
-export const Settings: React.FC<SettingsProps> = ({
-  groupStageDrawSettings,
-  setGroupStageDrawSettings,
-  setGroupStageDrawName,
-}) => {
+export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setGroupStageDrawSettings }) => {
   return (
     <div className="flex flex-col gap-5">
       <div className="text-left title">
@@ -50,7 +45,12 @@ export const Settings: React.FC<SettingsProps> = ({
           id="tournamentDrawName"
           className="mt-2 shadow-sm lg:max-w-[500px]"
           value={groupStageDrawSettings.name}
-          onChange={(event) => setGroupStageDrawName(event.currentTarget.value)}
+          onChange={(event) =>
+            setGroupStageDrawSettings({
+              type: groupStageDrawReducerActionType.SetName,
+              name: event.currentTarget.value,
+            })
+          }
         />
       </div>
       <div className="flex gap-x-6">

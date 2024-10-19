@@ -15,15 +15,15 @@ type TeamsProps = {
 
 export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCountMethod }) => {
   return (
-    <ol className={teams.length ? "" : "m-auto"}>
+    <ol className={`w-full ${teams.length ? "" : "m-auto"}`}>
       {teams.map((team) => (
         <li
-          className="tournament-team shadow-sm"
+          className="tournament-team shadow-sm w-full"
           data-invalid={!team.belongsInTheSelectedCategory}
           key={team.uid ?? `${team.players[0].name}_${team.players[1].name}`}
         >
-          <div>
-            <div className="font-medium">
+          <div className="w-full overflow">
+            <div className="font-medium overflow">
               {`${team.name}`}&nbsp;&nbsp;{`(${team.points} points)`}
             </div>
             <div className="grey-text">
@@ -32,23 +32,21 @@ export const Teams: React.FC<TeamsProps> = ({ removeTeam, teams, teamPointsCount
                 : `${team.players[0].name}, ${team.players[1].name}`}
             </div>
           </div>
-          <div>
-            <Button
-              onClick={() =>
-                removeTeam({
-                  type: groupStageDrawReducerActionType.RemoveTeam,
-                  teamUid: team.uid,
-                  teamName: team.name,
-                })
-              }
-              title="Delete team"
-              size="icon"
-              variant="icon"
-              className="hover:text-[hsl(var(--destructive))]"
-            >
-              <Trash2 />
-            </Button>
-          </div>
+          <Button
+            onClick={() =>
+              removeTeam({
+                type: groupStageDrawReducerActionType.RemoveTeam,
+                teamUid: team.uid,
+                teamName: team.name,
+              })
+            }
+            title="Delete team"
+            size="icon"
+            variant="icon"
+            className="hover:text-[hsl(var(--destructive))]"
+          >
+            <Trash2 />
+          </Button>
         </li>
       ))}
       {teams.length === 0 && (

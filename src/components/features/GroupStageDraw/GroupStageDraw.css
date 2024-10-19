@@ -67,3 +67,9 @@ div.powerpool {
 .group-stage-draws-menu-link:hover button {
   display: inline-flex;
 }
+
+.overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

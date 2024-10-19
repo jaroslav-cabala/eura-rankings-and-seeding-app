@@ -42,24 +42,6 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   const { fetch, loading: saveInProgress } = useFetchLazy<boolean>();
   const { toast } = useToast();
 
-  const setGroupStageDrawName = (name: string) => {
-    dispatch({
-      type: groupStageDrawReducerActionType.SetName,
-      name,
-    });
-
-    const newMenuItems = menuItems
-      .filter((menuItem) => menuItem.id !== groupStageDraw.id)
-      .concat([
-        {
-          id: groupStageDraw.id,
-          name,
-          modified: groupStageDraw.modified,
-        },
-      ]);
-    setMenuItems(newMenuItems);
-  };
-
   const importTeamsFromFwango = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const importedTeamsFile = e.target.files?.[0];
 
@@ -152,10 +134,21 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
         },
         body: JSON.stringify(groupStageDraw),
       },
-      () =>
+      () => {
+        const newMenuItems = menuItems
+          .filter((menuItem) => menuItem.id !== groupStageDraw.id)
+          .concat([
+            {
+              id: groupStageDraw.id,
+              name: groupStageDraw.name,
+              modified: groupStageDraw.modified,
+            },
+          ]);
+        setMenuItems(newMenuItems);
         toast({
           description: <SuccessToastMessage>Changes successfuly saved!</SuccessToastMessage>,
-        }),
+        });
+      },
       () =>
         toast({
           description: (
@@ -192,10 +185,10 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   });
 
   return (
-    <div className="w-full grid gap-y-10 lg:grid-rows-[minmax(0,auto)] grid-cols-1 lg:gap-x-8 xl:max-2xl:grid-cols-[1fr_1.35fr] 2xl:grid-cols-[1fr_1.6fr] min-[1920px]:grid-cols-[1fr_2fr]">
+    <div className="w-full grid gap-y-10 lg:grid-rows-[minmax(0,auto)] grid-cols-1 lg:gap-x-8 xl:max-2xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] min-[1920px]:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
       <div className="row-start-1 row-end-2 xl:col-start-2 xl:col-end-3">
         <div className="flex flex-wrap items-center justify-between mb-10 gap-x-3 gap-y-4">
-          <h1 className="font-semibold text-2xl">{groupStageDraw.name}</h1>
+          <h1 className="font-semibold text-2xl overflow">{groupStageDraw.name}</h1>
           <Button onClick={saveGroupStageDraw} disabled={saveInProgress}>
             {saveInProgress ? (
               <>
@@ -209,11 +202,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
             )}
           </Button>
         </div>
-        <Settings
-          groupStageDrawSettings={tournamentDrawSettings}
-          setGroupStageDrawSettings={dispatch}
-          setGroupStageDrawName={setGroupStageDrawName}
-        />
+        <Settings groupStageDrawSettings={tournamentDrawSettings} setGroupStageDrawSettings={dispatch} />
       </div>
       <div className="row-start-2 row-end-3 xl:col-start-1 xl:col-end-2 xl:row-start-1 xl:row-end-3 flex flex-col">
         <div className="mb-5 flex flex-col gap-2 sm:max-xl:flex-row sm:max-xl:gap-0 xl:max-2xl:gap-2 2xl:flex-row 2xl:gap-0">

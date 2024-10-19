@@ -34,7 +34,7 @@ function GroupStageDrawComponent() {
 
 function PendingComponent() {
   return (
-    <section className="w-full h-full flex m-auto items-center justify-center">
+    <section className="w-full h-full flex m-auto items-center justify-center max-lg:mt-56">
       <Loader2 className="animate-spin mr-2" />
       Loading data...
     </section>
