@@ -18,18 +18,30 @@ export const pairImportedTeamsWithExistingTeams = async (
   const tournamentTeams: Array<GroupStageDrawTeamDTO> = [];
 
   for (const importedTeam of importedTeams) {
+    // discard a duplicate team
+    if (
+      tournamentTeams.find(
+        (team) =>
+          team.name === importedTeam.name &&
+          team.players.find((player) => player.name === importedTeam.playerOneName) &&
+          team.players.find((player) => player.name === importedTeam.playerTwoName)
+      )
+    ) {
+      continue;
+    }
+
     const existingTeam = rankedTeams.find(
       (rankedTeam) =>
         rankedTeam.name === importedTeam.name &&
-        rankedTeam.players.find((rankedTeamPlayer) => rankedTeamPlayer.name === importedTeam.playerOne) &&
-        rankedTeam.players.find((rankedTeamPlayer) => rankedTeamPlayer.name === importedTeam.playerTwo)
+        rankedTeam.players.find((rankedTeamPlayer) => rankedTeamPlayer.name === importedTeam.playerOneName) &&
+        rankedTeam.players.find((rankedTeamPlayer) => rankedTeamPlayer.name === importedTeam.playerTwoName)
     );
 
     const existingPlayerOne = rankedPlayers.find(
-      (rankedPlayer) => rankedPlayer.name === importedTeam.playerOne
+      (rankedPlayer) => rankedPlayer.name === importedTeam.playerOneName
     );
     const existingPlayerTwo = rankedPlayers.find(
-      (rankedPlayer) => rankedPlayer.name === importedTeam.playerTwo
+      (rankedPlayer) => rankedPlayer.name === importedTeam.playerTwoName
     );
 
     // TODO fix scenario when existingTeam is not found, because the team name is not found in the repository.
@@ -74,7 +86,7 @@ export const pairImportedTeamsWithExistingTeams = async (
                 tournamentResults: existingPlayerOne.tournamentResults,
               }
             : {
-                name: importedTeam.playerOne,
+                name: importedTeam.playerOneName,
                 isWoman: false,
                 uid: undefined,
                 tournamentResults: [],
@@ -87,7 +99,7 @@ export const pairImportedTeamsWithExistingTeams = async (
                 tournamentResults: existingPlayerTwo.tournamentResults,
               }
             : {
-                name: importedTeam.playerTwo,
+                name: importedTeam.playerTwoName,
                 uid: undefined,
                 isWoman: false,
                 tournamentResults: [],
@@ -100,7 +112,7 @@ export const pairImportedTeamsWithExistingTeams = async (
   return tournamentTeams;
 };
 
-type ImportedTeam = { name: string; playerOne: string; playerTwo: string };
+type ImportedTeam = { name: string; playerOneName: string; playerTwoName: string };
 
 const parseFileWithImportedTeams = async (file: File): Promise<Array<ImportedTeam>> => {
   // TODO solve case where number of substring split by coma is not divisible by 3 -
@@ -113,8 +125,8 @@ const parseFileWithImportedTeams = async (file: File): Promise<Array<ImportedTea
     const importedTeam = row.split(",");
     importedTeams.push({
       name: importedTeam[0].trim(),
-      playerOne: importedTeam[1].trim(),
-      playerTwo: importedTeam[2].trim(),
+      playerOneName: importedTeam[1].trim(),
+      playerTwoName: importedTeam[2].trim(),
     });
   }
 

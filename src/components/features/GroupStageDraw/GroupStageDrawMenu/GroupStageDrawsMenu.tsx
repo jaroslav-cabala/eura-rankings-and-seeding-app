@@ -111,7 +111,7 @@ const SidebarVariant = ({
       )}
       {isMenuOpen && (
         <>
-          <Button className="w-full py-1.5 px-4 mb-5" onClick={createNewDrawHandler}>
+          <Button className="w-full shadow-sm py-1.5 px-4 mb-5" onClick={createNewDrawHandler}>
             <SquarePlus className="w-6 mr-2" /> Create new
           </Button>
           <ScrollArea className="h-[calc(100%-135px)] pr-3">
@@ -172,7 +172,11 @@ const SheetVariant = ({
   return (
     <div className={cn(`${isIndexLocation && centeredContentCss}`, className)}>
       <div className="flex items-center gap-6 m-auto">
-        <Button variant="outline" className="py-1.5 px-4" onClick={() => setIsMenuOpen((val) => !val)}>
+        <Button
+          variant="outline"
+          className="shadow-sm py-1.5 px-4"
+          onClick={() => setIsMenuOpen((val) => !val)}
+        >
           Select a group stage draw
         </Button>
         <span className="font-bold text-lg">or</span>
@@ -218,7 +222,7 @@ const GroupStageDrawsMenuLink: FC<{
       to={`/group-stage-draws/${groupStageDrawId}`}
       preload="intent"
       onClick={linkClickHandler}
-      className="group-stage-draws-menu-link flex items-center justify-between rounded-md font-medium h-10 py-[0.375rem] px-3 text-muted-foreground/85 [&.active]:text-primary [&.active]:bg-accent hover:text-primary"
+      className="group-stage-draws-menu-link flex items-center justify-between rounded-md font-medium h-10 py-[0.375rem] px-3 text-muted-foreground/85 [&.active]:text-primary [&.active]:shadow-sm [&.active]:bg-accent hover:text-primary"
     >
       {({ isActive }) => (
         <>

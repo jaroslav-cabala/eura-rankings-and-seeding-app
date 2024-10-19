@@ -383,13 +383,11 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
                 <li
                   key={team.id}
                   onClick={() => onTeamSelected(team)}
-                  className="h-[48px] p-2 flex items-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
+                  className="h-[48px] p-2 hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
                 >
-                  <div>
-                    <div className="font-medium">{`${team.name}`}</div>
-                    <div className="grey-text">
-                      {team.players[0]?.name}, {team.players[1]?.name}
-                    </div>
+                  <div className="overflow font-medium">{`${team.name}`}</div>
+                  <div className="overflow grey-text">
+                    {team.players[0]?.name}, {team.players[1]?.name}
                   </div>
                 </li>
               ))}
@@ -455,11 +453,9 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
                 <li
                   key={player.id}
                   onClick={() => onPlayerSelected(player)}
-                  className="h-[40px] p-2 flex items-center hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
+                  className="h-[40px] p-2 hover:cursor-pointer hover:bg-[hsl(var(--accent))]"
                 >
-                  <div>
-                    <div className="font-medium">{`${player.name}`}</div>
-                  </div>
+                  <div className="overflow font-medium">{`${player.name}`}</div>
                 </li>
               ))}
           </ol>

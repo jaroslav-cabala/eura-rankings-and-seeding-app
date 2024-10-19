@@ -226,8 +226,13 @@ const NumberInputWithButtonsToChangeValue = ({
           type="number"
           min={0}
           max={maxValue}
+          step={1}
           value={value}
-          onChange={(event) => valueSetter(parseInt(event.target.value, 10))}
+          onChange={(event) => {
+            // TODO test
+            const parsedNumber = parseInt(event.target.value, 10);
+            !isNaN(parsedNumber) && valueSetter(Math.abs(parseInt(event.target.value, 10)));
+          }}
         ></Input>
         <Button
           variant="outline"

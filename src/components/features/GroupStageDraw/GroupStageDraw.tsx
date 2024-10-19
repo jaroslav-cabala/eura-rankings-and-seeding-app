@@ -189,7 +189,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
       <div className="row-start-1 row-end-2 xl:col-start-2 xl:col-end-3">
         <div className="flex flex-wrap items-center justify-between mb-10 gap-x-3 gap-y-4">
           <h1 className="font-semibold text-2xl overflow">{groupStageDraw.name}</h1>
-          <Button onClick={saveGroupStageDraw} disabled={saveInProgress}>
+          <Button className="shadow-sm" onClick={saveGroupStageDraw} disabled={saveInProgress}>
             {saveInProgress ? (
               <>
                 <Loader2 className="w-6 animate-spin mr-2" /> Save changes
@@ -219,7 +219,11 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
             </Button>
           </div>
           <div className="flex justify-between sm:gap-2 sm:ml-auto xl:ml-0 2xl:ml-auto">
-            <Button variant="link" className="pr-4 pl-0" onClick={() => setAddTeamFormVisible((val) => !val)}>
+            <Button
+              variant="ghost"
+              className="pr-4 pl-0"
+              onClick={() => setAddTeamFormVisible((val) => !val)}
+            >
               {addTeamFormVisible ? (
                 <>
                   <ChevronsDown className="h-6" />
