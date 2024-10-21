@@ -21,6 +21,7 @@ import { formatDate, getHrefToFwangoTournamentResult } from "@/utils";
 import { DataTable } from "@/components/ui/DataTable/DataTable";
 import { SearchInput } from "@/components/ui/DataTable/SearchInput";
 import { useGetTournaments } from "@/api/useGetTournaments";
+import { FullScreenError } from "@/components/common/FullScreenError";
 
 export const Route = createFileRoute("/management")({
   component: Management,
@@ -42,16 +43,14 @@ function Management() {
   if (errorDataFwango || errorDataStorage) {
     return (
       <section>
-        <div className="fixed-centered-content">
-          <div className="flex m-auto">Unexpected error.</div>
-        </div>
+        <FullScreenError />
       </section>
     );
   }
 
   // compare tournaments from fwango with tournaments from the storage to find new tournaments
   // which results can be downloaded and saved
-  const tableData: RankingsDataManagementTableDataRow[] =
+  const tableData =
     dataFwango?.map((tournamentFromFwango) => ({
       ...tournamentFromFwango,
       date: tournamentFromFwango.date,
@@ -62,9 +61,8 @@ function Management() {
       ),
     })) ?? [];
 
-  return (
-    <RankingsDataManagementComponent data={tableData} loading={loadingDataFwango || loadingDataStorage} />
-  );
+  const dataIsLoading = loadingDataFwango || loadingDataStorage || !dataStorage || !dataFwango;
+  return <RankingsDataManagementComponent data={tableData} loading={dataIsLoading} />;
 }
 
 type RankingsDataManagementComponentProps = {
@@ -93,14 +91,11 @@ const RankingsDataManagementComponent: FC<RankingsDataManagementComponentProps> 
 
   return (
     <section className="p-2 pt-8 min-w-[400px] m-auto lg:min-w-[800px] lg:max-w-[1000px] lg:flex-grow">
-      <div className="flex flex-wrap items-center justify-between mb-2">
-        {!loading && table && <span className="font-medium py-2">{table.getRowCount()} teams</span>}
-        <SearchInput
-          table={table}
-          columnId="Tournament"
-          placeholder="Search tournaments..."
-          className="ml-auto"
-        />
+      <div className="flex flex-wrap gap-x-2 items-center justify-between mb-2">
+        <span className={`font-medium py-2 ${(loading || !table) && "invisible"}`}>
+          {table.getRowCount()} tournaments
+        </span>
+        <SearchInput table={table} columnId="Tournament" placeholder="Search tournaments..." />
       </div>
       <DataTable table={table} loading={loading} />
     </section>

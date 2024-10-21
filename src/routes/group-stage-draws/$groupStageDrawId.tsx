@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { GroupStageDraw } from "@/components/features/GroupStageDraw/GroupStageDraw";
 import { fetchData } from "@/api/fetchData";
 import { GroupStageDrawDTO } from "@/api/apiTypes";
-import { Loader2 } from "lucide-react";
+import { Frown, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/group-stage-draws/$groupStageDrawId")({
   loader: ({ abortController, params }) =>
@@ -43,6 +43,9 @@ function PendingComponent() {
 
 function ErrorComponent() {
   return (
-    <section className="w-full h-full flex m-auto items-center justify-center">Unexpected error.</section>
+    <section className="w-full h-full flex m-auto items-center justify-center">
+      <Frown className="mr-2" />
+      Unexpected error.
+    </section>
   );
 }
