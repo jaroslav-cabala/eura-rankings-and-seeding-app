@@ -96,7 +96,7 @@ const IndividualRankingsComponent: FC<IndividualRankingsComponentProps> = ({
       <RankingsFilter rankingsFilterParams={rankingsFilterParams} />
       <div className="mt-6 lg:flex-grow lg:mt-0">
         <div className="flex flex-wrap items-center justify-between mb-2">
-          {!dataLoading && table && <span className="font-medium py-2">{table.getRowCount()} teams</span>}
+          {!dataLoading && table && <span className="font-medium py-2">{table.getRowCount()} players</span>}
           <SearchInput table={table} columnId="Name" placeholder="Search players..." className="ml-auto" />
         </div>
         <DataTable table={table} loading={dataLoading} />

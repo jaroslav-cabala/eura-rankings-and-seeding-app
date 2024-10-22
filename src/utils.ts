@@ -35,3 +35,31 @@ export const getRankingIdFromCategoryAndDivision = (
 export type Entries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
+
+export const debounce = <A>(action: (args: A) => void, delayMs: number): typeof action => {
+  let timeoutId: number;
+
+  return (actionArgs) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = window.setTimeout(() => action(actionArgs), delayMs);
+  };
+};
+
+export const debounceSubsequent = <A>(action: (args: A) => void, delayMs: number): typeof action => {
+  console.log("debounceSubsequent called");
+  let timeoutId: number | undefined;
+
+  return (actionArgs) => {
+    console.log(`timeoutId=${timeoutId}`);
+    if (timeoutId) {
+      return;
+    }
+
+    action(actionArgs);
+
+    timeoutId = window.setTimeout(() => (timeoutId = undefined), delayMs);
+  };
+};

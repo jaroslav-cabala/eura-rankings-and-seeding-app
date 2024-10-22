@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useReducer, useState } from "react";
+import { FC, PropsWithChildren, useMemo, useReducer, useState } from "react";
 import { ChevronsDown, ChevronsRight, CircleCheck, Import, Loader2, Save, Trash2 } from "lucide-react";
 import { Settings } from "./Settings";
 import { Groups } from "./Groups";
@@ -12,11 +12,12 @@ import { useFetchLazy } from "@/api/useFetch";
 import { useToast } from "@/components/ui/hooks/use-toast";
 import { pairImportedTeamsWithExistingTeams } from "./pairImportedTeamsWithExistingTeams";
 import { Category } from "@/domain";
-import { calculateSeedingPointsOfTeams } from "./calculateSeedingPoints";
+import { calculateSeedingPointsOfTeams } from "./calculateSeedingPointsOfTeams";
 import { checkIfTeamOrPlayersAreAlreadyInTheTournament } from "./checkIfTeamOrPlayersAreAlreadyInTheTournament";
 import "./GroupStageDraw.css";
 import { ErrorToastMessage } from "./common";
 import { useGroupStageDrawMenuContext } from "./GroupStageDrawMenu/GroupStageDrawMenuContext";
+import { determineWhetherTeamBelongsInTheSelectedCategoryAndDivision } from "./determineWheterTeamsBelonginTheSelectedCategoryandDivision";
 
 // TODO improve this type with never. There are 2 options - either we count player points
 // in which case team points is sum of the player points
@@ -33,6 +34,7 @@ type GroupStageDrawProps = {
 };
 
 export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, groupStageDrawInitialState }) => {
+  console.log("GroupStageDraw component");
   const { menuItems, setMenuItems } = useGroupStageDrawMenuContext();
   const [groupStageDraw, dispatch] = useReducer(
     groupStageDrawReducer,
@@ -158,12 +160,43 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
     );
   };
 
-  const teamsWithPoints = calculateSeedingPointsOfTeams(
-    groupStageDraw.teams,
-    groupStageDraw.category,
-    groupStageDraw.divisions,
-    groupStageDraw.teamPointsCountMethod,
-    groupStageDraw.numberOfBestResultsCountedToPointsTotal
+  const groupStageDrawTeams: Array<GroupStageDrawTeam> = useMemo(
+    () =>
+      groupStageDraw.teams.map((team) => ({
+        ...team,
+        belongsInTheSelectedCategory: true,
+        points: 0,
+        players: team.players.map((player) => ({ ...player, points: 0 })),
+      })),
+    [groupStageDraw.teams]
+  );
+
+  const flaggedTeams = useMemo(
+    () =>
+      determineWhetherTeamBelongsInTheSelectedCategoryAndDivision(
+        groupStageDrawTeams,
+        groupStageDraw.category,
+        groupStageDraw.divisions
+      ),
+    [groupStageDraw.category, groupStageDraw.divisions, groupStageDrawTeams]
+  );
+
+  const teamsWithPoints = useMemo(
+    () =>
+      calculateSeedingPointsOfTeams(
+        flaggedTeams,
+        groupStageDraw.category,
+        groupStageDraw.divisions,
+        groupStageDraw.teamPointsCountMethod,
+        groupStageDraw.numberOfBestResultsCountedToPointsTotal
+      ),
+    [
+      flaggedTeams,
+      groupStageDraw.category,
+      groupStageDraw.divisions,
+      groupStageDraw.numberOfBestResultsCountedToPointsTotal,
+      groupStageDraw.teamPointsCountMethod,
+    ]
   );
 
   const tournamentDrawSettings = {
@@ -185,7 +218,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   });
 
   return (
-    <div className="w-full grid gap-y-10 lg:grid-rows-[minmax(0,auto)] grid-cols-1 lg:gap-x-8 xl:max-2xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] min-[1920px]:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+    <div className="w-full grid gap-y-10 lg:grid-rows-[minmax(0,auto)] grid-cols-1 lg:gap-x-8 xl:max-2xl:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1.75fr)] min-[1920px]:grid-cols-[minmax(0,1fr)_minmax(0,2.2fr)]">
       <div className="row-start-1 row-end-2 xl:col-start-2 xl:col-end-3">
         <div className="flex flex-wrap items-center justify-between mb-10 gap-x-3 gap-y-4">
           <h1 className="font-semibold text-2xl overflow">{groupStageDraw.name}</h1>
@@ -213,15 +246,15 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
               title="Delete all teams"
               variant="icon"
               size="icon_small"
-              className="mx-2 hover:text-[hsl(var(--destructive))]"
+              className="ml-1 mr-2 hover:text-[hsl(var(--destructive))]"
             >
               <Trash2 />
             </Button>
           </div>
-          <div className="flex justify-between sm:gap-2 sm:ml-auto xl:ml-0 2xl:ml-auto">
+          <div className="flex justify-between sm:gap-1 sm:ml-auto xl:ml-0 2xl:ml-auto">
             <Button
               variant="ghost"
-              className="pr-4 pl-0"
+              className="pr-3 pl-1"
               onClick={() => setAddTeamFormVisible((val) => !val)}
             >
               {addTeamFormVisible ? (
