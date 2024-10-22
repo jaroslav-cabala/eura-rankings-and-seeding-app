@@ -125,6 +125,16 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
   };
 
   const saveGroupStageDraw = async (): Promise<void> => {
+    // strip groupStageDraw object; that is sent in the request body; of unnecessary properties(tournament results)
+    const data = {
+      ...groupStageDraw,
+      teams: groupStageDraw.teams.map((team) => ({
+        name: team.name,
+        uid: team.uid,
+        players: team.players.map((player) => ({ name: player.name, uid: player.uid })),
+      })),
+    };
+
     // TODO think about this function. Async operation is executed here but we are not waiting for the result...
     // what about errors ?
     fetch(
@@ -134,7 +144,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(groupStageDraw),
+        body: JSON.stringify(data),
       },
       () => {
         const newMenuItems = menuItems
