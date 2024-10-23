@@ -27,7 +27,7 @@ export const useGetRankedTeams = (filter?: RankedTeamsFilter): GetRankedTeamsRes
   });
 
   useEffect(() => {
-    fetch(`http:localhost:3001/rankings/teams?${queryString}`);
+    fetch({ fetchUrl: `http:localhost:3001/rankings/teams?${queryString}` });
   }, [fetch, queryString]);
 
   return {
@@ -47,19 +47,19 @@ export type GetRankedTeamsLazyResult = {
 };
 
 // TODO: decide whether this function is needed
-export const useGetRankedTeamsLazy = (
-  numberOfResultsCountedToPointsTotal?: number
-): GetRankedTeamsLazyResult => {
-  console.log(`useGetRankedPlayersLazy hook,
-    numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal}`);
+// export const useGetRankedTeamsLazy = (
+//   numberOfResultsCountedToPointsTotal?: number
+// ): GetRankedTeamsLazyResult => {
+//   console.log(`useGetRankedPlayersLazy hook,
+//     numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal}`);
 
-  const { fetch, data, loading, error, completed } = useFetchLazy<Array<RankedTeamDTO>>();
+//   const { fetch, data, loading, error, completed } = useFetchLazy<Array<RankedTeamDTO>>();
 
-  return {
-    fetch,
-    data: data ?? [],
-    loading,
-    error,
-    completed,
-  };
-};
+//   return {
+//     fetch,
+//     data: data ?? [],
+//     loading,
+//     error,
+//     completed,
+//   };
+// };

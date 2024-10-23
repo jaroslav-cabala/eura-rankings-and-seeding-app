@@ -32,7 +32,7 @@ export const useGetRankedPlayers = (filter?: RankedPlayersFilter): GetRankedPlay
   });
 
   useEffect(() => {
-    fetch(`http:localhost:3001/rankings/players?${queryString}`);
+    fetch({ fetchUrl: `http:localhost:3001/rankings/players?${queryString}` });
   }, [fetch, queryString]);
 
   return {

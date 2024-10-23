@@ -15,13 +15,16 @@ import {
 } from "@tanstack/react-table";
 import { ColumnSimpleValueWrapper } from "@/components/ui/DataTable/dataTableCommon";
 import { Badge } from "@/components/ui/badge";
-import { CircleX, Import, Loader2 } from "lucide-react";
+import { Import, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, getHrefToFwangoTournamentResult } from "@/utils";
 import { DataTable } from "@/components/ui/DataTable/DataTable";
 import { SearchInput } from "@/components/ui/DataTable/SearchInput";
 import { useGetTournaments } from "@/api/useGetTournaments";
 import { FullScreenError } from "@/components/common/FullScreenError";
+import { useToast } from "@/components/ui/hooks/use-toast";
+import { ErrorToastMessage } from "@/components/common/ErrorToastMessage";
+import { SuccessToastMessage } from "@/components/common/SuccessToastMessage";
 
 export const Route = createFileRoute("/management")({
   component: Management,
@@ -90,7 +93,7 @@ const RankingsDataManagementComponent: FC<RankingsDataManagementComponentProps> 
   });
 
   return (
-    <section className="p-2 pt-8 min-w-[400px] m-auto lg:min-w-[800px] lg:max-w-[1000px] lg:flex-grow">
+    <section className="p-2 pt-8 m-auto lg:min-w-[800px] lg:max-w-[1000px] lg:flex-grow">
       <div className="flex flex-wrap gap-x-2 items-center justify-between mb-2">
         <span className={`font-medium py-2 ${(loading || !table) && "invisible"}`}>
           {table.getRowCount()} tournaments
@@ -167,7 +170,8 @@ const TournamentCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> 
 };
 
 const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) => {
-  const { fetch, data, loading, error } = useFetchLazy<boolean>();
+  const { fetch, data, loading, error, completed } = useFetchLazy<boolean>();
+  const { toast } = useToast();
 
   const importTournamentResults = (tournamentResultsRow: Row<RankingsDataManagementTableDataRow>) => {
     const tournamentResultsArg: TournamentDTO = {
@@ -179,12 +183,31 @@ const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) =
 
     // TODO think about this function. Async operation is executed here but we are not waiting for the result...
     // what about errors ?
-    fetch(`http:localhost:3001/tournaments/import-tournament-result`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    fetch({
+      fetchUrl: `http:localhost:3001/tournaments/import-tournament-result`,
+      requestInit: {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tournamentResultsArg),
       },
-      body: JSON.stringify([tournamentResultsArg]),
+      onSuccessAction: (response) => {
+        if (response) {
+          toast({
+            description: <SuccessToastMessage>Tournament successfuly imported!</SuccessToastMessage>,
+          });
+        } else {
+          toast({
+            description: <ErrorToastMessage>An unexpected error occured. Import failed.</ErrorToastMessage>,
+          });
+        }
+      },
+      onErrorAction: () => {
+        toast({
+          description: <ErrorToastMessage>An unexpected error occured. Import failed.</ErrorToastMessage>,
+        });
+      },
     });
   };
 
@@ -205,21 +228,12 @@ const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) =
       <span>Importing...</span>
     </div>
   );
-  const errorMarkup = (
-    <div className="flex items-center">
-      <CircleX className="text-red-600 mr-2" />
-      <span className="text-red-600">Import failed!</span>
-    </div>
-  );
 
-  const statusMarkup =
-    !data && !loading && !error
-      ? importButtontMarkup
-      : loading
-        ? loadingMarkup
-        : error || data !== true
-          ? errorMarkup
-          : importedMarkup;
+  const statusMarkup = loading
+    ? loadingMarkup
+    : data === true && completed && !error
+      ? importedMarkup
+      : importButtontMarkup;
 
   return <>{row.original.isTournamentImported ? importedMarkup : statusMarkup}</>;
 };

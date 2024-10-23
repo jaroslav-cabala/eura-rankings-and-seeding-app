@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { GroupStageDrawNameAndIdDTO } from "@/api/apiTypes";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/hooks/use-toast";
-import { ErrorToastMessage } from "../common";
+import { ErrorToastMessage } from "../../../common/ErrorToastMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useGroupStageDrawMenuContext } from "./GroupStageDrawMenuContext";
 

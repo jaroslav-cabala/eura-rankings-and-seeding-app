@@ -14,7 +14,7 @@ export const useGetTournaments = (fetchUrl: string): UseGetTournamentsResult => 
   const { fetch, data, loading, error } = useFetchLazy<Array<TournamentDTO>>();
 
   useEffect(() => {
-    fetch(fetchUrl);
+    fetch({ fetchUrl });
   }, [fetchUrl, fetch]);
 
   return { data, loading, error };

@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, useMemo, useReducer, useState } from "react";
-import { ChevronsDown, ChevronsRight, CircleCheck, Import, Loader2, Save, Trash2 } from "lucide-react";
+import { FC, useMemo, useReducer, useState } from "react";
+import { ChevronsDown, ChevronsRight, Import, Loader2, Save, Trash2 } from "lucide-react";
 import { Settings } from "./Settings";
 import { Groups } from "./Groups";
 import { drawGroups } from "./drawGroups";
@@ -15,9 +15,10 @@ import { Category } from "@/domain";
 import { calculateSeedingPointsOfTeams } from "./calculateSeedingPointsOfTeams";
 import { checkIfTeamOrPlayersAreAlreadyInTheTournament } from "./checkIfTeamOrPlayersAreAlreadyInTheTournament";
 import "./GroupStageDraw.css";
-import { ErrorToastMessage } from "./common";
+import { ErrorToastMessage } from "../../common/ErrorToastMessage";
 import { useGroupStageDrawMenuContext } from "./GroupStageDrawMenu/GroupStageDrawMenuContext";
 import { determineWhetherTeamBelongsInTheSelectedCategoryAndDivision } from "./determineWheterTeamsBelonginTheSelectedCategoryandDivision";
+import { SuccessToastMessage } from "@/components/common/SuccessToastMessage";
 
 // TODO improve this type with never. There are 2 options - either we count player points
 // in which case team points is sum of the player points
@@ -137,16 +138,16 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
 
     // TODO think about this function. Async operation is executed here but we are not waiting for the result...
     // what about errors ?
-    fetch(
-      `http://localhost:3001/groupstage-draws/${groupStageDrawId}`,
-      {
+    fetch({
+      fetchUrl: `http://localhost:3001/groupstage-draws/${groupStageDrawId}`,
+      requestInit: {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       },
-      () => {
+      onSuccessAction: () => {
         const newMenuItems = menuItems
           .filter((menuItem) => menuItem.id !== groupStageDraw.id)
           .concat([
@@ -161,13 +162,13 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
           description: <SuccessToastMessage>Changes successfuly saved!</SuccessToastMessage>,
         });
       },
-      () =>
+      onErrorAction: () =>
         toast({
           description: (
             <ErrorToastMessage>An unexpected error occured. Could not save changes.</ErrorToastMessage>
           ),
-        })
-    );
+        }),
+    });
   };
 
   const groupStageDrawTeams: Array<GroupStageDrawTeam> = useMemo(
@@ -334,10 +335,3 @@ const newGroupStageDrawInitialState: GroupStageDrawDTO = {
   numberOfBestResultsCountedToPointsTotal: 3,
   teams: [],
 };
-
-const SuccessToastMessage: FC<PropsWithChildren> = ({ children }) => (
-  <>
-    <CircleCheck className="text-green-500 mr-3" />
-    {children}
-  </>
-);

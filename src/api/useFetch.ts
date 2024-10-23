@@ -1,13 +1,7 @@
 import { useCallback, useState } from "react";
 
 export type UseFetchResult<T> = {
-  fetch: (
-    url: string,
-    requestInit?: RequestInit,
-    onSuccessAction?: (response: Response) => void,
-    onErrorAction?: (response: unknown) => void,
-    onCompletedAction?: () => void
-  ) => Promise<void>;
+  fetch: FetchFn<T>;
   data: T | undefined;
   loading: boolean;
   error: boolean;
@@ -20,14 +14,8 @@ export const useFetchLazy = <T>(): UseFetchResult<T> => {
   const [error, setError] = useState(false);
   const [completed, setCompleted] = useState(false);
 
-  const fetchData = useCallback(
-    async (
-      fetchUrl: string,
-      requestInit?: RequestInit,
-      onSuccessAction?: (response: Response) => void,
-      onErrorAction?: (error: unknown) => void,
-      onCompletedAction?: () => void
-    ) => {
+  const fetchData: FetchFn<T> = useCallback(
+    async ({ fetchUrl, requestInit, onCompletedAction, onErrorAction, onSuccessAction }) => {
       setError(false);
       setLoading(true);
       setCompleted(false);
@@ -39,7 +27,7 @@ export const useFetchLazy = <T>(): UseFetchResult<T> => {
         const json: T = await response.json();
 
         setData(json);
-        onSuccessAction?.(response);
+        onSuccessAction?.(json);
       } catch (error) {
         setError(true);
         onErrorAction?.(error);
@@ -60,3 +48,11 @@ export const useFetchLazy = <T>(): UseFetchResult<T> => {
     completed,
   };
 };
+
+type FetchFn<T> = (params: {
+  fetchUrl: string;
+  requestInit?: RequestInit;
+  onSuccessAction?: (response: T) => void;
+  onErrorAction?: (error: unknown) => void;
+  onCompletedAction?: () => void;
+}) => Promise<void>;
