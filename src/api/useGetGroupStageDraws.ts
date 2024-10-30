@@ -12,7 +12,7 @@ export const useGetGroupStageDraws = (): UseGetGroupStageDrawsResult => {
   const { fetch, data, loading, error } = useFetchLazy<Array<GroupStageDrawNameAndIdDTO>>();
 
   useEffect(() => {
-    fetch(`http:localhost:3001/groupstage-draws`);
+    fetch({ fetchUrl: `http:localhost:3001/groupstage-draws` });
   }, [fetch]);
 
   return {

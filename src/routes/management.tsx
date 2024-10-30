@@ -117,7 +117,6 @@ const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
   {
     id: "Date",
     accessorKey: "date",
-    size: 80,
     header: ({ column }) => Header(column),
     cell: ({ row }) => {
       return <div className="font-normal">{formatDate(row.getValue("Date"))}</div>;
@@ -126,7 +125,6 @@ const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
   {
     id: "Tournament",
     accessorKey: "name",
-    size: 200,
     header: ({ column }) => Header(column),
     cell: ({ row }) => {
       return <TournamentCell row={row} />;
@@ -135,7 +133,10 @@ const columns: ColumnDef<RankingsDataManagementTableDataRow>[] = [
   {
     id: "Status",
     accessorKey: "isTournamentImported",
-    size: 60,
+    size: 120,
+    meta: {
+      customSize: true,
+    },
     header: ({ column }) => Header(column),
     cell: ({ row }) => <StatusCell row={row} />,
   },
@@ -181,8 +182,6 @@ const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) =
       divisions: tournamentResultsRow.original.divisions,
     };
 
-    // TODO think about this function. Async operation is executed here but we are not waiting for the result...
-    // what about errors ?
     fetch({
       fetchUrl: `http:localhost:3001/tournaments/import-tournament-result`,
       requestInit: {
@@ -193,7 +192,7 @@ const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) =
         body: JSON.stringify(tournamentResultsArg),
       },
       onSuccessAction: (response) => {
-        if (response) {
+        if (response === true) {
           toast({
             description: <SuccessToastMessage>Tournament successfuly imported!</SuccessToastMessage>,
           });
@@ -217,7 +216,7 @@ const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) =
     </Badge>
   );
   const importButtontMarkup = (
-    <Button onClick={() => importTournamentResults(row)} variant="outline" className="h-7 px-3">
+    <Button onClick={() => importTournamentResults(row)} variant="outline" className="h-7 pr-3 pl-2">
       <Import className="mr-2 h-5" />
       Import
     </Button>

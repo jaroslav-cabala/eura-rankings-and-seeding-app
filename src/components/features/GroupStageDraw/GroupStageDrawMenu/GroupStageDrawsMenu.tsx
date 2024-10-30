@@ -15,8 +15,12 @@ export const GroupStageDrawsMenu = () => {
   // console.dir(groupStageDrawsInitial);
   const navigate = useNavigate();
   const { menuItems, setMenuItems } = useGroupStageDrawMenuContext();
+  const [createNewDrawInitiated, setCreateNewDrawInitiated] = useState(false);
 
+  // TODO extract to a hook
   const createNewGroupStageDraw = async () => {
+    setCreateNewDrawInitiated(true);
+
     const result = await fetch(`http://localhost:3001/groupstage-draws`, {
       method: "POST",
       headers: {
@@ -30,6 +34,8 @@ export const GroupStageDrawsMenu = () => {
     setMenuItems([...menuItems, { id, name, modified }]);
 
     navigate({ to: `/group-stage-draws/${id}` });
+
+    setCreateNewDrawInitiated(false);
   };
 
   const deleteGroupStageDraw = async (id: string) => {
@@ -61,12 +67,14 @@ export const GroupStageDrawsMenu = () => {
         menuItems={groupStageDrawsSorted}
         createNewDrawHandler={createNewGroupStageDraw}
         deleteDrawHandler={deleteGroupStageDraw}
+        createNewDrawInitiated={createNewDrawInitiated}
         className="lg:hidden"
       />
       <SidebarVariant
         menuItems={groupStageDrawsSorted}
         createNewDrawHandler={createNewGroupStageDraw}
         deleteDrawHandler={deleteGroupStageDraw}
+        createNewDrawInitiated={createNewDrawInitiated}
         className="hidden lg:block"
       />
     </>
@@ -77,11 +85,13 @@ const SidebarVariant = ({
   menuItems,
   createNewDrawHandler,
   deleteDrawHandler,
+  createNewDrawInitiated,
   className,
 }: {
   menuItems: Array<GroupStageDrawNameAndIdDTO>;
   createNewDrawHandler: () => void;
   deleteDrawHandler: (id: string) => void;
+  createNewDrawInitiated: boolean;
   className?: string;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
@@ -91,7 +101,7 @@ const SidebarVariant = ({
   return (
     <aside
       className={cn(
-        `text-center ${isMenuOpen ? "h-[calc(100vh-92px)] min-w-[320px] max-w-[320px] lg:min-w-[360px] lg:max-w-[360px] superwide:max-w-[450px]" : "w-auto mr-8"}`,
+        `pr-3 text-center ${isMenuOpen ? "h-[calc(100vh-92px)] min-w-[320px] max-w-[320px] lg:min-w-[360px] lg:max-w-[360px] superwide:max-w-[450px]" : "w-auto mr-8"}`,
         className
       )}
     >
@@ -111,10 +121,14 @@ const SidebarVariant = ({
       )}
       {isMenuOpen && (
         <>
-          <Button className="w-full shadow-sm py-1.5 px-4 mb-5" onClick={createNewDrawHandler}>
+          <Button
+            className="w-full shadow-sm py-1.5 px-4 mb-5"
+            disabled={createNewDrawInitiated}
+            onClick={createNewDrawHandler}
+          >
             <SquarePlus className="w-6 mr-2" /> Create new
           </Button>
-          <ScrollArea className="h-[calc(100%-135px)] pr-3">
+          <ScrollArea className="h-[calc(100%-135px)]">
             <div className="flex flex-col mb-6 text-left">
               {menuItems?.map((menuItem) => (
                 <GroupStageDrawsMenuLink
@@ -157,11 +171,13 @@ const SheetVariant = ({
   menuItems,
   createNewDrawHandler,
   deleteDrawHandler,
+  createNewDrawInitiated,
   className,
 }: {
   menuItems: Array<GroupStageDrawNameAndIdDTO>;
   createNewDrawHandler: () => void;
   deleteDrawHandler: (id: string) => void;
+  createNewDrawInitiated: boolean;
   className?: string;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -180,7 +196,7 @@ const SheetVariant = ({
           Select a group stage draw
         </Button>
         <span className="font-bold text-lg">or</span>
-        <Button className="py-1.5 px-4" onClick={createNewDrawHandler}>
+        <Button className="py-1.5 px-4" disabled={createNewDrawInitiated} onClick={createNewDrawHandler}>
           <SquarePlus className="w-6 mr-2" /> Create new
         </Button>
       </div>
