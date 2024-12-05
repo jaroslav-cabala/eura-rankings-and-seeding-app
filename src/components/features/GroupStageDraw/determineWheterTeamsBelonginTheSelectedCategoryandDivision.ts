@@ -1,10 +1,10 @@
-import { GroupStageDrawPlayerDTO } from "@/api/apiTypes";
-import { Category, Division } from "@/domain";
+import { Category, Division, GroupStageDrawPlayerDTO } from "@/api/apiTypes";
 import { GroupStageDrawTeam } from "./GroupStageDraw";
+import { Category as CategoryEnum } from "@/domain";
 
 export const determineWhetherTeamBelongsInTheSelectedCategoryAndDivision = (
   teams: Array<GroupStageDrawTeam>,
-  category: Category,
+  category: Category["id"],
   divisions: Array<Division>
 ): Array<GroupStageDrawTeam> => {
   console.log(
@@ -13,7 +13,7 @@ export const determineWhetherTeamBelongsInTheSelectedCategoryAndDivision = (
 
   // false when both players are in the system(have the uid), are not women and the category is women
   const doesTeamBelongInTheSelectedCategory = (players: Array<GroupStageDrawPlayerDTO>) =>
-    category === Category.Women ? players.every((p) => !p.uid || p.isWoman) : true;
+    category.name === CategoryEnum.Women ? players.every((p) => !p.uid || p.isWoman) : true;
 
   return teams.map<GroupStageDrawTeam>((team) => ({
     ...team,

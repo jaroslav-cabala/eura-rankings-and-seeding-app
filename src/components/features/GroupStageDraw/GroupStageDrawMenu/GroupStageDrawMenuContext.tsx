@@ -1,8 +1,8 @@
-import { GroupStageDrawNameAndIdDTO } from "@/api/apiTypes";
+import { GroupStageDrawNameIdModifiedDTO } from "@/api/apiTypes";
 import React, { createContext, useContext, useState } from "react";
 
 interface GroupStageDrawMenuContext {
-  menuItems: Array<GroupStageDrawNameAndIdDTO>;
+  menuItems: Array<GroupStageDrawNameIdModifiedDTO>;
   setMenuItems: React.Dispatch<React.SetStateAction<GroupStageDrawMenuContext["menuItems"]>>;
 }
 
@@ -23,7 +23,7 @@ export const useGroupStageDrawMenuContext = () => {
 export const GroupStageDrawMenuContextProvider = ({
   children,
   groupStageDraws,
-}: React.PropsWithChildren<{ groupStageDraws: Array<GroupStageDrawNameAndIdDTO> }>) => {
+}: React.PropsWithChildren<{ groupStageDraws: Array<GroupStageDrawNameIdModifiedDTO> }>) => {
   const [menuItems, setMenuItems] = useState<GroupStageDrawMenuContext["menuItems"]>(groupStageDraws);
 
   return (

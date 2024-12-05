@@ -22,8 +22,12 @@ export const useFetchLazy = <T>(): UseFetchResult<T> => {
       setData(undefined);
 
       try {
-        // handle also cases when Response.OK is false
         const response = await fetch(new URL(fetchUrl), requestInit);
+
+        if (!response.ok) {
+          throw new Error();
+        }
+
         const json: T = await response.json();
 
         setData(json);

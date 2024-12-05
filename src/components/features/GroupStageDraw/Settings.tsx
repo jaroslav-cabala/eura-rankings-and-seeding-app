@@ -59,22 +59,27 @@ export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setG
             Category:
           </label>
           <Select
-            value={groupStageDrawSettings.category}
+            value={groupStageDrawSettings.category.toString()}
             onValueChange={(value) =>
               setGroupStageDrawSettings({
                 type: groupStageDrawReducerActionType.SetCategory,
-                category: value as Category,
+                category: Number(value),
               })
             }
           >
             <SelectTrigger id="selectCategory" className="min-w-40 max-w-[150px] mt-2 shadow-sm">
-              <SelectValue>{capitalizeFirstChar(groupStageDrawSettings.category)}</SelectValue>
+              <SelectValue>{capitalizeFirstChar(groupStageDrawSettings.category.toString())}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {Object.entries(Category).map(([, category]) => (
+                {/* {Object.entries(Category).map(([, category]) => (
                   <SelectItem key={category} value={category}>
                     {capitalizeFirstChar(category)}
+                  </SelectItem>
+                ))} */}
+                {[1, 2, 3].map((val) => (
+                  <SelectItem key={val} value={val.toString()}>
+                    {val}
                   </SelectItem>
                 ))}
               </SelectGroup>
@@ -84,20 +89,25 @@ export const Settings: React.FC<SettingsProps> = ({ groupStageDrawSettings, setG
         <div>
           <label className="font-medium">Divisions:</label>
           <ToggleGroup
-            value={[...groupStageDrawSettings.divisions]}
-            onValueChange={(value) =>
+            value={[...groupStageDrawSettings.divisions.map((division) => division.toString())]}
+            onValueChange={(values) =>
               setGroupStageDrawSettings({
                 type: groupStageDrawReducerActionType.SetDivisions,
-                divisions: value as Array<Division>,
+                divisions: values.map((val) => Number(val)),
               })
             }
             type="multiple"
             variant="outline"
             className="justify-start mt-2"
           >
-            {Object.entries(Division).map(([, division]) => (
+            {/* {Object.entries(Division).map(([, division]) => (
               <ToggleGroupItem key={division} value={division} className="shadow-sm">
                 {division}
+              </ToggleGroupItem>
+            ))} */}
+            {[1, 2].map((val) => (
+              <ToggleGroupItem key={val} value={val.toString()} className="shadow-sm">
+                {val}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>

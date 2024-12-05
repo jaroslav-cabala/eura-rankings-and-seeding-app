@@ -1,5 +1,4 @@
-import { TournamentResultDTO } from "@/api/apiTypes";
-import { Category, Division } from "@/domain";
+import { Category, Division, TournamentResultDTO } from "@/api/apiTypes";
 import { extractYearFromTournamentDate, TimePeriod } from "@/utils";
 
 export const filterTournamentResults = <T extends TournamentResultDTO>(
@@ -9,7 +8,7 @@ export const filterTournamentResults = <T extends TournamentResultDTO>(
   seasons?: TimePeriod
 ): Array<T> =>
   results.filter((result) => {
-    const categoryFilterResult = category ? result.category === category : true;
+    const categoryFilterResult = category ? result.category.id === category.id : true;
     const divisionFilterResult = divisions ? divisions?.includes(result.division) : true;
 
     let seasonsFilterResult = true;

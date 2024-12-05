@@ -1,5 +1,4 @@
-import { TeamPointsCountMethod } from "@/api/apiTypes";
-import { Category, Division } from "@/domain";
+import { Category, Division, TeamPointsCountMethod } from "@/api/apiTypes";
 import { filterTournamentResults } from "@/lib/filterTournamentResults";
 import { getTotalPointsFromXBestResults } from "@/lib/getTotalPointsFromXBestResults";
 import { GroupStageDrawTeam } from "./GroupStageDraw";

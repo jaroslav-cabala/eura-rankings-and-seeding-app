@@ -1,11 +1,11 @@
-import { RankedPlayerDTO, RankedPlayersFilter, TournamentResultsFilter } from "@/api/apiTypes";
+import { RankedPlayerDTO, PlayersFilterDTO, TournamentResultsFilterDTO } from "@/api/apiTypes";
 import {
   createRankedPlayersFilterQueryString,
   createTournamentResultsFilterQueryString,
 } from "@/api/queryStringCreators";
 
 // TODO error handling
-export const fetchRankedPlayers = async (filter?: RankedPlayersFilter): Promise<Array<RankedPlayerDTO>> => {
+export const fetchRankedPlayers = async (filter?: PlayersFilterDTO): Promise<Array<RankedPlayerDTO>> => {
   const {
     playerCategory,
     resultCategories,
@@ -31,7 +31,7 @@ export const fetchRankedPlayer = async ({
   resultCategories,
   resultDivisions,
   seasons,
-}: TournamentResultsFilter & { uid: string }): Promise<RankedPlayerDTO> => {
+}: TournamentResultsFilterDTO & { uid: string }): Promise<RankedPlayerDTO> => {
   const queryString = createTournamentResultsFilterQueryString({
     resultCategories,
     resultDivisions,

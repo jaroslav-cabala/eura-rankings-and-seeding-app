@@ -1,8 +1,8 @@
-import { RankedTeamDTO, RankedTeamsFilter } from "@/api/apiTypes";
+import { RankedTeamDTO, TeamsFilterDTO } from "@/api/apiTypes";
 import { createRankedTeamsFilterQueryString } from "@/api/queryStringCreators";
 
 // TODO error handling
-export const fetchRankedTeams = async (filter?: RankedTeamsFilter): Promise<Array<RankedTeamDTO>> => {
+export const fetchRankedTeams = async (filter?: TeamsFilterDTO): Promise<Array<RankedTeamDTO>> => {
   const { teamCategory, resultCategories, resultDivisions, seasons, includeEntitiesWithNoTournamentResults } =
     filter ?? {};
 

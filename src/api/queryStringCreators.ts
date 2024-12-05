@@ -1,6 +1,5 @@
 import { TimePeriod } from "@/utils";
-import { RankedPlayersFilter, RankedTeamsFilter, TournamentResultsFilter } from "./apiTypes";
-import { Category, Division } from "@/domain";
+import { Category, Division, PlayersFilterDTO, TeamsFilterDTO, TournamentResultsFilterDTO } from "./apiTypes";
 
 //TODO test
 export const createRankedPlayersFilterQueryString = ({
@@ -9,7 +8,7 @@ export const createRankedPlayersFilterQueryString = ({
   includeEntitiesWithNoTournamentResults,
   playerCategory,
   seasons,
-}: RankedPlayersFilter): string => {
+}: PlayersFilterDTO): string => {
   const playerCategoryParam = playerCategory ? `playerCategory=${playerCategory}` : "";
 
   return createQueryStringParameters([
@@ -27,7 +26,7 @@ export const createRankedTeamsFilterQueryString = ({
   includeEntitiesWithNoTournamentResults,
   seasons,
   teamCategory,
-}: RankedTeamsFilter): string => {
+}: TeamsFilterDTO): string => {
   const teamCategoryParam = teamCategory ? `teamCategory=${teamCategory}` : "";
 
   return createQueryStringParameters([
@@ -43,7 +42,7 @@ export const createTournamentResultsFilterQueryString = ({
   resultCategories,
   resultDivisions,
   seasons,
-}: TournamentResultsFilter): string =>
+}: TournamentResultsFilterDTO): string =>
   createQueryStringParameters([
     getResultCategoriesParam(resultCategories),
     getResultDivisionsParam(resultDivisions),
@@ -56,10 +55,10 @@ export const createQueryStringParameters = (parameters: Array<string>): string =
 const getIncludeEntitiesWithNoTournamentResultsParam = (value?: boolean) =>
   value ? `includeEntitiesWithNoTournamentResults=${value}` : "";
 
-const getResultCategoriesParam = (value?: Array<Category>) =>
+const getResultCategoriesParam = (value?: Array<Category["id"]>) =>
   value?.length ? `resultCategories${value.length === 1 ? encodeURI(`[]`) : ""}=${value.join()}` : "";
 
-const getResultDivisionsParam = (value?: Array<Division>) =>
+const getResultDivisionsParam = (value?: Array<Division["id"]>) =>
   value?.length ? `resultDivisions${value.length === 1 ? encodeURI(`[]`) : ""}=${value.join()}` : "";
 
 const getSeasonsParam = (value?: TimePeriod) =>

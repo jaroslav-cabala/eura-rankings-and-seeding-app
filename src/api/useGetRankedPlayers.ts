@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { RankedPlayerDTO, RankedPlayersFilter } from "./apiTypes";
+import { RankedPlayerDTO, PlayersFilterDTO } from "./apiTypes";
 import { useFetchLazy } from "./useFetch";
 import { createRankedPlayersFilterQueryString } from "./queryStringCreators";
 
@@ -12,7 +12,7 @@ export type GetRankedPlayersResult = {
 
 // Fetched ranked entities from the backend. By default, entities that have no tournament results will not be
 // included in the result.
-export const useGetRankedPlayers = (filter?: RankedPlayersFilter): GetRankedPlayersResult => {
+export const useGetRankedPlayers = (filter?: PlayersFilterDTO): GetRankedPlayersResult => {
   const {
     playerCategory,
     resultCategories,

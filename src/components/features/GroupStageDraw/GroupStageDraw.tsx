@@ -14,11 +14,11 @@ import { pairImportedTeamsWithExistingTeams } from "./pairImportedTeamsWithExist
 import { Category } from "@/domain";
 import { calculateSeedingPointsOfTeams } from "./calculateSeedingPointsOfTeams";
 import { checkIfTeamOrPlayersAreAlreadyInTheTournament } from "./checkIfTeamOrPlayersAreAlreadyInTheTournament";
-import "./GroupStageDraw.css";
 import { ErrorToastMessage } from "../../common/ErrorToastMessage";
 import { useGroupStageDrawMenuContext } from "./GroupStageDrawMenu/GroupStageDrawMenuContext";
 import { determineWhetherTeamBelongsInTheSelectedCategoryAndDivision } from "./determineWheterTeamsBelonginTheSelectedCategoryandDivision";
 import { SuccessToastMessage } from "@/components/common/SuccessToastMessage";
+import "./GroupStageDraw.css";
 
 // TODO improve this type with never. There are 2 options - either we count player points
 // in which case team points is sum of the player points
@@ -182,33 +182,33 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
     [groupStageDraw.teams]
   );
 
-  const flaggedTeams = useMemo(
-    () =>
-      determineWhetherTeamBelongsInTheSelectedCategoryAndDivision(
-        groupStageDrawTeams,
-        groupStageDraw.category,
-        groupStageDraw.divisions
-      ),
-    [groupStageDraw.category, groupStageDraw.divisions, groupStageDrawTeams]
-  );
+  // const flaggedTeams = useMemo(
+  //   () =>
+  //     determineWhetherTeamBelongsInTheSelectedCategoryAndDivision(
+  //       groupStageDrawTeams,
+  //       groupStageDraw.category,
+  //       groupStageDraw.divisions
+  //     ),
+  //   [groupStageDraw.category, groupStageDraw.divisions, groupStageDrawTeams]
+  // );
 
-  const teamsWithPoints = useMemo(
-    () =>
-      calculateSeedingPointsOfTeams(
-        flaggedTeams,
-        groupStageDraw.category,
-        groupStageDraw.divisions,
-        groupStageDraw.teamPointsCountMethod,
-        groupStageDraw.numberOfBestResultsCountedToPointsTotal
-      ),
-    [
-      flaggedTeams,
-      groupStageDraw.category,
-      groupStageDraw.divisions,
-      groupStageDraw.numberOfBestResultsCountedToPointsTotal,
-      groupStageDraw.teamPointsCountMethod,
-    ]
-  );
+  // const teamsWithPoints = useMemo(
+  //   () =>
+  //     calculateSeedingPointsOfTeams(
+  //       flaggedTeams,
+  //       groupStageDraw.category,
+  //       groupStageDraw.divisions,
+  //       groupStageDraw.teamPointsCountMethod,
+  //       groupStageDraw.numberOfBestResultsCountedToPointsTotal
+  //     ),
+  //   [
+  //     flaggedTeams,
+  //     groupStageDraw.category,
+  //     groupStageDraw.divisions,
+  //     groupStageDraw.numberOfBestResultsCountedToPointsTotal,
+  //     groupStageDraw.teamPointsCountMethod,
+  //   ]
+  // );
 
   const tournamentDrawSettings = {
     category: groupStageDraw.category,
@@ -222,7 +222,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
     numberOfBestResultsCountedToPointsTotal: groupStageDraw.numberOfBestResultsCountedToPointsTotal,
   };
 
-  const drawnGroups = drawGroups(teamsWithPoints, {
+  const drawnGroups = drawGroups(groupStageDrawTeams, {
     groups: groupStageDraw.groups,
     powerpools: groupStageDraw.powerpools,
     powerpoolTeams: groupStageDraw.powerpoolTeams,
@@ -296,7 +296,7 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
             </Button>
           </div>
         </div>
-        {addTeamFormVisible && (
+        {/* {addTeamFormVisible && (
           <div className="mb-6">
             <AddTeam
               addTeamHandler={addTeam}
@@ -304,16 +304,16 @@ export const GroupStageDraw: FC<GroupStageDrawProps> = ({ groupStageDrawId, grou
               divisions={groupStageDraw.divisions}
             />
           </div>
-        )}
+        )} */}
         <Teams
           removeTeam={dispatch}
-          teams={teamsWithPoints}
+          teams={groupStageDrawTeams}
           teamPointsCountMethod={groupStageDraw.teamPointsCountMethod}
         />
       </div>
       <div className="row-start-3 row-end-4 xl:col-start-2 xl:col-end-3 xl:row-start-2 xl:row-end-3">
         <Groups
-          teamCount={teamsWithPoints.length}
+          teamCount={groupStageDrawTeams.length}
           groups={drawnGroups.groups}
           powerpools={drawnGroups.powerpools}
         />
@@ -327,7 +327,7 @@ const newGroupStageDrawInitialState: GroupStageDrawDTO = {
   id: "",
   name: "",
   divisions: [],
-  category: Category.Open,
+  category: { id: 1, name: Category.Open },
   groups: 0,
   powerpools: 0,
   powerpoolTeams: 0,

@@ -1,4 +1,4 @@
-import { GroupStageDrawNameAndIdDTO } from "@/api/apiTypes";
+import { GroupStageDrawNameIdModifiedDTO } from "@/api/apiTypes";
 import { fetchData } from "@/api/fetchData";
 import { FullScreenError } from "@/components/common/FullScreenError";
 import { FullScreenPending } from "@/components/common/FullScreenPending";
@@ -7,7 +7,7 @@ import { GroupStageDrawsMenu } from "@/components/features/GroupStageDraw/GroupS
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 export const Route = createFileRoute("/group-stage-draws")({
   loader: ({ abortController }) =>
-    fetchData<Array<GroupStageDrawNameAndIdDTO>>({
+    fetchData<Array<GroupStageDrawNameIdModifiedDTO>>({
       url: `http:localhost:3001/groupstage-draws`,
       requestInit: {
         signal: abortController.signal,

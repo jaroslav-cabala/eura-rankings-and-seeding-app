@@ -7,9 +7,11 @@ import {
   RankedTeamDTO,
   GroupStageDrawPlayerDTO,
   GroupStageDrawTeamDTO,
+  Category,
+  Division,
 } from "@/api/apiTypes";
 import { useGetRankedTeams } from "@/api/useGetRankedTeams";
-import { Category, Division } from "@/domain";
+import { Category as CategoryEnum } from "@/domain";
 import { fetchRankedPlayer } from "./fetchRankedPlayers";
 import { useGetRankedPlayers } from "@/api/useGetRankedPlayers";
 import { CircleAlert, CirclePlus } from "lucide-react";
@@ -203,9 +205,9 @@ export const AddTeam: FC<AddTeamProps> = ({ addTeamHandler, category, divisions 
       ? "Player names are required"
       : undefined;
 
-  const teamCategoryFilterArgument = category === Category.Open ? undefined : category;
+  const teamCategoryFilterArgument = category.name === CategoryEnum.Open ? undefined : category;
   const playerCategoryFilterArgument =
-    category === Category.Open || category === Category.Mixed ? undefined : category;
+    category.name === CategoryEnum.Open || category.name === CategoryEnum.Mixed ? undefined : category;
 
   return (
     <div id="add-team">
@@ -330,7 +332,7 @@ const PopoverContentRankedTeams: React.FC<PopoverContentRankedTeamsProps> = ({
 }) => {
   // If open category is selected, search for a team of any category. Otherwise search for teams of
   // specific category(women or mixed teams)
-  const rankedTeamsFilter = category === Category.Open ? undefined : { teamCategory: category };
+  const rankedTeamsFilter = category?.name === CategoryEnum.Open ? undefined : { teamCategory: category };
   const { data: rankedTeams, loading, error } = useGetRankedTeams(rankedTeamsFilter);
 
   const onTeamSelected = async (team: RankedTeamDTO) => {
@@ -416,7 +418,8 @@ const PopoverContentRankedPlayers: React.FC<PopoverContentRankedPlayersProps> = 
   selectPlayerFromPopoverHandler,
 }) => {
   // If women category is selected, search for a woman player. Otherwise search for any player.
-  const rankedPlayersFilter = category === Category.Women ? { playerCategory: category } : undefined;
+  const rankedPlayersFilter =
+    category?.name === CategoryEnum.Women ? { playerCategory: category.id } : undefined;
   const { data: rankedPlayers, loading, error } = useGetRankedPlayers(rankedPlayersFilter);
 
   // TODO RankedPlayer type contains 'points' prop, but we ignore it(TournamentDrawPlayerDTO type does not have it)

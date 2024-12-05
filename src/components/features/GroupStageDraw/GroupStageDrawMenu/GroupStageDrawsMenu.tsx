@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeftToLine, ArrowRightToLine, SquarePlus, Trash2 } from "lucide-react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { GroupStageDrawNameAndIdDTO } from "@/api/apiTypes";
+import { GroupStageDrawNameIdModifiedDTO } from "@/api/apiTypes";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/hooks/use-toast";
 import { ErrorToastMessage } from "../../../common/ErrorToastMessage";
@@ -29,7 +29,7 @@ export const GroupStageDrawsMenu = () => {
     });
 
     // TODO create a type on frontend and backend
-    const [id, name, modified]: [id: string, name: string, modified: number] = await result.json();
+    const { id, name, modified }: GroupStageDrawNameIdModifiedDTO = await result.json();
 
     setMenuItems([...menuItems, { id, name, modified }]);
 
@@ -88,7 +88,7 @@ const SidebarVariant = ({
   createNewDrawInitiated,
   className,
 }: {
-  menuItems: Array<GroupStageDrawNameAndIdDTO>;
+  menuItems: Array<GroupStageDrawNameIdModifiedDTO>;
   createNewDrawHandler: () => void;
   deleteDrawHandler: (id: string) => void;
   createNewDrawInitiated: boolean;
@@ -174,7 +174,7 @@ const SheetVariant = ({
   createNewDrawInitiated,
   className,
 }: {
-  menuItems: Array<GroupStageDrawNameAndIdDTO>;
+  menuItems: Array<GroupStageDrawNameIdModifiedDTO>;
   createNewDrawHandler: () => void;
   deleteDrawHandler: (id: string) => void;
   createNewDrawInitiated: boolean;

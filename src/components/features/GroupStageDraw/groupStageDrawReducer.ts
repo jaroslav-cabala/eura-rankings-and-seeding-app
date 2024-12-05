@@ -1,5 +1,10 @@
-import { TeamPointsCountMethod, GroupStageDrawDTO, GroupStageDrawTeamDTO } from "@/api/apiTypes";
-import { Category, Division } from "@/domain";
+import {
+  TeamPointsCountMethod,
+  GroupStageDrawDTO,
+  GroupStageDrawTeamDTO,
+  Category,
+  Division,
+} from "@/api/apiTypes";
 
 export enum groupStageDrawReducerActionType {
   SetPowerpoolTeamsCount = "SetPowerpoolTeamsCount",
@@ -49,12 +54,12 @@ type SetNameAction = {
 
 type SetCategory = {
   type: groupStageDrawReducerActionType.SetCategory;
-  category: Category;
+  category: Category["id"];
 };
 
 type SetDivisions = {
   type: groupStageDrawReducerActionType.SetDivisions;
-  divisions: Array<Division>;
+  divisions: Array<Division["id"]>;
 };
 
 type AddTeamAction = {
