@@ -1,5 +1,5 @@
+import { Category, Division } from "./api/apiTypes";
 import { RANKING_ID, rankingIdsMetadataMap } from "./config";
-import { Category, Division } from "./domain";
 
 export const capitalizeFirstChar = (string: string) => string[0].toUpperCase() + string.slice(1);
 
@@ -27,7 +27,7 @@ export const getRankingIdFromCategoryAndDivision = (
   division: Division
 ): RANKING_ID | undefined =>
   (Object.entries(rankingIdsMetadataMap) as Entries<typeof rankingIdsMetadataMap>).find(
-    ([, value]) => value.category === category && value.division === division
+    ([, value]) => value.category === category.name && value.division === division.name
   )?.[0];
 
 // move to a separate package(interestingStuff on github)

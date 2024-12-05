@@ -39,8 +39,8 @@ export type TournamentDTO = {
 
 export type TournamentDivisionDTO = {
   fwangoResultId: string;
-  division: Division["id"];
-  category: Category["id"];
+  division: Division;
+  category: Category;
 };
 
 export type TournamentResultDTO = {

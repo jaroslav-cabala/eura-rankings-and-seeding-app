@@ -54,12 +54,11 @@ function Management() {
   // compare tournaments from fwango with tournaments from the storage to find new tournaments
   // which results can be downloaded and saved
   const tableData =
-    dataFwango?.map((tournamentFromFwango) => ({
+    dataFwango?.map<RankingsDataManagementTableDataRow>((tournamentFromFwango) => ({
       ...tournamentFromFwango,
-      date: tournamentFromFwango.date,
       isTournamentImported: !!dataStorage?.find(
         (tournamentFromStorage) =>
-          tournamentFromStorage.tournamentId === tournamentFromFwango.tournamentId &&
+          tournamentFromStorage.fwangoId === tournamentFromFwango.fwangoId &&
           tournamentFromStorage.name === tournamentFromFwango.name
       ),
     })) ?? [];
@@ -106,7 +105,7 @@ const RankingsDataManagementComponent: FC<RankingsDataManagementComponentProps> 
 };
 
 type RankingsDataManagementTableDataRow = {
-  tournamentId: string;
+  fwangoId: string;
   date: string;
   name: string;
   isTournamentImported: boolean;
@@ -150,16 +149,16 @@ const TournamentCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> 
   const tournamentResultLinks = row.original.divisions.map((divisionResult) => (
     <a
       href={getHrefToFwangoTournamentResult(
-        divisionResult.tournamentResultId,
+        divisionResult.fwangoResultId,
         divisionResult.category,
         divisionResult.division
       )}
       target="_blank"
-      key={divisionResult.tournamentResultId}
+      key={divisionResult.fwangoResultId}
       className="text-sm p-0 h-4 font-normal text-blue-400 hover:cursor-pointer hover:text-blue-600 hover:underline hover:underline-offset-4"
     >
-      {divisionResult.category}&nbsp;
-      {divisionResult.division}{" "}
+      {divisionResult.category.name}&nbsp;
+      {divisionResult.division.name}{" "}
     </a>
   ));
   return (
@@ -176,7 +175,7 @@ const StatusCell = ({ row }: { row: Row<RankingsDataManagementTableDataRow> }) =
 
   const importTournamentResults = (tournamentResultsRow: Row<RankingsDataManagementTableDataRow>) => {
     const tournamentResultsArg: TournamentDTO = {
-      tournamentId: tournamentResultsRow.original.tournamentId,
+      fwangoId: tournamentResultsRow.original.fwangoId,
       name: tournamentResultsRow.original.name,
       date: tournamentResultsRow.original.date,
       divisions: tournamentResultsRow.original.divisions,
