@@ -45,21 +45,3 @@ export type GetRankedTeamsLazyResult = {
   error: boolean;
   completed: boolean;
 };
-
-// TODO: decide whether this function is needed
-// export const useGetRankedTeamsLazy = (
-//   numberOfResultsCountedToPointsTotal?: number
-// ): GetRankedTeamsLazyResult => {
-//   console.log(`useGetRankedPlayersLazy hook,
-//     numberOfResultsCountedToPointsTotal=${numberOfResultsCountedToPointsTotal}`);
-
-//   const { fetch, data, loading, error, completed } = useFetchLazy<Array<RankedTeamDTO>>();
-
-//   return {
-//     fetch,
-//     data: data ?? [],
-//     loading,
-//     error,
-//     completed,
-//   };
-// };
